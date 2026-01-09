@@ -36,3 +36,9 @@ Thumbs.db
 # Temporäre Dateien
 *.tmp
 *.temp
+
+# Ausgeschlossene Ordner
+.claude/
+BTCUSD_Analyzer_Matlab/
+python1/
+test1/
