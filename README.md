@@ -29,7 +29,7 @@ Ein umfassendes MATLAB-GUI-Werkzeug zur Analyse von Bitcoin-Handelsdaten mit bid
 - **Detailliertes Logging**: Alle Aktionen werden dokumentiert
 - **Flexible Log-Modi**: Fenster-Only, Datei-Only oder beides
 - **Farbcodierung**: Farben für Info, Success, Warning, Error
-- **HTML-Logger**: Formatierte Anzeige mit einstellbarer Schriftgröße (8-16pt)
+- **HTML-Logger**: Formatierte Anzeige mit einstellbarer Schriftgröße (8-14pt)
 
 ## Systemanforderungen
 
