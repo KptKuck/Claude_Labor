@@ -1,0 +1,38 @@
+# MATLAB-spezifische Dateien
+*.asv
+*.m~
+*.mlx~
+*.mat
+*.fig
+
+# Python Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Daten und Logs
+Daten_csv/*.csv
+log/*.txt
+Network/*.mat
+
+# Systemdateien
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Temporäre Dateien
+*.tmp
+*.temp
