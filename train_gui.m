@@ -554,8 +554,8 @@ function train_gui(training_data, results_folder, log_callback)
             end
 
             % Zeige auch Parameteranzahl
-            addStatus(sprintf('Netzwerk: ~%.2f Mio. Parameter, geschätzt %.2f GB GPU-RAM', ...
-                     total_params/1e6, total_estimated));
+            log_callback(sprintf('Netzwerk: ~%.2f Mio. Parameter, geschätzt %.2f GB GPU-RAM', ...
+                     total_params/1e6, total_estimated), 'debug');
 
         catch ME
             est_mem_label.Text = 'Fehler';
@@ -607,7 +607,7 @@ function train_gui(training_data, results_folder, log_callback)
         addStatus(sprintf('Hidden: %d, Schichten: %d, Dropout: %.2f', ...
                   params.num_hidden_units, params.num_layers, params.dropout));
 
-        log_callback('Training GUI gestartet', 'info');
+        log_callback('Training GUI gestartet', 'debug');
 
         try
             % Execution Environment

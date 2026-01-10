@@ -518,11 +518,11 @@ function btc_analyzer_gui()
 
     % === RECHTES PANEL: Logger ===
 
-    % Logger Header mit Schriftgrößen-Slider und Modus-Auswahl
-    logger_header_grid = uigridlayout(rightPanel, [1, 6]);
+    % Logger Header mit Schriftgrößen-Slider, Modus- und Level-Auswahl
+    logger_header_grid = uigridlayout(rightPanel, [1, 8]);
     logger_header_grid.Layout.Row = 1;
     logger_header_grid.Layout.Column = 1;
-    logger_header_grid.ColumnWidth = {80, 150, 60, '1x', 60, 120};
+    logger_header_grid.ColumnWidth = {55, 115, 85, 60, '1x', 50, 120, 1};
     logger_header_grid.RowHeight = {30};
     logger_header_grid.Padding = [0 0 0 0];
     logger_header_grid.ColumnSpacing = 5;
@@ -537,17 +537,28 @@ function btc_analyzer_gui()
                                       'Items', {'Fenster', 'Fenster+Datei', 'Nur Datei'}, ...
                                       'ItemsData', {'window', 'both', 'file'}, ...
                                       'Value', 'both', ...
-                                      'FontSize', 12, ...
+                                      'FontSize', 10, ...
                                       'ValueChangedFcn', @(dd,event) updateLoggerMode(dd));
     logger_mode_dropdown.Layout.Row = 1;
     logger_mode_dropdown.Layout.Column = 2;
+
+    % Log-Level Dropdown (Default: INFO)
+    logger_level_dropdown = uidropdown(logger_header_grid, ...
+                                       'Items', {'ERROR', 'WARNING', 'INFO', 'DEBUG', 'TRACE'}, ...
+                                       'ItemsData', {1, 2, 3, 4, 5}, ...
+                                       'Value', 3, ...
+                                       'FontSize', 10, ...
+                                       'Tooltip', 'Log-Level: Zeigt alle Meldungen bis zu diesem Level', ...
+                                       'ValueChangedFcn', @(dd,event) updateLoggerLevel(dd));
+    logger_level_dropdown.Layout.Row = 1;
+    logger_level_dropdown.Layout.Column = 3;
 
     % Clear Log Button
     clear_log_btn = uibutton(logger_header_grid, 'Text', 'Clear', ...
                              'ButtonPushedFcn', @(btn,event) clearLog(), ...
                              'FontSize', 10);
     clear_log_btn.Layout.Row = 1;
-    clear_log_btn.Layout.Column = 3;
+    clear_log_btn.Layout.Column = 4;
 
     % Spacer
     uilabel(logger_header_grid, 'Text', '');
@@ -557,7 +568,7 @@ function btc_analyzer_gui()
                              'FontSize', 10, ...
                              'HorizontalAlignment', 'right');
     fontsize_label.Layout.Row = 1;
-    fontsize_label.Layout.Column = 5;
+    fontsize_label.Layout.Column = 6;
 
     % Schriftgrößen-Slider
     fontsize_slider = uislider(logger_header_grid, ...
@@ -566,7 +577,7 @@ function btc_analyzer_gui()
                                'MajorTicks', [8, 10, 12, 14], ...
                                'ValueChangedFcn', @(sld,event) updateLoggerFontSize(sld));
     fontsize_slider.Layout.Row = 1;
-    fontsize_slider.Layout.Column = 6;
+    fontsize_slider.Layout.Column = 7;
 
     % Logger HTML-Area für farbige Ausgabe
     log_html = uihtml(rightPanel);
@@ -587,6 +598,9 @@ function btc_analyzer_gui()
 
     % Logger-Variablen (Default: Fenster+Datei)
     logger_mode = 'both';  % 'window', 'both', 'file'
+
+    % Log-Level: 1=ERROR, 2=WARNING, 3=INFO, 4=DEBUG, 5=TRACE
+    log_level = 3;  % Default: INFO
 
     % Log-Ordner erstellen falls nicht vorhanden
     log_folder = fullfile(fileparts(mfilename('fullpath')), 'log');
@@ -659,6 +673,8 @@ function btc_analyzer_gui()
             '.success { background: #22543d; color: #68d391; }' ...
             '.warning { background: #744210; color: #fbd38d; }' ...
             '.error { background: #742a2a; color: #fc8181; }' ...
+            '.debug { background: #3d3d5c; color: #b19cd9; }' ...
+            '.trace { background: #2d2d2d; color: #888888; font-style: italic; }' ...
             '.timestamp { color: #a0aec0; font-size: %dpx; }' ...
             '.icon { margin-right: 6px; }' ...
             '</style></head><body>'], log_font_size, log_font_size - 1);
@@ -677,28 +693,46 @@ function btc_analyzer_gui()
         log_html.HTMLSource = html_content;
     end
 
-    %% Logger-Funktion mit Farben
+    %% Logger-Funktion mit Farben und Log-Levels
     function logMessage(message, varargin)
-        % Optionaler Type-Parameter: 'info', 'success', 'warning', 'error'
+        % Parameter: message, type
+        % Types: 'error'(1), 'warning'(2), 'info'(3), 'success'(3), 'debug'(4), 'trace'(5)
         msg_type = 'info';
         if nargin > 1
             msg_type = varargin{1};
         end
 
-        % Icon und CSS-Klasse basierend auf Type
+        % Log-Level Mapping: error=1, warning=2, info/success=3, debug=4, trace=5
         switch msg_type
-            case 'success'
-                icon = '&#10003;';  % Checkmark
-                css_class = 'success';
             case 'error'
+                msg_level = 1;
                 icon = '&#10007;';  % X
                 css_class = 'error';
             case 'warning'
+                msg_level = 2;
                 icon = '&#9888;';   % Warning triangle
                 css_class = 'warning';
-            otherwise
+            case 'success'
+                msg_level = 3;
+                icon = '&#10003;';  % Checkmark
+                css_class = 'success';
+            case 'debug'
+                msg_level = 4;
+                icon = '&#128736;'; % Wrench/Tool
+                css_class = 'debug';
+            case 'trace'
+                msg_level = 5;
+                icon = '&#128270;'; % Magnifying glass
+                css_class = 'trace';
+            otherwise  % 'info'
+                msg_level = 3;
                 icon = '&#8505;';   % Info
                 css_class = 'info';
+        end
+
+        % Prüfe ob Nachricht angezeigt werden soll (Level-Filter)
+        if msg_level > log_level
+            return;  % Nachricht unterdrücken
         end
 
         % Timestamp
@@ -766,7 +800,14 @@ function btc_analyzer_gui()
     function updateLoggerFontSize(sld)
         log_font_size = round(sld.Value);
         updateLoggerHTML();
-        logMessage(sprintf('Logger-Schriftgröße: %d', log_font_size), 'info');
+        logMessage(sprintf('Logger-Schriftgröße: %d', log_font_size), 'debug');
+    end
+
+    %% Callback: Log-Level ändern
+    function updateLoggerLevel(dd)
+        log_level = dd.Value;
+        level_names = {'ERROR', 'WARNING', 'INFO', 'DEBUG', 'TRACE'};
+        logMessage(sprintf('Log-Level geändert: %s', level_names{log_level}), 'info');
     end
 
     %% Callback: Log löschen
@@ -778,7 +819,7 @@ function btc_analyzer_gui()
 
     %% Callback: Lokale Datei laden
     function loadLocalFile()
-        logMessage('Öffne Dateiauswahl-Dialog...', 'info');
+        logMessage('Öffne Dateiauswahl-Dialog...', 'debug');
         [file, path] = uigetfile('*.csv', 'CSV-Datei auswählen');
         if file == 0
             logMessage('Dateiauswahl abgebrochen', 'warning');
@@ -804,7 +845,7 @@ function btc_analyzer_gui()
             analyze_btn.Enable = 'on';
             prepare_data_btn.Enable = 'on';
             visualize_signals_btn.Enable = 'on';
-            logMessage('Analyse-Buttons aktiviert', 'info');
+            logMessage('Analyse-Buttons aktiviert', 'trace');
 
             % Pfad der geladenen CSV-Datei speichern für nächsten Start
             saveLastCSVPath(filepath);
@@ -841,12 +882,12 @@ function btc_analyzer_gui()
 
         try
             % Download starten
-            logMessage('Verbinde zu Binance API...', 'info');
+            logMessage('Verbinde zu Binance API...', 'debug');
             new_data = download_btc_data(start_date, end_date, interval);
 
             % Wenn bereits Daten vorhanden, zusammenführen
             if ~isempty(app_data)
-                logMessage('Bestehende Daten gefunden, frage Benutzer...', 'info');
+                logMessage('Bestehende Daten gefunden, frage Benutzer...', 'debug');
                 % Frage ob ersetzen oder zusammenführen
                 choice = uiconfirm(fig, ...
                     'Möchten Sie die neuen Daten mit den bestehenden zusammenführen?', ...
@@ -856,7 +897,7 @@ function btc_analyzer_gui()
 
                 if strcmp(choice, 'Zusammenführen')
                     % Daten kombinieren
-                    logMessage('Führe Daten zusammen...', 'info');
+                    logMessage('Führe Daten zusammen...', 'debug');
                     app_data = [app_data; new_data];
                     % Duplikate entfernen und sortieren
                     [~, unique_idx] = unique(app_data.DateTime, 'stable');
@@ -898,7 +939,7 @@ function btc_analyzer_gui()
                 'DefaultOption', 2);
 
             if strcmp(save_choice, 'Ja')
-                logMessage('Starte CSV-Export...', 'info');
+                logMessage('Starte CSV-Export...', 'debug');
                 saveDataAsCSV();
             end
 
@@ -959,7 +1000,7 @@ function btc_analyzer_gui()
         end
 
         filepath = fullfile(path, file);
-        logMessage(sprintf('Exportiere nach: %s', filepath), 'info');
+        logMessage(sprintf('Exportiere nach: %s', filepath), 'debug');
 
         try
             % Erstelle Export-Format
@@ -1073,7 +1114,7 @@ function btc_analyzer_gui()
         end
 
         try
-            logMessage('Öffne Trainingsdaten-Visualisierungs-GUI...', 'info');
+            logMessage('Öffne Trainingsdaten-Visualisierungs-GUI...', 'debug');
 
             % Rufe die GUI zur Visualisierung auf
             visualize_training_data_gui(app_data, training_data.info, training_data.X, training_data.Y);
@@ -1101,7 +1142,7 @@ function btc_analyzer_gui()
         end
 
         try
-            logMessage('Öffne Trainingsdaten-Vorbereitungs-GUI...', 'info');
+            logMessage('Öffne Trainingsdaten-Vorbereitungs-GUI...', 'debug');
 
             % Öffne die neue GUI für Parameter-Einstellung
             prepare_training_data_gui(app_data);
@@ -1112,7 +1153,7 @@ function btc_analyzer_gui()
 
             % Listener für Variablen-Änderungen im Workspace
             % Nach Schließen der GUI prüfen wir auf neue Daten
-            logMessage('GUI geöffnet. Nach Abschluss werden Daten übernommen.', 'info');
+            logMessage('GUI geöffnet. Nach Abschluss werden Daten übernommen.', 'debug');
 
         catch ME
             logMessage(sprintf('Fehler beim Öffnen der Vorbereitungs-GUI: %s', ME.message), 'error');
@@ -1173,7 +1214,7 @@ function btc_analyzer_gui()
 
     %% Callback: Modell laden
     function loadModel()
-        logMessage('Öffne Modellauswahl-Dialog...', 'info');
+        logMessage('Öffne Modellauswahl-Dialog...', 'debug');
         [file, path] = uigetfile('*.mat', 'Modell auswählen');
         if file == 0
             logMessage('Modellauswahl abgebrochen', 'warning');
@@ -1257,7 +1298,7 @@ function btc_analyzer_gui()
         default_name = sprintf('BILSTM_%s.mat', timestamp);
         default_path = fullfile(network_folder, default_name);
 
-        logMessage('Öffne Speichern-Dialog für Modell...', 'info');
+        logMessage('Öffne Speichern-Dialog für Modell...', 'debug');
         [file, path] = uiputfile('*.mat', 'Modell speichern', default_path);
         if file == 0
             logMessage('Modell-Speichern abgebrochen', 'warning');
@@ -1265,7 +1306,7 @@ function btc_analyzer_gui()
         end
 
         filepath = fullfile(path, file);
-        logMessage(sprintf('Speichere Modell: %s', filepath), 'info');
+        logMessage(sprintf('Speichere Modell: %s', filepath), 'debug');
         save(filepath, 'net', 'training_info', 'training_results');
         logMessage('Modell erfolgreich gespeichert', 'success');
 
@@ -1353,7 +1394,7 @@ function btc_analyzer_gui()
         default_name = 'parameters_saved.mat';
         default_path = fullfile(results_folder, default_name);
 
-        logMessage('Öffne Speichern-Dialog für Parameter...', 'info');
+        logMessage('Öffne Speichern-Dialog für Parameter...', 'debug');
         [file, path] = uiputfile('*.mat', 'Parameter speichern', default_path);
         if file == 0
             logMessage('Parameter-Speichern abgebrochen', 'warning');
@@ -1386,7 +1427,7 @@ function btc_analyzer_gui()
 
     %% Callback: Parameter laden
     function loadParameters()
-        logMessage('Öffne Parameter-Lade-Dialog...', 'info');
+        logMessage('Öffne Parameter-Lade-Dialog...', 'debug');
         [file, path] = uigetfile('*.mat', 'Parameter laden', results_base_folder);
         if file == 0
             logMessage('Parameter-Laden abgebrochen', 'warning');
@@ -1426,7 +1467,7 @@ function btc_analyzer_gui()
             last_csv_path = csv_path;
             last_session_file = fullfile(fileparts(mfilename('fullpath')), 'last_session.mat');
             save(last_session_file, 'csv_path');
-            logMessage(sprintf('Letzte CSV-Datei gemerkt: %s', csv_path), 'info');
+            logMessage(sprintf('Letzte CSV-Datei gemerkt: %s', csv_path), 'trace');
         catch ME
             logMessage(sprintf('Warnung: Konnte letzten CSV-Pfad nicht speichern: %s', ME.message), 'warning');
         end
@@ -1441,7 +1482,7 @@ function btc_analyzer_gui()
                 loaded = load(last_session_file);
                 if isfield(loaded, 'csv_path') && exist(loaded.csv_path, 'file')
                     csv_path = loaded.csv_path;
-                    logMessage(sprintf('Lade letzte CSV-Datei: %s', csv_path), 'info');
+                    logMessage(sprintf('Lade letzte CSV-Datei: %s', csv_path), 'debug');
 
                     % Lade Daten
                     app_data = read_btc_data(csv_path);
@@ -1457,13 +1498,13 @@ function btc_analyzer_gui()
                     prepare_data_btn.Enable = 'on';
                     visualize_signals_btn.Enable = 'on';
                 else
-                    logMessage('Letzte CSV-Datei nicht mehr vorhanden', 'warning');
+                    logMessage('Letzte CSV-Datei nicht mehr vorhanden', 'debug');
                 end
             catch ME
                 logMessage(sprintf('Warnung: Konnte letzte Daten nicht laden: %s', ME.message), 'warning');
             end
         else
-            logMessage('Keine vorherige Session gefunden - bitte Daten laden', 'info');
+            logMessage('Keine vorherige Session gefunden - bitte Daten laden', 'debug');
         end
     end
 end
