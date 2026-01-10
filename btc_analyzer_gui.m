@@ -608,12 +608,24 @@ function btc_analyzer_gui()
         mkdir(network_folder);
     end
 
+    % Results-Ordner und Session-Unterordner erstellen
+    results_base_folder = fullfile(fileparts(mfilename('fullpath')), 'Results');
+    if ~exist(results_base_folder, 'dir')
+        mkdir(results_base_folder);
+    end
+
+    % Session-Ordner mit Datum und Uhrzeit (sekundengenau)
+    session_timestamp = datestr(now, 'yyyy-mm-dd_HH-MM-SS');
+    results_folder = fullfile(results_base_folder, session_timestamp);
+    mkdir(results_folder);
+
     % Log-Dateiname mit Datum und Uhrzeit (sekundengenau)
-    log_filename = fullfile(log_folder, sprintf('btc_analyzer_%s.txt', datestr(now, 'yyyy-mm-dd_HH-MM-SS')));
+    log_filename = fullfile(log_folder, sprintf('btc_analyzer_%s.txt', session_timestamp));
 
     % Initiale Log-Nachricht
     logMessage('BTCUSD Analyzer gestartet', 'info');
     logMessage(sprintf('Log-Datei: %s', log_filename), 'info');
+    logMessage(sprintf('Results-Ordner: %s', results_folder), 'info');
 
     %% Datum anpassen Funktion
     function adjustDate(date_picker, amount, unit)

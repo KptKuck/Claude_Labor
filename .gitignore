@@ -21,6 +21,7 @@ __pycache__/
 Daten_csv/*.csv
 log/*.txt
 Network/*.mat
+Results/
 
 # Systemdateien
 .DS_Store

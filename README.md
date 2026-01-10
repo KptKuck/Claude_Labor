@@ -144,10 +144,20 @@ Log-Dateien werden in `log/` erstellt mit Format: `btc_analyzer_YYYY-MM-DD_HH-MM
 
 ```
 project/
-├── Daten_csv/     # Exportierte CSV-Daten
-├── log/           # Log-Dateien
-└── Network/       # Trainierte Modelle (.mat)
+├── Daten_csv/                          # Exportierte CSV-Daten
+├── log/                                # Log-Dateien
+├── Network/                            # Trainierte Modelle (.mat)
+└── Results/                            # Ergebnisse und Ausgaben
+    └── YYYY-MM-DD_HH-MM-SS/           # Session-Ordner (ein pro Start)
+        ├── Diagramme/
+        ├── Modelle/
+        └── Daten/
 ```
+
+**Automatische Session-Ordner:**
+Bei jedem Start der App wird automatisch ein neuer Ordner mit Datum und Uhrzeit erstellt:
+- `Results/2025-01-10_14-30-45/` (beispiel)
+- Alle Ergebnisse dieser Session werden dort gespeichert
 
 ## Tipps & Tricks
 
