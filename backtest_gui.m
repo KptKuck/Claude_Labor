@@ -600,6 +600,13 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         % Daher muessen wir den String-Wert auslesen: char(string(prediction))
         % Unterstuetzt sowohl numerische ('0','1','2') als auch String-Klassen ('HOLD','BUY','SELL')
         pred_str = upper(char(string(prediction)));
+
+        % Debug: Zeige erste paar Vorhersagen
+        if current_index <= sequence_length + 5
+            log_callback(sprintf('DEBUG Prediction: raw=%s, class=%s, str=%s', ...
+                mat2str(double(prediction)), class(prediction), pred_str), 'trace');
+        end
+
         switch pred_str
             case {'0', 'HOLD'}
                 pred_value = 0;  % HOLD
