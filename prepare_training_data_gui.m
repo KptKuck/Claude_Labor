@@ -40,7 +40,7 @@ function prepare_training_data_gui(data, log_func)
     params.lookforward = 100;
     params.include_hold = true;
     params.hold_ratio = 1.0;  % Verhältnis HOLD zu (BUY+SELL)
-    params.min_distance_factor = 0.5;  % Mindestabstand zu Extrema (als Faktor der Sequenzlänge)
+    params.min_distance_factor = 0.3;  % Mindestabstand zu naechstem Extremum (als Faktor der Sequenzlaenge)
     params.random_seed = 42;
     params.normalize_method = 'zscore';  % 'zscore', 'minmax', 'none'
 
@@ -312,7 +312,7 @@ function prepare_training_data_gui(data, log_func)
 
     uilabel(hold_grid, 'Text', 'Min. Abstand Faktor:', 'FontSize', 12, ...
             'FontColor', 'white');
-    distance_slider = uislider(hold_grid, 'Limits', [0.1, 1.0], ...
+    distance_slider = uislider(hold_grid, 'Limits', [0.1, 0.5], ...
                                'Value', params.min_distance_factor, ...
                                'ValueChangedFcn', @(s,e) updateDistanceFactor(s.Value));
     distance_slider.Layout.Column = 2;
@@ -743,6 +743,9 @@ function prepare_training_data_gui(data, log_func)
         [high_points, low_points] = find_daily_extrema(data);
         toc_log(t_extrema, 'find_daily_extrema');
 
+        % Debug-Info: Anzahl gefundener Extrema
+        fprintf('Debug: high_points=%d, low_points=%d\n', length(high_points), length(low_points));
+
         % Index-Mapping
         datetime_to_idx = containers.Map();
         for i = 1:height(data)
@@ -792,6 +795,9 @@ function prepare_training_data_gui(data, log_func)
             end
         end
 
+        % Debug: BUY/SELL Samples erstellt
+        fprintf('Debug: num_sell=%d, num_buy=%d\n', num_sell, num_buy);
+
         % HOLD-Samples
         num_hold = 0;
         if params.include_hold
@@ -814,28 +820,57 @@ function prepare_training_data_gui(data, log_func)
             end
 
             rng(params.random_seed);
-            min_distance = round(sequence_length * params.min_distance_factor);
-            max_attempts = num_hold_target * 100;
+            min_distance_original = round(sequence_length * params.min_distance_factor);
+            min_distance = min_distance_original;
+            max_attempts_per_round = num_hold_target * 50;
             attempts = 0;
+            total_attempts = 0;
 
-            while num_hold < num_hold_target && attempts < max_attempts
-                attempts = attempts + 1;
-                rand_idx = randi([lookback_size + 1, total_points - lookforward_size]);
+            % Debug-Info
+            fprintf('HOLD-Debug: num_hold_target=%d, num_extrema=%d, min_distance=%d\n', ...
+                    num_hold_target, length(extrema_indices), min_distance);
+            fprintf('HOLD-Debug: total_points=%d, valid_range=[%d, %d]\n', ...
+                    total_points, lookback_size + 1, total_points - lookforward_size);
 
-                is_far = isempty(extrema_indices) || all(abs(extrema_indices - rand_idx) > min_distance);
+            % Mehrere Versuche mit abnehmender Distanz
+            while num_hold < num_hold_target && min_distance >= 1
+                attempts = 0;
+                while num_hold < num_hold_target && attempts < max_attempts_per_round
+                    attempts = attempts + 1;
+                    total_attempts = total_attempts + 1;
+                    rand_idx = randi([lookback_size + 1, total_points - lookforward_size]);
 
-                if is_far
-                    start_idx = rand_idx - lookback_size;
-                    end_idx = rand_idx + lookforward_size - 1;
+                    % Pruefe Abstand zum NAECHSTEN Extremum (nicht zu allen)
+                    if isempty(extrema_indices)
+                        is_far = true;
+                    else
+                        nearest_distance = min(abs(extrema_indices - rand_idx));
+                        is_far = nearest_distance > min_distance;
+                    end
 
-                    sequence = features(start_idx:end_idx, :);
-                    sequence_norm = normalizeSequence(sequence);
+                    if is_far
+                        start_idx = rand_idx - lookback_size;
+                        end_idx = rand_idx + lookforward_size - 1;
 
-                    X{end+1} = sequence_norm';
-                    Y{end+1} = categorical(0);
-                    num_hold = num_hold + 1;
+                        sequence = features(start_idx:end_idx, :);
+                        sequence_norm = normalizeSequence(sequence);
+
+                        X{end+1} = sequence_norm';
+                        Y{end+1} = categorical(0);
+                        num_hold = num_hold + 1;
+                    end
+                end
+
+                % Falls nicht genug gefunden, reduziere min_distance
+                if num_hold < num_hold_target
+                    min_distance = round(min_distance * 0.5);
+                    fprintf('HOLD-Debug: Reduziere min_distance auf %d (num_hold=%d)\n', min_distance, num_hold);
                 end
             end
+
+            % Debug: Anzahl gefundene HOLD samples
+            fprintf('HOLD-Debug: total_attempts=%d, num_hold=%d, final_min_distance=%d\n', ...
+                    total_attempts, num_hold, min_distance);
             toc_log(t_hold, 'HOLD-Sample generation');
         end
 
