@@ -643,6 +643,9 @@ function btc_analyzer_gui()
     results_folder = fullfile(results_base_folder, session_timestamp);
     mkdir(results_folder);
 
+    % Alte Sessions archivieren (nach Erstellung des neuen Session-Ordners)
+    archiveOldSessions();
+
     % Log-Dateiname mit Datum und Uhrzeit (sekundengenau)
     log_filename = fullfile(log_folder, sprintf('btc_analyzer_%s.txt', session_timestamp));
 
@@ -1658,5 +1661,69 @@ function btc_analyzer_gui()
                      data.Open(i), data.High(i), data.Low(i), data.Close(i));
             logMessage(sprintf('  [%d] %s', i, row_str), 'trace');
         end
+    end
+
+    %% Hilfsfunktion: Alte Sessions archivieren
+    function archiveOldSessions()
+        % Archiviert alte Session-Ordner wenn mehr als 10 vorhanden sind
+        % Die chronologisch ältesten werden ins Archiv verschoben
+
+        max_sessions = 10;
+
+        % Archiv-Ordner erstellen falls nicht vorhanden
+        archive_folder = fullfile(results_base_folder, 'Archiv');
+        if ~exist(archive_folder, 'dir')
+            mkdir(archive_folder);
+            logMessage('Archiv-Ordner erstellt', 'debug');
+        end
+
+        % Alle Unterordner im Results-Ordner auflisten (außer Archiv)
+        all_items = dir(results_base_folder);
+        session_folders = {};
+        session_dates = [];
+
+        for i = 1:length(all_items)
+            item = all_items(i);
+            % Nur Ordner, keine . oder .. oder Archiv
+            if item.isdir && ~strcmp(item.name, '.') && ~strcmp(item.name, '..') && ~strcmp(item.name, 'Archiv')
+                % Prüfe ob es ein Session-Ordner ist (Format: yyyy-mm-dd_HH-MM-SS)
+                if length(item.name) >= 10 && ~isempty(regexp(item.name, '^\d{4}-\d{2}-\d{2}', 'once'))
+                    session_folders{end+1} = item.name;
+                    session_dates(end+1) = item.datenum;
+                end
+            end
+        end
+
+        num_sessions = length(session_folders);
+
+        if num_sessions <= max_sessions
+            logMessage(sprintf('Archivierung nicht nötig: %d Sessions (max: %d)', num_sessions, max_sessions), 'trace');
+            return;
+        end
+
+        % Anzahl der zu archivierenden Sessions
+        num_to_archive = num_sessions - max_sessions;
+
+        % Nach Datum sortieren (älteste zuerst)
+        [~, sort_idx] = sort(session_dates);
+        sorted_folders = session_folders(sort_idx);
+
+        % Älteste Sessions archivieren
+        logMessage(sprintf('Archiviere %d alte Sessions...', num_to_archive), 'info');
+
+        for i = 1:num_to_archive
+            folder_name = sorted_folders{i};
+            source_path = fullfile(results_base_folder, folder_name);
+            dest_path = fullfile(archive_folder, folder_name);
+
+            try
+                movefile(source_path, dest_path);
+                logMessage(sprintf('Archiviert: %s', folder_name), 'debug');
+            catch ME
+                logMessage(sprintf('Fehler beim Archivieren von %s: %s', folder_name, ME.message), 'warning');
+            end
+        end
+
+        logMessage(sprintf('Archivierung abgeschlossen: %d Sessions ins Archiv verschoben', num_to_archive), 'success');
     end
 end
