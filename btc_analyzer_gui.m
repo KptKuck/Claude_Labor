@@ -452,27 +452,37 @@ function btc_analyzer_gui()
     model_title.Layout.Row = 1;
     model_title.Layout.Column = 1;
 
-    model_btn_grid = uigridlayout(model_grid, [1, 2]);
+    model_btn_grid = uigridlayout(model_grid, [1, 3]);
     model_btn_grid.Layout.Row = 2;
     model_btn_grid.Layout.Column = 1;
-    model_btn_grid.ColumnWidth = {'1x', '1x'};
+    model_btn_grid.ColumnWidth = {'1x', '1x', '1x'};
     model_btn_grid.Padding = [0 0 0 0];
     model_btn_grid.ColumnSpacing = 5;
 
-    load_model_btn = uibutton(model_btn_grid, 'Text', 'Modell laden', ...
+    load_model_btn = uibutton(model_btn_grid, 'Text', 'Laden', ...
                               'ButtonPushedFcn', @(btn,event) loadModel(), ...
                               'BackgroundColor', [0.5, 0.5, 0.5], ...
                               'FontColor', 'white', ...
-                              'FontSize', 11, 'FontWeight', 'bold');
+                              'FontSize', 11, 'FontWeight', 'bold', ...
+                              'Tooltip', 'Modell aus Datei laden');
     load_model_btn.Layout.Column = 1;
+
+    load_last_model_btn = uibutton(model_btn_grid, 'Text', 'Letztes', ...
+                              'ButtonPushedFcn', @(btn,event) loadLastModel(), ...
+                              'BackgroundColor', [0.4, 0.6, 0.7], ...
+                              'FontColor', 'white', ...
+                              'FontSize', 11, 'FontWeight', 'bold', ...
+                              'Tooltip', 'Zuletzt verwendetes Modell laden');
+    load_last_model_btn.Layout.Column = 2;
 
     predict_btn = uibutton(model_btn_grid, 'Text', 'Vorhersage', ...
                            'ButtonPushedFcn', @(btn,event) makePrediction(), ...
                            'BackgroundColor', [1.0, 0.6, 0.2], ...
                            'FontColor', 'white', ...
                            'FontSize', 11, 'FontWeight', 'bold', ...
-                           'Enable', 'off');
-    predict_btn.Layout.Column = 2;
+                           'Enable', 'off', ...
+                           'Tooltip', 'Vorhersage mit geladenem Modell');
+    predict_btn.Layout.Column = 3;
 
     % Backtester Button
     backtest_btn = uibutton(model_grid, 'Text', 'Backtester starten', ...
@@ -614,6 +624,7 @@ function btc_analyzer_gui()
     trained_model = [];
     model_info = [];
     last_csv_path = '';  % Pfad zur zuletzt geladenen CSV-Datei
+    last_model_path = '';  % Pfad zum zuletzt geladenen Modell
 
     % Logger-Variablen (Default: Fenster+Datei)
     logger_mode = 'both';  % 'window', 'both', 'file'
@@ -1311,7 +1322,49 @@ function btc_analyzer_gui()
         end
 
         filepath = fullfile(path, file);
-        logMessage(sprintf('Lade Modell: %s', file), 'info');
+        loadModelFromPath(filepath);
+        toc_log(t_func, 'loadModel');
+    end
+
+    %% Callback: Letztes Modell laden
+    function loadLastModel()
+        t_func = tic_if_enabled();
+
+        % Versuche zuletzt verwendetes Modell aus Session-Datei zu laden
+        last_session_file = fullfile(fileparts(mfilename('fullpath')), 'last_session.mat');
+
+        if exist(last_session_file, 'file')
+            try
+                loaded_session = load(last_session_file);
+                if isfield(loaded_session, 'model_path') && exist(loaded_session.model_path, 'file')
+                    logMessage(sprintf('Lade letztes Modell: %s', loaded_session.model_path), 'info');
+                    loadModelFromPath(loaded_session.model_path);
+                    toc_log(t_func, 'loadLastModel');
+                    return;
+                end
+            catch ME
+                logMessage(sprintf('Fehler beim Laden der Session-Daten: %s', ME.message), 'warning');
+            end
+        end
+
+        % Fallback: Suche neuestes Modell in Results-Ordnern
+        logMessage('Suche neuestes Modell in Results-Ordnern...', 'debug');
+        newest_model = findNewestModel();
+
+        if ~isempty(newest_model)
+            logMessage(sprintf('Neuestes Modell gefunden: %s', newest_model), 'info');
+            loadModelFromPath(newest_model);
+        else
+            logMessage('Kein Modell gefunden!', 'warning');
+            uialert(fig, 'Kein gespeichertes Modell gefunden!\n\nBitte zuerst ein Modell trainieren oder manuell laden.', ...
+                   'Kein Modell', 'Icon', 'warning');
+        end
+        toc_log(t_func, 'loadLastModel');
+    end
+
+    %% Hilfsfunktion: Modell von Pfad laden
+    function loadModelFromPath(filepath)
+        logMessage(sprintf('Lade Modell: %s', filepath), 'info');
 
         try
             t_load = tic_if_enabled();
@@ -1325,10 +1378,15 @@ function btc_analyzer_gui()
             trained_model = loaded.net;
             model_info = loaded.training_info;
 
+            % Modellpfad speichern fuer naechstes Mal
+            saveLastModelPath(filepath);
+
             logMessage(sprintf('Modell geladen: Klassen=%s', strjoin(model_info.classes, ',')), 'success');
 
-            uialert(fig, sprintf('Modell geladen!\n\nKlassen: %s', ...
-                   strjoin(model_info.classes, ', ')), ...
+            % Kurzer Dateiname fuer Alert
+            [~, filename, ext] = fileparts(filepath);
+            uialert(fig, sprintf('Modell geladen!\n\n%s%s\n\nKlassen: %s', ...
+                   filename, ext, strjoin(model_info.classes, ', ')), ...
                    'Erfolgreich', 'Icon', 'success');
 
             predict_btn.Enable = 'on';
@@ -1339,7 +1397,57 @@ function btc_analyzer_gui()
             uialert(fig, sprintf('Fehler beim Laden:\n%s', ME.message), ...
                    'Fehler', 'Icon', 'error');
         end
-        toc_log(t_func, 'loadModel');
+    end
+
+    %% Hilfsfunktion: Neuestes Modell in Results finden
+    function newest_path = findNewestModel()
+        newest_path = '';
+        newest_date = 0;
+
+        % Durchsuche Results-Ordner nach .mat Dateien mit BILSTM im Namen
+        if exist(results_base_folder, 'dir')
+            % Alle Session-Ordner durchsuchen
+            all_items = dir(results_base_folder);
+            for i = 1:length(all_items)
+                item = all_items(i);
+                if item.isdir && ~strcmp(item.name, '.') && ~strcmp(item.name, '..') && ~strcmp(item.name, 'Archiv')
+                    session_path = fullfile(results_base_folder, item.name);
+                    % Nach Modell-Dateien suchen
+                    model_files = dir(fullfile(session_path, 'BILSTM*.mat'));
+                    for j = 1:length(model_files)
+                        if model_files(j).datenum > newest_date
+                            newest_date = model_files(j).datenum;
+                            newest_path = fullfile(session_path, model_files(j).name);
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    %% Hilfsfunktion: Letzten Modellpfad speichern
+    function saveLastModelPath(model_path)
+        try
+            last_model_path = model_path;
+            last_session_file = fullfile(fileparts(mfilename('fullpath')), 'last_session.mat');
+
+            % Bestehende Session-Daten laden falls vorhanden
+            if exist(last_session_file, 'file')
+                existing = load(last_session_file);
+                % csv_path beibehalten falls vorhanden
+                if isfield(existing, 'csv_path')
+                    csv_path = existing.csv_path;
+                    save(last_session_file, 'csv_path', 'model_path');
+                else
+                    save(last_session_file, 'model_path');
+                end
+            else
+                save(last_session_file, 'model_path');
+            end
+            logMessage(sprintf('Modellpfad gespeichert: %s', model_path), 'trace');
+        catch ME
+            logMessage(sprintf('Warnung: Konnte Modellpfad nicht speichern: %s', ME.message), 'warning');
+        end
     end
 
     %% Callback: Vorhersage machen
