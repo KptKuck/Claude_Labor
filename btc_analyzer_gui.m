@@ -21,7 +21,7 @@ function btc_analyzer_gui()
     leftPanel = uigridlayout(mainGrid);
     leftPanel.Layout.Row = 1;
     leftPanel.Layout.Column = 1;
-    leftPanel.RowHeight = {50, 'fit', 'fit', 'fit', 'fit', '1x'};
+    leftPanel.RowHeight = {50, 'fit', 'fit', 'fit', 'fit', 'fit', '1x'};
     leftPanel.ColumnWidth = {'1x'};
     leftPanel.RowSpacing = 10;
     leftPanel.Padding = [5 5 5 5];
@@ -517,6 +517,48 @@ function btc_analyzer_gui()
                            'FontSize', 11, 'FontWeight', 'bold', ...
                            'Enable', 'off');
     predict_btn.Layout.Column = 2;
+
+    % ============================================================
+    % GRUPPE 5: Parameter Management
+    % ============================================================
+    param_mgmt_group = uipanel(leftPanel, 'Title', '');
+    param_mgmt_group.Layout.Row = 6;
+    param_mgmt_group.Layout.Column = 1;
+
+    param_mgmt_grid = uigridlayout(param_mgmt_group, [2, 1]);
+    param_mgmt_grid.RowHeight = {25, 35};
+    param_mgmt_grid.ColumnWidth = {'1x'};
+    param_mgmt_grid.RowSpacing = 5;
+    param_mgmt_grid.Padding = [10 10 10 10];
+
+    param_mgmt_title = uilabel(param_mgmt_grid, 'Text', 'Parameter Management', ...
+                          'FontSize', 11, 'FontWeight', 'bold', ...
+                          'HorizontalAlignment', 'center', ...
+                          'BackgroundColor', [0.4, 0.7, 0.5], ...
+                          'FontColor', 'white');
+    param_mgmt_title.Layout.Row = 1;
+    param_mgmt_title.Layout.Column = 1;
+
+    param_mgmt_btn_grid = uigridlayout(param_mgmt_grid, [1, 2]);
+    param_mgmt_btn_grid.Layout.Row = 2;
+    param_mgmt_btn_grid.Layout.Column = 1;
+    param_mgmt_btn_grid.ColumnWidth = {'1x', '1x'};
+    param_mgmt_btn_grid.Padding = [0 0 0 0];
+    param_mgmt_btn_grid.ColumnSpacing = 5;
+
+    save_params_btn = uibutton(param_mgmt_btn_grid, 'Text', 'Parameter speichern', ...
+                              'ButtonPushedFcn', @(btn,event) saveParameters(), ...
+                              'BackgroundColor', [0.3, 0.6, 0.4], ...
+                              'FontColor', 'white', ...
+                              'FontSize', 11, 'FontWeight', 'bold');
+    save_params_btn.Layout.Column = 1;
+
+    load_params_btn = uibutton(param_mgmt_btn_grid, 'Text', 'Parameter laden', ...
+                              'ButtonPushedFcn', @(btn,event) loadParameters(), ...
+                              'BackgroundColor', [0.5, 0.8, 0.6], ...
+                              'FontColor', 'white', ...
+                              'FontSize', 11, 'FontWeight', 'bold');
+    load_params_btn.Layout.Column = 2;
 
     % === RECHTES PANEL: Logger ===
 
@@ -1404,12 +1446,6 @@ function btc_analyzer_gui()
             fprintf(fid, 'Execution Environment: %s\n', gpu_switch.Value);
             fprintf(fid, '\n');
 
-            % Logger-Parameter
-            fprintf(fid, '--- LOGGER-PARAMETER ---\n');
-            fprintf(fid, 'Logger-Modus: %s\n', logger_mode_dropdown.Value);
-            fprintf(fid, 'Schriftgröße: %d pt\n', round(fontsize_slider.Value));
-            fprintf(fid, '\n');
-
             % System-Info
             fprintf(fid, '--- SYSTEM INFORMATION ---\n');
             fprintf(fid, 'MATLAB-Version: %s\n', version);
@@ -1431,8 +1467,100 @@ function btc_analyzer_gui()
             fclose(fid);
             logMessage(sprintf('Parameter-Datei erstellt: %s', params_filename), 'success');
 
+            % Zusätzlich .mat Datei zum Laden erstellen
+            params_mat_filename = fullfile(results_folder, 'parameters.mat');
+            params = struct();
+            params.from_date = from_date_picker.Value;
+            params.to_date = to_date_picker.Value;
+            params.interval = interval_dropdown.Value;
+            params.epochs = epochs_field.Value;
+            params.batch_size = batch_field.Value;
+            params.hidden_units = hidden_field.Value;
+            params.learning_rate = lr_field.Value;
+            params.execution_env = gpu_switch.Value;
+            save(params_mat_filename, 'params');
+
         catch ME
             logMessage(sprintf('Fehler beim Schreiben der Parameter-Datei: %s', ME.message), 'error');
+        end
+    end
+
+    %% Callback: Parameter manuell speichern
+    function saveParameters()
+        % Standard-Dateiname mit Zeitstempel
+        default_name = sprintf('params_%s.mat', datestr(now, 'yyyy-mm-dd_HH-MM-SS'));
+        default_path = fullfile(results_folder, default_name);
+
+        logMessage('Öffne Speichern-Dialog für Parameter...', 'info');
+        [file, path] = uiputfile('*.mat', 'Parameter speichern', default_path);
+        if file == 0
+            logMessage('Parameter-Speichern abgebrochen', 'warning');
+            return;
+        end
+
+        filepath = fullfile(path, file);
+        try
+            params = struct();
+            params.from_date = from_date_picker.Value;
+            params.to_date = to_date_picker.Value;
+            params.interval = interval_dropdown.Value;
+            params.epochs = epochs_field.Value;
+            params.batch_size = batch_field.Value;
+            params.hidden_units = hidden_field.Value;
+            params.learning_rate = lr_field.Value;
+            params.execution_env = gpu_switch.Value;
+
+            save(filepath, 'params');
+            logMessage(sprintf('Parameter gespeichert: %s', filepath), 'success');
+            uialert(fig, sprintf('Parameter gespeichert:\n%s', filepath), ...
+                   'Erfolgreich', 'Icon', 'success');
+        catch ME
+            logMessage(sprintf('Fehler beim Speichern: %s', ME.message), 'error');
+            uialert(fig, sprintf('Fehler beim Speichern:\n%s', ME.message), ...
+                   'Fehler', 'Icon', 'error');
+        end
+    end
+
+    %% Callback: Parameter laden
+    function loadParameters()
+        logMessage('Öffne Parameter-Lade-Dialog...', 'info');
+        [file, path] = uigetfile('*.mat', 'Parameter laden', results_base_folder);
+        if file == 0
+            logMessage('Parameter-Laden abgebrochen', 'warning');
+            return;
+        end
+
+        filepath = fullfile(path, file);
+        try
+            loaded = load(filepath);
+
+            if ~isfield(loaded, 'params')
+                error('Ungültige Parameter-Datei!');
+            end
+
+            params = loaded.params;
+
+            % Technische Parameter in GUI setzen
+            from_date_picker.Value = params.from_date;
+            to_date_picker.Value = params.to_date;
+            interval_dropdown.Value = params.interval;
+            epochs_field.Value = params.epochs;
+            batch_field.Value = params.batch_size;
+            hidden_field.Value = params.hidden_units;
+            lr_field.Value = params.learning_rate;
+            gpu_switch.Value = params.execution_env;
+
+            % Update GPU Status
+            updateGPUStatus(gpu_switch);
+
+            logMessage(sprintf('Parameter geladen: %s', filepath), 'success');
+            uialert(fig, sprintf('Parameter erfolgreich geladen:\n%s\n\nTechnische Parameter wiederhergestellt:\n- Datenlade-Parameter\n- Training-Parameter', filepath), ...
+                   'Erfolgreich', 'Icon', 'success');
+
+        catch ME
+            logMessage(sprintf('Fehler beim Laden: %s', ME.message), 'error');
+            uialert(fig, sprintf('Fehler beim Laden:\n%s', ME.message), ...
+                   'Fehler', 'Icon', 'error');
         end
     end
 end
