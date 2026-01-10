@@ -37,8 +37,9 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
     entry_price = 0;
     entry_index = 0;
     total_pnl = 0;
-    trades = [];  % Struct-Array fuer Trade-Historie
-    signals = [];  % Array fuer alle Signale
+    trades = struct('entry_index', {}, 'exit_index', {}, 'position', {}, ...
+                    'entry_price', {}, 'exit_price', {}, 'pnl', {}, 'reason', {});  % Struct-Array fuer Trade-Historie
+    signals = struct('index', {}, 'signal', {}, 'price', {});  % Struct-Array fuer alle Signale
 
     % Startkapital und Equity
     initial_capital = 10000;  % USD
@@ -426,7 +427,8 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         % Timer fuer automatischen Durchlauf
         backtest_timer = timer('ExecutionMode', 'fixedRate', ...
                                'Period', 1/steps_per_second, ...
-                               'TimerFcn', @(~,~) timerCallback());
+                               'TimerFcn', @(~,~) timerCallback(), ...
+                               'ErrorFcn', @(~,evt) timerErrorHandler(evt));
         start(backtest_timer);
     end
 
@@ -465,8 +467,9 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         entry_price = 0;
         entry_index = 0;
         total_pnl = 0;
-        trades = [];
-        signals = [];
+        trades = struct('entry_index', {}, 'exit_index', {}, 'position', {}, ...
+                        'entry_price', {}, 'exit_price', {}, 'pnl', {}, 'reason', {});
+        signals = struct('index', {}, 'signal', {}, 'price', {});
 
         current_equity = initial_capital;
         equity_curve = initial_capital;
@@ -530,17 +533,27 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
     end
 
     function timerCallback()
-        if ~is_running || current_index > height(app_data)
-            stopBacktest();
-            if current_index > height(app_data)
-                log_callback('Backtest abgeschlossen - Ende der Daten erreicht', 'success');
-                finalizeBacktest();
+        try
+            if ~is_running || current_index > height(app_data)
+                stopBacktest();
+                if current_index > height(app_data)
+                    log_callback('Backtest abgeschlossen - Ende der Daten erreicht', 'success');
+                    finalizeBacktest();
+                end
+                return;
             end
-            return;
-        end
 
-        processStep();
-        updateUI();
+            processStep();
+            updateUI();
+        catch ME
+            log_callback(sprintf('Timer-Fehler: %s', ME.message), 'error');
+            stopBacktest();
+        end
+    end
+
+    function timerErrorHandler(evt)
+        log_callback(sprintf('Timer-Error: %s', evt.Data.messageID), 'error');
+        stopBacktest();
     end
 
     function processStep()
@@ -553,11 +566,19 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
             return;
         end
 
-        % Features extrahieren (wie beim Training)
-        features = [app_data.Close(start_idx:end_idx), ...
-                    app_data.High(start_idx:end_idx), ...
-                    app_data.Low(start_idx:end_idx), ...
-                    app_data.Open(start_idx:end_idx)];
+        % Berechnete Features generieren falls noetig
+        app_data = generateComputedFeatures(app_data, model_info.feature_names);
+
+        % Features extrahieren basierend auf model_info.feature_names
+        features = [];
+        for i = 1:length(model_info.feature_names)
+            feature_name = model_info.feature_names{i};
+            if ismember(feature_name, app_data.Properties.VariableNames)
+                features = [features, app_data.(feature_name)(start_idx:end_idx)];
+            else
+                error('Feature "%s" nicht in den Daten vorhanden. Unterstuetzte berechnete Features: PriceChange, PriceChangePct', feature_name);
+            end
+        end
 
         % Normalisieren (zscore)
         sequence_norm = normalize(features, 'zscore')';
@@ -663,8 +684,11 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         % Trade-Log aktualisieren
         updateTradeLog(trade);
 
-        log_callback(sprintf('%s Position geschlossen @ $%.2f | P/L: $%.2f', position, price, pnl), ...
-                    pnl >= 0, 'success', 'warning');
+        if pnl >= 0
+            log_callback(sprintf('%s Position geschlossen @ $%.2f | P/L: +$%.2f', position, price, pnl), 'success');
+        else
+            log_callback(sprintf('%s Position geschlossen @ $%.2f | P/L: -$%.2f', position, price, abs(pnl)), 'warning');
+        end
 
         position = 'NONE';
         entry_price = 0;
@@ -980,6 +1004,30 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
 
         log_callback('Backtester GUI geschlossen', 'info');
         delete(fig);
+    end
+
+    function data = generateComputedFeatures(data, feature_names)
+        % GENERATECOMPUTEDFEATURES Generiert berechnete Features aus Rohdaten
+        %
+        %   Unterstuetzte berechnete Features:
+        %       - PriceChange: Differenz zum vorherigen Close-Preis
+        %       - PriceChangePct: Prozentuale Aenderung zum vorherigen Close-Preis
+        %
+        %   Diese Funktion wird nur einmal ausgefuehrt (bei erstem Aufruf)
+
+        % PriceChange generieren falls benoetigt
+        if ismember('PriceChange', feature_names) && ~ismember('PriceChange', data.Properties.VariableNames)
+            data.PriceChange = [0; diff(data.Close)];
+            log_callback('Feature "PriceChange" aus Rohdaten generiert', 'debug');
+        end
+
+        % PriceChangePct generieren falls benoetigt
+        if ismember('PriceChangePct', feature_names) && ~ismember('PriceChangePct', data.Properties.VariableNames)
+            price_diff = [0; diff(data.Close)];
+            prev_close = [data.Close(1); data.Close(1:end-1)];
+            data.PriceChangePct = (price_diff ./ prev_close) * 100;
+            log_callback('Feature "PriceChangePct" aus Rohdaten generiert', 'debug');
+        end
     end
 
 end
