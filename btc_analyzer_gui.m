@@ -1564,5 +1564,15 @@ function btc_analyzer_gui()
 
         % Spalten als TRACE
         logMessage(sprintf('Spalten: %s', strjoin(columns, ', ')), 'trace');
+
+        % Erste 10 Datenzeilen als TRACE
+        logMessage('--- Erste 10 Datenzeilen ---', 'trace');
+        num_rows = min(10, height(data));
+        for i = 1:num_rows
+            row_str = sprintf('%s | O:%.2f H:%.2f L:%.2f C:%.2f', ...
+                     datestr(data.DateTime(i), 'dd.mm.yy HH:MM'), ...
+                     data.Open(i), data.High(i), data.Low(i), data.Close(i));
+            logMessage(sprintf('  [%d] %s', i, row_str), 'trace');
+        end
     end
 end

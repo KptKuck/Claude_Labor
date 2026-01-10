@@ -43,6 +43,9 @@ function [net, training_results] = train_bilstm_model(X_train, Y_train, training
     save_folder = p.Results.save_folder;
     stop_fcn = p.Results.stop_fcn;
 
+    % Globale Stop-Variable deklarieren (für Zugriff aus nested function)
+    global TRAINING_STOP_REQUESTED;
+
     fprintf('=== BILSTM Netzwerk Training ===\n\n');
 
     %% 1. Konvertiere Y_train von Cell Array zu categorical Array
@@ -163,8 +166,7 @@ function [net, training_results] = train_bilstm_model(X_train, Y_train, training
         % GUI Events verarbeiten (ermöglicht Stop-Button Klicks)
         drawnow limitrate;
 
-        % Stop-Check: Prüfe globale Stop-Variable
-        global TRAINING_STOP_REQUESTED;
+        % Stop-Check: Prüfe globale Stop-Variable (deklariert auf äußerer Ebene)
         if ~isempty(TRAINING_STOP_REQUESTED) && TRAINING_STOP_REQUESTED
             stop = true;
             fprintf('\n*** Training durch Benutzer gestoppt ***\n');
