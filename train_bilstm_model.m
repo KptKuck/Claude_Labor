@@ -141,38 +141,59 @@ function [net, training_results] = train_bilstm_model(X_train, Y_train, training
     %% 4. Training starten
     fprintf('\n=== Starte Training ===\n\n');
 
+    % Variablen für Plot-Speicherung
+    training_fig_saved = false;
+    last_training_fig = [];
+
+    if ~isempty(save_folder)
+        % OutputFcn: Speichert Fenster-Handle bei jeder Iteration und am Ende
+        options.OutputFcn = @(info) captureAndSaveTrainingPlot(info, save_folder);
+    end
+
     tic;
     net = trainNetwork(X_tr, Y_tr, layers, options);
     training_time = toc;
 
-    % Trainingsfenster SOFORT speichern, bevor es geschlossen wird
-    if ~isempty(save_folder)
-        try
-            % Kleine Pause, damit das Fenster vollständig gerendert ist
-            pause(0.5);
-
-            % Finde das Training Progress Fenster
-            training_fig = findall(0, 'Type', 'Figure', 'Name', 'Training Progress');
-
-            if ~isempty(training_fig)
-                % Speichere als PNG (ohne Zeitstempel, da Session-Ordner bereits Zeitstempel hat)
-                plot_filename = fullfile(save_folder, 'training_plot.png');
-
-                % Speichere das Fenster als PNG mit höherer Auflösung
-                fig_handle = training_fig(1);
-                exportgraphics(fig_handle, plot_filename, 'Resolution', 300);
-                fprintf('Trainingsfenster gespeichert: %s\n', plot_filename);
-            else
-                fprintf('Warnung: Trainingsfenster nicht gefunden, konnte nicht gespeichert werden.\n');
-            end
-        catch ME
-            fprintf('Warnung: Fehler beim Speichern des Trainingsfensters: %s\n', ME.message);
-        end
-    end
-
     fprintf('\n=== Training abgeschlossen ===\n');
     fprintf('Trainingszeit: %.2f Sekunden (%.2f Minuten)\n', ...
             training_time, training_time/60);
+
+    % Nested function: Speichert das Fenster bei "done" oder "stop"
+    function stop = captureAndSaveTrainingPlot(info, folder)
+        stop = false;
+
+        % Bei jeder Iteration: Fenster-Handle aktualisieren
+        if info.State == "iteration"
+            fig = findall(0, 'Type', 'Figure', 'Name', 'Training Progress');
+            if ~isempty(fig)
+                last_training_fig = fig(1);
+            end
+        end
+
+        % Bei "done" oder wenn Training fertig ist: Speichern
+        if (info.State == "done" || info.State == "stop") && ~training_fig_saved
+            try
+                drawnow;  % Sicherstellen, dass alles gerendert ist
+
+                % Fenster finden
+                fig = findall(0, 'Type', 'Figure', 'Name', 'Training Progress');
+                if isempty(fig) && ~isempty(last_training_fig) && isvalid(last_training_fig)
+                    fig = last_training_fig;
+                end
+
+                if ~isempty(fig) && isvalid(fig(1))
+                    plot_filename = fullfile(folder, 'training_plot.png');
+                    exportgraphics(fig(1), plot_filename, 'Resolution', 300);
+                    fprintf('Trainingsfenster gespeichert: %s\n', plot_filename);
+                    training_fig_saved = true;
+                else
+                    fprintf('Warnung: Trainingsfenster nicht verfügbar.\n');
+                end
+            catch ME
+                fprintf('Warnung: Fehler beim Speichern: %s\n', ME.message);
+            end
+        end
+    end
 
     %% 5. Evaluierung
     fprintf('\nSchritt 4: Evaluiere Modell...\n');
