@@ -1031,8 +1031,9 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         log_callback(sprintf('Trades: %d (Gewinner: %d, Verlierer: %d)', ...
                     length(trades), sum([trades.pnl] > 0), sum([trades.pnl] <= 0)), 'info');
 
-        % Ergebnisse speichern
+        % Ergebnisse und Screenshots speichern
         saveResults();
+        saveScreenshots();
     end
 
     function saveResults()
@@ -1061,6 +1062,58 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
             log_callback(sprintf('Ergebnisse gespeichert: %s', filename), 'success');
         catch ME
             log_callback(sprintf('Fehler beim Speichern: %s', ME.message), 'error');
+        end
+    end
+
+    function saveScreenshots()
+        % SAVESCREENSHOTS Speichert GUI und Equity-Chart als PNG
+        try
+            timestamp = datestr(now, 'yyyy-mm-dd_HH-MM-SS');
+
+            % 1. Gesamtes GUI als Screenshot speichern
+            gui_filename = fullfile(results_folder, sprintf('backtest_gui_%s.png', timestamp));
+            exportgraphics(fig, gui_filename, 'Resolution', 150);
+            log_callback(sprintf('GUI Screenshot gespeichert: %s', gui_filename), 'success');
+
+            % 2. Equity-Chart separat als hochaufloesende PNG speichern
+            equity_filename = fullfile(results_folder, sprintf('backtest_equity_%s.png', timestamp));
+
+            % Temporaere Figure fuer Equity-Chart erstellen
+            temp_fig = figure('Visible', 'off', 'Position', [100, 100, 1200, 600], ...
+                              'Color', [0.15, 0.15, 0.15]);
+            temp_ax = axes(temp_fig, 'Color', [0.1, 0.1, 0.1], ...
+                           'XColor', 'white', 'YColor', 'white');
+            hold(temp_ax, 'on');
+            grid(temp_ax, 'on');
+            temp_ax.GridColor = [0.3, 0.3, 0.3];
+
+            % Equity-Kurve zeichnen
+            if length(equity_indices) > 1
+                valid_idx = equity_indices <= height(app_data);
+                plot(temp_ax, app_data.DateTime(equity_indices(valid_idx)), equity_curve(valid_idx), ...
+                     'Color', [0.3, 0.9, 0.3], 'LineWidth', 2);
+            end
+
+            % Startkapital-Linie
+            yline(temp_ax, initial_capital, '--', 'Color', [0.7, 0.7, 0.7], 'LineWidth', 1.5, ...
+                  'Label', sprintf('Start: $%.0f', initial_capital), 'LabelColor', [0.7, 0.7, 0.7]);
+
+            % Titel mit Statistiken
+            pnl_pct = ((current_equity - initial_capital) / initial_capital) * 100;
+            title(temp_ax, sprintf('Backtest Equity-Kurve | P/L: $%.2f (%.2f%%) | Trades: %d', ...
+                  total_pnl, pnl_pct, length(trades)), ...
+                  'Color', 'white', 'FontSize', 14, 'FontWeight', 'bold');
+            xlabel(temp_ax, 'Zeit', 'Color', 'white', 'FontSize', 12);
+            ylabel(temp_ax, 'Equity (USD)', 'Color', 'white', 'FontSize', 12);
+
+            % Speichern
+            exportgraphics(temp_fig, equity_filename, 'Resolution', 200);
+            close(temp_fig);
+
+            log_callback(sprintf('Equity Chart gespeichert: %s', equity_filename), 'success');
+
+        catch ME
+            log_callback(sprintf('Fehler beim Screenshot-Speichern: %s', ME.message), 'warning');
         end
     end
 
