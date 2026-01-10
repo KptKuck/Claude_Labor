@@ -591,9 +591,28 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
 
         % Vorhersage
         prediction = classify(trained_model, sequence_norm);
-        pred_value = double(prediction);
 
-        % Signal interpretieren (0=HOLD, 1=BUY, 2=SELL)
+        % Signal interpretieren anhand des String-Wertes der Kategorie
+        % WICHTIG: double(categorical) gibt den INDEX zurueck, nicht den Wert!
+        % Daher muessen wir den String-Wert auslesen: char(string(prediction))
+        pred_str = char(string(prediction));
+        switch pred_str
+            case '0'
+                pred_value = 0;  % HOLD
+            case '1'
+                pred_value = 1;  % BUY
+            case '2'
+                pred_value = 2;  % SELL
+            otherwise
+                % Fallback: Versuche numerische Konvertierung
+                pred_value = str2double(pred_str);
+                if isnan(pred_value)
+                    pred_value = 0;  % Default: HOLD
+                    log_callback(sprintf('Unbekannte Vorhersage: %s -> HOLD', pred_str), 'warning');
+                end
+        end
+
+        % Signal-Wert: 0=HOLD, 1=BUY, 2=SELL
         current_price = app_data.Close(current_index);
 
         % Signal speichern
