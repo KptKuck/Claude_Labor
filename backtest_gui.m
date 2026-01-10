@@ -431,10 +431,13 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         log_callback('Backtest gestartet', 'info');
 
         % Timer fuer automatischen Durchlauf
+        % Warnung unterdruecken (Timer akzeptiert nur Millisekunden-Praezision)
+        warning('off', 'MATLAB:timer:mililoopsaliasing');
         backtest_timer = timer('ExecutionMode', 'fixedRate', ...
                                'Period', 1/steps_per_second, ...
                                'TimerFcn', @(~,~) timerCallback(), ...
                                'ErrorFcn', @(~,evt) timerErrorHandler(evt));
+        warning('on', 'MATLAB:timer:mililoopsaliasing');
         start(backtest_timer);
     end
 
@@ -969,7 +972,10 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         % Timer neu starten falls aktiv
         if is_running && ~isempty(backtest_timer) && isvalid(backtest_timer)
             stop(backtest_timer);
+            % Warnung unterdruecken (Timer akzeptiert nur Millisekunden-Praezision)
+            warning('off', 'MATLAB:timer:mililoopsaliasing');
             backtest_timer.Period = 1/steps_per_second;
+            warning('on', 'MATLAB:timer:mililoopsaliasing');
             start(backtest_timer);
         end
     end
