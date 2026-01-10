@@ -468,6 +468,13 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         reset_btn.Enable = 'on';
 
         log_callback('Backtest gestoppt', 'warning');
+
+        % Charts aktualisieren und Ergebnisse speichern (auch bei manuellem Stop)
+        updateCharts();
+        updateUI();
+        drawnow;
+        saveResults();
+        saveScreenshots();
     end
 
     function resetBacktest()
