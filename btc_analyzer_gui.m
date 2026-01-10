@@ -627,6 +627,9 @@ function btc_analyzer_gui()
     logMessage(sprintf('Log-Datei: %s', log_filename), 'info');
     logMessage(sprintf('Results-Ordner: %s', results_folder), 'info');
 
+    % Parameter-Datei erstellen
+    saveParametersToFile();
+
     %% Datum anpassen Funktion
     function adjustDate(date_picker, amount, unit)
         current_date = date_picker.Value;
@@ -1360,5 +1363,76 @@ function btc_analyzer_gui()
 
         uialert(fig, sprintf('Modell gespeichert:\n%s', filepath), ...
                'Erfolgreich', 'Icon', 'success');
+    end
+
+    %% Hilfsfunktion: Parameter in Datei speichern
+    function saveParametersToFile()
+        % Erstelle strukturierte Parameter-Datei mit allen GUI-Einstellungen
+        params_filename = fullfile(results_folder, 'parameters.txt');
+
+        try
+            fid = fopen(params_filename, 'w', 'n', 'UTF-8');
+            if fid == -1
+                logMessage(sprintf('Fehler: Kann Parameter-Datei nicht schreiben: %s', params_filename), 'error');
+                return;
+            end
+
+            % Header
+            fprintf(fid, '=================================================================\n');
+            fprintf(fid, 'BTCUSD Analyzer - Session Parameter\n');
+            fprintf(fid, '=================================================================\n\n');
+
+            % Session Info
+            fprintf(fid, '--- SESSION INFORMATION ---\n');
+            fprintf(fid, 'Startzeit: %s\n', datestr(now, 'yyyy-mm-dd HH:MM:SS'));
+            fprintf(fid, 'Session-Ordner: %s\n', results_folder);
+            fprintf(fid, '\n');
+
+            % Datenlade-Parameter
+            fprintf(fid, '--- DATENLADE-PARAMETER ---\n');
+            fprintf(fid, 'Von-Datum: %s\n', datestr(from_date_picker.Value, 'yyyy-mm-dd'));
+            fprintf(fid, 'Bis-Datum: %s\n', datestr(to_date_picker.Value, 'yyyy-mm-dd'));
+            fprintf(fid, 'Intervall: %s\n', interval_dropdown.Value);
+            fprintf(fid, '\n');
+
+            % Training-Parameter
+            fprintf(fid, '--- TRAINING-PARAMETER (BILSTM) ---\n');
+            fprintf(fid, 'Epochen: %d\n', epochs_field.Value);
+            fprintf(fid, 'Batch-Size: %d\n', batch_field.Value);
+            fprintf(fid, 'Hidden Units: %d\n', hidden_field.Value);
+            fprintf(fid, 'Learning Rate: %.5f\n', lr_field.Value);
+            fprintf(fid, 'Execution Environment: %s\n', gpu_switch.Value);
+            fprintf(fid, '\n');
+
+            % Logger-Parameter
+            fprintf(fid, '--- LOGGER-PARAMETER ---\n');
+            fprintf(fid, 'Logger-Modus: %s\n', logger_mode_dropdown.Value);
+            fprintf(fid, 'Schriftgröße: %d pt\n', round(fontsize_slider.Value));
+            fprintf(fid, '\n');
+
+            % System-Info
+            fprintf(fid, '--- SYSTEM INFORMATION ---\n');
+            fprintf(fid, 'MATLAB-Version: %s\n', version);
+            fprintf(fid, 'Betriebssystem: %s\n', computer);
+
+            % GPU-Info wenn verfügbar
+            try
+                gpu_info = gpuDevice;
+                fprintf(fid, 'GPU verfügbar: %s\n', gpu_info.Name);
+                fprintf(fid, 'GPU Speicher: %.1f GB\n', gpu_info.AvailableMemory/1e9);
+            catch
+                fprintf(fid, 'GPU verfügbar: Nein\n');
+            end
+
+            fprintf(fid, '\n=================================================================\n');
+            fprintf(fid, 'Ende Parameter-Datei\n');
+            fprintf(fid, '=================================================================\n');
+
+            fclose(fid);
+            logMessage(sprintf('Parameter-Datei erstellt: %s', params_filename), 'success');
+
+        catch ME
+            logMessage(sprintf('Fehler beim Schreiben der Parameter-Datei: %s', ME.message), 'error');
+        end
     end
 end
