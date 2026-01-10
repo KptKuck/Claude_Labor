@@ -808,6 +808,26 @@ function train_gui(training_data, results_folder, log_callback)
             addStatus(sprintf('Modell gespeichert: %s', filename));
             log_callback(sprintf('Modell automatisch gespeichert: %s', filepath), 'success');
 
+            % Aktualisiere last_session.mat fuer "Letztes Modell laden" Button
+            try
+                last_session_file = fullfile(fileparts(mfilename('fullpath')), 'last_session.mat');
+                model_path = filepath;
+                if exist(last_session_file, 'file')
+                    existing = load(last_session_file);
+                    if isfield(existing, 'csv_path')
+                        csv_path = existing.csv_path;
+                        save(last_session_file, 'csv_path', 'model_path');
+                    else
+                        save(last_session_file, 'model_path');
+                    end
+                else
+                    save(last_session_file, 'model_path');
+                end
+                log_callback(sprintf('Letztes Modell aktualisiert: %s', filename), 'trace');
+            catch
+                % Ignorieren wenn es nicht klappt
+            end
+
         catch ME
             addStatus(sprintf('Fehler beim Speichern: %s', ME.message));
             log_callback(sprintf('Modell-Speichern fehlgeschlagen: %s', ME.message), 'error');
