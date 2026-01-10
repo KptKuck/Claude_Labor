@@ -1271,7 +1271,8 @@ function btc_analyzer_gui()
                                                 'num_hidden_units', hidden_val, ...
                                                 'learning_rate', lr_val, ...
                                                 'validation_split', 0.2, ...
-                                                'execution_env', execution_env);
+                                                'execution_env', execution_env, ...
+                                                'save_folder', results_folder);
 
             trained_model = net;
             model_info = training_data.info;
@@ -1496,8 +1497,8 @@ function btc_analyzer_gui()
 
     %% Callback: Parameter manuell speichern
     function saveParameters()
-        % Standard-Dateiname mit Zeitstempel
-        default_name = sprintf('params_%s.mat', datestr(now, 'yyyy-mm-dd_HH-MM-SS'));
+        % Standard-Dateiname (ohne Zeitstempel, da Session-Ordner bereits Zeitstempel hat)
+        default_name = 'parameters_saved.mat';
         default_path = fullfile(results_folder, default_name);
 
         logMessage('Öffne Speichern-Dialog für Parameter...', 'info');

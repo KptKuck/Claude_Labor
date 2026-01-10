@@ -11,6 +11,7 @@ function [net, training_results] = train_bilstm_model(X_train, Y_train, training
 %       training_info - Struct mit Informationen über Trainingsdaten
 %       varargin - Optional: 'epochs', wert (default: 50)
 %                           'validation_split', wert (default: 0.2)
+%                           'save_folder', pfad (optional, für Speichern des Trainingsplots)
 %
 %   Output:
 %       net - Trainiertes BILSTM Netzwerk
@@ -29,6 +30,7 @@ function [net, training_results] = train_bilstm_model(X_train, Y_train, training
     addParameter(p, 'execution_env', 'auto', @ischar);
     addParameter(p, 'num_hidden_units', 100, @isnumeric);
     addParameter(p, 'learning_rate', 0.001, @isnumeric);
+    addParameter(p, 'save_folder', '', @ischar);
     parse(p, varargin{:});
 
     max_epochs = p.Results.epochs;
@@ -37,6 +39,7 @@ function [net, training_results] = train_bilstm_model(X_train, Y_train, training
     execution_env = p.Results.execution_env;
     num_hidden_units = p.Results.num_hidden_units;
     learning_rate = p.Results.learning_rate;
+    save_folder = p.Results.save_folder;
 
     fprintf('=== BILSTM Netzwerk Training ===\n\n');
 
@@ -141,6 +144,31 @@ function [net, training_results] = train_bilstm_model(X_train, Y_train, training
     tic;
     net = trainNetwork(X_tr, Y_tr, layers, options);
     training_time = toc;
+
+    % Trainingsfenster SOFORT speichern, bevor es geschlossen wird
+    if ~isempty(save_folder)
+        try
+            % Kleine Pause, damit das Fenster vollständig gerendert ist
+            pause(0.5);
+
+            % Finde das Training Progress Fenster
+            training_fig = findall(0, 'Type', 'Figure', 'Name', 'Training Progress');
+
+            if ~isempty(training_fig)
+                % Speichere als PNG (ohne Zeitstempel, da Session-Ordner bereits Zeitstempel hat)
+                plot_filename = fullfile(save_folder, 'training_plot.png');
+
+                % Speichere das Fenster als PNG mit höherer Auflösung
+                fig_handle = training_fig(1);
+                exportgraphics(fig_handle, plot_filename, 'Resolution', 300);
+                fprintf('Trainingsfenster gespeichert: %s\n', plot_filename);
+            else
+                fprintf('Warnung: Trainingsfenster nicht gefunden, konnte nicht gespeichert werden.\n');
+            end
+        catch ME
+            fprintf('Warnung: Fehler beim Speichern des Trainingsfensters: %s\n', ME.message);
+        end
+    end
 
     fprintf('\n=== Training abgeschlossen ===\n');
     fprintf('Trainingszeit: %.2f Sekunden (%.2f Minuten)\n', ...
