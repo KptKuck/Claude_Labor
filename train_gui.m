@@ -667,7 +667,7 @@ function train_gui(training_data, results_folder, log_callback)
                 addStatus('Modell im Workspace gespeichert (trained_net, training_results)');
 
                 % Modell automatisch in Session-Ordner speichern
-                saveModelToSession(net, training_info, results, 'stopped');
+                saveModelToSession(net, training_data, results, 'stopped');
 
                 uialert(fig, sprintf('Training gestoppt.\n\nTrain Acc: %.2f%%\nVal Acc: %.2f%%\nZeit: %.1f Min', ...
                         results.train_accuracy, results.val_accuracy, results.training_time / 60), ...
@@ -691,7 +691,7 @@ function train_gui(training_data, results_folder, log_callback)
                 addStatus('Modell im Workspace gespeichert (trained_net, training_results)');
 
                 % Modell automatisch in Session-Ordner speichern
-                saveModelToSession(net, training_info, results, 'completed');
+                saveModelToSession(net, training_data, results, 'completed');
 
                 uialert(fig, sprintf('Training erfolgreich!\n\nTrain Acc: %.2f%%\nVal Acc: %.2f%%\nZeit: %.1f Min', ...
                         results.train_accuracy, results.val_accuracy, results.training_time / 60), ...
@@ -779,13 +779,13 @@ function train_gui(training_data, results_folder, log_callback)
         delete(fig);
     end
 
-    function saveModelToSession(net, training_info, training_results, status)
+    function saveModelToSession(net, train_data, training_results, status)
         % Speichert das trainierte Modell automatisch im Session-Ordner
         % Dateiname enthaelt Trainingsresultate fuer einfache Identifikation
         %
         % Input:
         %   net - Trainiertes Netzwerk
-        %   training_info - Informationen ueber Trainingsdaten
+        %   train_data - Trainingsdaten-Struktur (X, Y, info)
         %   training_results - Trainingsresultate (Accuracy, etc.)
         %   status - 'completed' oder 'stopped'
 
@@ -801,7 +801,8 @@ function train_gui(training_data, results_folder, log_callback)
 
             filepath = fullfile(results_folder, filename);
 
-            % Speichern
+            % Speichern (training_data.info fuer Metadaten)
+            training_info = train_data.info;
             save(filepath, 'net', 'training_info', 'training_results');
 
             addStatus(sprintf('Modell gespeichert: %s', filename));
