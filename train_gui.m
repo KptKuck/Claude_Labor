@@ -176,10 +176,10 @@ function train_gui(training_data, results_folder, log_callback)
     gpu_group.Layout.Row = 2;
 
     gpu_grid = uigridlayout(gpu_group, [4, 1]);
-    gpu_grid.RowHeight = {35, 25, 30, 30};
+    gpu_grid.RowHeight = {38, 30, 32, 32};
     gpu_grid.ColumnWidth = {'1x'};
     gpu_grid.Padding = [10 8 10 8];
-    gpu_grid.RowSpacing = 5;
+    gpu_grid.RowSpacing = 6;
 
     % GPU Switch
     gpu_switch_container = uigridlayout(gpu_grid, [1, 5]);
@@ -187,15 +187,15 @@ function train_gui(training_data, results_folder, log_callback)
     gpu_switch_container.Padding = [0 0 0 0];
     gpu_switch_container.ColumnSpacing = 8;
 
-    uilabel(gpu_switch_container, 'Text', 'CPU', 'FontSize', 10, 'FontWeight', 'bold');
+    uilabel(gpu_switch_container, 'Text', 'CPU', 'FontSize', 11, 'FontWeight', 'bold');
     gpu_switch = uiswitch(gpu_switch_container, 'slider', ...
                           'Items', {'CPU', 'GPU'}, ...
                           'Value', 'CPU', ...
                           'ValueChangedFcn', @(sw,event) updateGPUStatus());
-    uilabel(gpu_switch_container, 'Text', 'GPU', 'FontSize', 10, 'FontWeight', 'bold');
+    uilabel(gpu_switch_container, 'Text', 'GPU', 'FontSize', 11, 'FontWeight', 'bold');
     uilabel(gpu_switch_container, 'Text', ''); % Spacer
     gpu_name_label = uilabel(gpu_switch_container, 'Text', '', ...
-                             'FontSize', 10, 'HorizontalAlignment', 'left');
+                             'FontSize', 11, 'HorizontalAlignment', 'left');
 
     % GPU Speicher Bar
     mem_bar_container = uigridlayout(gpu_grid, [1, 2]);
@@ -203,7 +203,7 @@ function train_gui(training_data, results_folder, log_callback)
     mem_bar_container.Padding = [0 0 0 0];
     mem_bar_container.ColumnSpacing = 10;
 
-    uilabel(mem_bar_container, 'Text', 'GPU Speicher:', 'FontSize', 10, 'FontWeight', 'bold');
+    uilabel(mem_bar_container, 'Text', 'GPU Speicher:', 'FontSize', 11, 'FontWeight', 'bold');
     gpu_mem_bar = uigauge(mem_bar_container, 'linear', ...
                           'Limits', [0 100], 'Value', 0, ...
                           'ScaleColors', {[0.2 0.7 0.2], [0.9 0.7 0.1], [0.8 0.2 0.2]}, ...
@@ -215,10 +215,10 @@ function train_gui(training_data, results_folder, log_callback)
     gpu_mem_detail.Padding = [0 0 0 0];
     gpu_mem_detail.ColumnSpacing = 10;
 
-    uilabel(gpu_mem_detail, 'Text', 'Belegt:', 'FontSize', 9);
-    gpu_used_label = uilabel(gpu_mem_detail, 'Text', '-- GB', 'FontSize', 9);
-    uilabel(gpu_mem_detail, 'Text', 'Frei:', 'FontSize', 9);
-    gpu_free_label = uilabel(gpu_mem_detail, 'Text', '-- GB', 'FontSize', 9, ...
+    uilabel(gpu_mem_detail, 'Text', 'Belegt:', 'FontSize', 10);
+    gpu_used_label = uilabel(gpu_mem_detail, 'Text', '-- GB', 'FontSize', 10);
+    uilabel(gpu_mem_detail, 'Text', 'Frei:', 'FontSize', 10);
+    gpu_free_label = uilabel(gpu_mem_detail, 'Text', '-- GB', 'FontSize', 10, ...
                              'FontColor', [0.3, 0.8, 0.3]);
 
     % Geschätzter Speicherbedarf
@@ -227,11 +227,11 @@ function train_gui(training_data, results_folder, log_callback)
     est_mem_container.Padding = [0 0 0 0];
     est_mem_container.ColumnSpacing = 10;
 
-    uilabel(est_mem_container, 'Text', 'Geschätzt:', 'FontSize', 9, 'FontWeight', 'bold');
-    est_mem_label = uilabel(est_mem_container, 'Text', '-- GB', 'FontSize', 9, ...
+    uilabel(est_mem_container, 'Text', 'Geschätzt:', 'FontSize', 10, 'FontWeight', 'bold');
+    est_mem_label = uilabel(est_mem_container, 'Text', '-- GB', 'FontSize', 10, ...
                             'FontColor', [0.9, 0.7, 0.2]);
-    uilabel(est_mem_container, 'Text', 'Status:', 'FontSize', 9, 'FontWeight', 'bold');
-    mem_status_label = uilabel(est_mem_container, 'Text', '--', 'FontSize', 9);
+    uilabel(est_mem_container, 'Text', 'Status:', 'FontSize', 10, 'FontWeight', 'bold');
+    mem_status_label = uilabel(est_mem_container, 'Text', '--', 'FontSize', 10);
 
     % ============================================================
     % GRUPPE 3: Netzwerk-Architektur
