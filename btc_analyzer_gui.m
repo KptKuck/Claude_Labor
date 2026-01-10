@@ -30,7 +30,7 @@ function btc_analyzer_gui()
     leftScrollPanel.Layout.Column = 1;
 
     leftPanel = uigridlayout(leftScrollPanel, [7, 1]);
-    leftPanel.RowHeight = {40, 185, 130, 190, 130, 85, 10};  % Feste Höhen für konsistentes Layout
+    leftPanel.RowHeight = {40, 'fit', 'fit', 'fit', 'fit', 'fit', 10};  % 'fit' für automatische Skalierung
     leftPanel.ColumnWidth = {'1x'};
     leftPanel.RowSpacing = 8;
     leftPanel.Padding = [5 5 5 5];
@@ -402,14 +402,14 @@ function btc_analyzer_gui()
     load_training_btn.Layout.Column = 1;
 
     % ============================================================
-    % GRUPPE 3: BILSTM Training
+    % GRUPPE 3: BILSTM Training (nur Button - Parameter in separater GUI)
     % ============================================================
     train_group = uipanel(leftPanel, 'Title', '');
     train_group.Layout.Row = 4;
     train_group.Layout.Column = 1;
 
-    train_grid = uigridlayout(train_group, [5, 1]);
-    train_grid.RowHeight = {25, 30, 30, 30, 35};
+    train_grid = uigridlayout(train_group, [2, 1]);
+    train_grid.RowHeight = {25, 40};
     train_grid.ColumnWidth = {'1x'};
     train_grid.RowSpacing = 5;
     train_grid.Padding = [10 10 10 10];
@@ -422,66 +422,13 @@ function btc_analyzer_gui()
     train_title.Layout.Row = 1;
     train_title.Layout.Column = 1;
 
-    % Parameter Grid 1: Epochen & Batch
-    param_grid1 = uigridlayout(train_grid, [1, 4]);
-    param_grid1.Layout.Row = 2;
-    param_grid1.Layout.Column = 1;
-    param_grid1.ColumnWidth = {'fit', '1x', 'fit', '1x'};
-    param_grid1.Padding = [0 0 0 0];
-    param_grid1.ColumnSpacing = 5;
-
-    uilabel(param_grid1, 'Text', 'Epochen:', 'FontSize', 10);
-    epochs_field = uieditfield(param_grid1, 'numeric', 'Value', 50, ...
-                               'Limits', [1, 1000], 'RoundFractionalValues', 'on');
-
-    uilabel(param_grid1, 'Text', 'Batch:', 'FontSize', 10);
-    batch_field = uieditfield(param_grid1, 'numeric', 'Value', 32, ...
-                              'Limits', [1, 1024], 'RoundFractionalValues', 'on');
-
-    % Parameter Grid 2: Hidden & LR
-    param_grid2 = uigridlayout(train_grid, [1, 4]);
-    param_grid2.Layout.Row = 3;
-    param_grid2.Layout.Column = 1;
-    param_grid2.ColumnWidth = {'fit', '1x', 'fit', '1x'};
-    param_grid2.Padding = [0 0 0 0];
-    param_grid2.ColumnSpacing = 5;
-
-    uilabel(param_grid2, 'Text', 'Hidden:', 'FontSize', 10);
-    hidden_field = uieditfield(param_grid2, 'numeric', 'Value', 100, ...
-                               'Limits', [10, 1000], 'RoundFractionalValues', 'on');
-
-    uilabel(param_grid2, 'Text', 'L.Rate:', 'FontSize', 10);
-    lr_field = uieditfield(param_grid2, 'numeric', 'Value', 0.001, ...
-                           'Limits', [0.00001, 0.1], 'ValueDisplayFormat', '%.5f');
-
-    % GPU Switch
-    gpu_grid = uigridlayout(train_grid, [1, 3]);
-    gpu_grid.Layout.Row = 4;
-    gpu_grid.Layout.Column = 1;
-    gpu_grid.ColumnWidth = {'1x', 'fit', '1x'};
-    gpu_grid.Padding = [0 0 0 0];
-
-    % Spacer links
-    uilabel(gpu_grid, 'Text', '');
-
-    gpu_switch = uiswitch(gpu_grid, 'slider', ...
-                          'Items', {'CPU', 'GPU'}, ...
-                          'Value', 'CPU', ...
-                          'ValueChangedFcn', @(sw,event) updateGPUStatus(sw));
-    gpu_switch.Layout.Column = 2;
-
-    % Status-Anzeige rechts
-    gpu_status_label = uilabel(gpu_grid, 'Text', '', ...
-                               'FontSize', 10, 'HorizontalAlignment', 'left');
-    gpu_status_label.Layout.Column = 3;
-
-    train_bilstm_btn = uibutton(train_grid, 'Text', 'Training starten', ...
-                                'ButtonPushedFcn', @(btn,event) trainBILSTM(), ...
+    train_bilstm_btn = uibutton(train_grid, 'Text', 'Training GUI öffnen...', ...
+                                'ButtonPushedFcn', @(btn,event) openTrainGUI(), ...
                                 'BackgroundColor', [0.6, 0.2, 0.8], ...
                                 'FontColor', 'white', ...
                                 'FontSize', 11, 'FontWeight', 'bold', ...
                                 'Enable', 'off');
-    train_bilstm_btn.Layout.Row = 5;
+    train_bilstm_btn.Layout.Row = 2;
     train_bilstm_btn.Layout.Column = 1;
 
     % ============================================================
@@ -636,7 +583,6 @@ function btc_analyzer_gui()
     training_data = [];
     trained_model = [];
     model_info = [];
-    use_gpu = false;  % GPU/CPU Flag
     last_csv_path = '';  % Pfad zur zuletzt geladenen CSV-Datei
 
     % Logger-Variablen (Default: Fenster+Datei)
@@ -828,44 +774,6 @@ function btc_analyzer_gui()
         log_entries = {};
         updateLoggerHTML();
         logMessage('Logger bereinigt', 'info');
-    end
-
-    %% Callback: GPU/CPU Status Update
-    function updateGPUStatus(sw)
-        if strcmp(sw.Value, 'GPU')
-            use_gpu = true;
-            logMessage('GPU-Modus aktiviert, prüfe Verfügbarkeit...', 'info');
-
-            % Prüfe GPU-Verfügbarkeit
-            try
-                % Versuche Forward Compatibility zu aktivieren (für neuere GPUs)
-                try
-                    parallel.gpu.enableCUDAForwardCompatibility(true);
-                    logMessage('CUDA Forward Compatibility aktiviert', 'info');
-                catch
-                    % Forward Compatibility nicht verfügbar, fahre trotzdem fort
-                end
-
-                gpu_info = gpuDevice;
-                gpu_status_label.Text = 'GPU ✓';
-                gpu_status_label.FontColor = [0, 0.6, 0];
-                logMessage(sprintf('GPU erkannt: %s (%.1f GB, CC %.1f)', ...
-                           gpu_info.Name, gpu_info.AvailableMemory/1e9, gpu_info.ComputeCapability), 'success');
-            catch ME
-                gpu_status_label.Text = 'GPU ✗';
-                gpu_status_label.FontColor = [0.8, 0, 0];
-                logMessage(sprintf('GPU nicht verfügbar: %s', ME.message), 'warning');
-                uialert(fig, sprintf('GPU-Fehler:\n%s\n\nTraining wird auf CPU durchgeführt.', ME.message), ...
-                       'GPU Warnung', 'Icon', 'warning');
-                sw.Value = 'CPU';
-                use_gpu = false;
-            end
-        else
-            use_gpu = false;
-            gpu_status_label.FontColor = [0.3, 0.3, 0.3];
-            gpu_status_label.Text = '';
-            logMessage('CPU-Modus aktiviert', 'info');
-        end
     end
 
     %% Callback: Lokale Datei laden
@@ -1245,83 +1153,21 @@ function btc_analyzer_gui()
         end
     end
 
-    %% Callback: BILSTM trainieren
-    function trainBILSTM()
+    %% Callback: Training GUI öffnen
+    function openTrainGUI()
         if isempty(training_data)
             logMessage('Fehler: Keine Trainingsdaten vorhanden', 'error');
             uialert(fig, 'Keine Trainingsdaten vorbereitet!', 'Fehler', 'Icon', 'error');
             return;
         end
 
-        % Parameter aus GUI lesen
-        epochs_val = epochs_field.Value;
-        batch_val = batch_field.Value;
-        hidden_val = hidden_field.Value;
-        lr_val = lr_field.Value;
-
         try
-            % Training starten mit GPU/CPU Einstellung
-            execution_env = 'cpu';
-            if use_gpu
-                try
-                    % Aktiviere Forward Compatibility für neuere GPUs
-                    try
-                        parallel.gpu.enableCUDAForwardCompatibility(true);
-                    catch
-                        % Ignoriere falls nicht verfügbar
-                    end
-
-                    gpuDevice;
-                    execution_env = 'gpu';
-                    logMessage(sprintf('Starte BILSTM Training auf GPU (%d Epochen)...', epochs_val), 'info');
-                catch ME
-                    uialert(fig, sprintf('GPU nicht verfügbar: %s\nVerwende CPU', ME.message), 'Info', 'Icon', 'info');
-                    execution_env = 'cpu';
-                    logMessage(sprintf('GPU nicht verfügbar (%s), trainiere auf CPU...', ME.message), 'warning');
-                end
-            else
-                logMessage(sprintf('Starte BILSTM Training auf CPU (%d Epochen)...', epochs_val), 'info');
-            end
-
-            [net, results] = train_bilstm_model(training_data.X, training_data.Y, ...
-                                                training_data.info, ...
-                                                'epochs', epochs_val, ...
-                                                'batch_size', batch_val, ...
-                                                'num_hidden_units', hidden_val, ...
-                                                'learning_rate', lr_val, ...
-                                                'validation_split', 0.2, ...
-                                                'execution_env', execution_env, ...
-                                                'save_folder', results_folder);
-
-            trained_model = net;
-            model_info = training_data.info;
-
-            logMessage(sprintf('Training abgeschlossen: Train Acc=%.2f%%, Val Acc=%.2f%%, Zeit=%.1fmin', ...
-                       results.train_accuracy, results.val_accuracy, results.training_time/60), 'success');
-
-            % Erfolgsmeldung
-            msg = sprintf('Training abgeschlossen!\n\nTraining Acc: %.2f%%\nValidation Acc: %.2f%%\nZeit: %.1f Min', ...
-                         results.train_accuracy, results.val_accuracy, results.training_time/60);
-            uialert(fig, msg, 'Erfolgreich', 'Icon', 'success');
-
-            % Predict Button aktivieren
-            predict_btn.Enable = 'on';
-
-            % Frage ob Modell speichern
-            save_choice = uiconfirm(fig, ...
-                'Möchten Sie das trainierte Modell speichern?', ...
-                'Modell speichern', ...
-                'Options', {'Ja', 'Nein'}, ...
-                'DefaultOption', 1);
-
-            if strcmp(save_choice, 'Ja')
-                saveModel(net, training_data.info, results);
-            end
-
+            logMessage('Öffne Training GUI...', 'info');
+            train_gui(training_data, results_folder, @logMessage);
+            logMessage('Training GUI geöffnet', 'success');
         catch ME
-            logMessage(sprintf('Training fehlgeschlagen: %s', ME.message), 'error');
-            uialert(fig, sprintf('Training fehlgeschlagen:\n%s', ME.message), ...
-                   'Fehler', 'Icon', 'error');
+            logMessage(sprintf('Fehler beim Öffnen der Training GUI: %s', ME.message), 'error');
+            uialert(fig, sprintf('Fehler:\n%s', ME.message), 'Fehler', 'Icon', 'error');
         end
     end
 
@@ -1457,13 +1303,7 @@ function btc_analyzer_gui()
             fprintf(fid, 'Intervall: %s\n', interval_dropdown.Value);
             fprintf(fid, '\n');
 
-            % Training-Parameter
-            fprintf(fid, '--- TRAINING-PARAMETER (BILSTM) ---\n');
-            fprintf(fid, 'Epochen: %d\n', epochs_field.Value);
-            fprintf(fid, 'Batch-Size: %d\n', batch_field.Value);
-            fprintf(fid, 'Hidden Units: %d\n', hidden_field.Value);
-            fprintf(fid, 'Learning Rate: %.5f\n', lr_field.Value);
-            fprintf(fid, 'Execution Environment: %s\n', gpu_switch.Value);
+            fprintf(fid, '(Training-Parameter werden in der Training GUI eingestellt)\n');
             fprintf(fid, '\n');
 
             % System-Info
@@ -1500,13 +1340,6 @@ function btc_analyzer_gui()
             params.data_loading.to_date = to_date_picker.Value;
             params.data_loading.interval = interval_dropdown.Value;
 
-            % Training-Parameter
-            params.training.epochs = epochs_field.Value;
-            params.training.batch_size = batch_field.Value;
-            params.training.hidden_units = hidden_field.Value;
-            params.training.learning_rate = lr_field.Value;
-            params.training.execution_env = gpu_switch.Value;
-
             save(params_mat_filename, 'params');
 
         catch ME
@@ -1540,16 +1373,9 @@ function btc_analyzer_gui()
             params.data_loading.to_date = to_date_picker.Value;
             params.data_loading.interval = interval_dropdown.Value;
 
-            % Training-Parameter
-            params.training.epochs = epochs_field.Value;
-            params.training.batch_size = batch_field.Value;
-            params.training.hidden_units = hidden_field.Value;
-            params.training.learning_rate = lr_field.Value;
-            params.training.execution_env = gpu_switch.Value;
-
             save(filepath, 'params');
             logMessage(sprintf('Parameter gespeichert: %s', filepath), 'success');
-            uialert(fig, sprintf('Parameter gespeichert:\n%s', filepath), ...
+            uialert(fig, sprintf('Parameter gespeichert:\n%s\n\n(Training-Parameter werden in der Training GUI eingestellt)', filepath), ...
                    'Erfolgreich', 'Icon', 'success');
         catch ME
             logMessage(sprintf('Fehler beim Speichern: %s', ME.message), 'error');
@@ -1583,18 +1409,8 @@ function btc_analyzer_gui()
             to_date_picker.Value = params.data_loading.to_date;
             interval_dropdown.Value = params.data_loading.interval;
 
-            % Training-Parameter
-            epochs_field.Value = params.training.epochs;
-            batch_field.Value = params.training.batch_size;
-            hidden_field.Value = params.training.hidden_units;
-            lr_field.Value = params.training.learning_rate;
-            gpu_switch.Value = params.training.execution_env;
-
-            % Update GPU Status
-            updateGPUStatus(gpu_switch);
-
             logMessage(sprintf('Parameter geladen: %s', filepath), 'success');
-            uialert(fig, sprintf('Parameter erfolgreich geladen:\n%s\n\nTechnische Parameter wiederhergestellt:\n- Datenlade-Parameter\n- Training-Parameter', filepath), ...
+            uialert(fig, sprintf('Parameter erfolgreich geladen:\n%s\n\nDatenlade-Parameter wiederhergestellt.\n(Training-Parameter werden in der Training GUI eingestellt)', filepath), ...
                    'Erfolgreich', 'Icon', 'success');
 
         catch ME
