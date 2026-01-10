@@ -185,15 +185,26 @@ function [net, training_results] = train_bilstm_model(X_train, Y_train, training
             try
                 drawnow;  % Sicherstellen, dass alles gerendert ist
 
-                % Fenster finden
-                fig = findall(0, 'Type', 'Figure', 'Name', 'Training Progress');
-                if isempty(fig) && ~isempty(last_training_fig) && isvalid(last_training_fig)
-                    fig = last_training_fig;
+                % Fenster finden - iteriere durch alle Figures (wie in Trainer.m)
+                currentfig = findall(groot, 'Type', 'Figure');
+                hTrainWin = [];
+
+                for idx = 1:length(currentfig)
+                    if contains(currentfig(idx).Name, 'Training Progress')
+                        hTrainWin = currentfig(idx);
+                        break;
+                    end
                 end
 
-                if ~isempty(fig) && isvalid(fig(1))
+                % Fallback auf gecachtes Handle
+                if isempty(hTrainWin) && ~isempty(last_training_fig) && isvalid(last_training_fig)
+                    hTrainWin = last_training_fig;
+                end
+
+                if ~isempty(hTrainWin) && isvalid(hTrainWin)
                     plot_filename = fullfile(folder, 'training_plot.png');
-                    exportgraphics(fig(1), plot_filename, 'Resolution', 300);
+                    % WICHTIG: exportapp() für uifigure (saveas funktioniert nicht)
+                    exportapp(hTrainWin, plot_filename);
                     fprintf('Trainingsfenster gespeichert: %s\n', plot_filename);
                     training_fig_saved = true;
                 else
