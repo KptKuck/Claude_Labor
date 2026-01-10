@@ -661,10 +661,13 @@ function train_gui(training_data, results_folder, log_callback)
                 progress_label.Text = 'Gestoppt';
                 log_callback('Training manuell gestoppt', 'warning');
 
-                % Modell trotzdem speichern
+                % Modell im Workspace speichern
                 assignin('base', 'trained_net', net);
                 assignin('base', 'training_results', results);
                 addStatus('Modell im Workspace gespeichert (trained_net, training_results)');
+
+                % Modell automatisch in Session-Ordner speichern
+                saveModelToSession(net, training_info, results, 'stopped');
 
                 uialert(fig, sprintf('Training gestoppt.\n\nTrain Acc: %.2f%%\nVal Acc: %.2f%%\nZeit: %.1f Min', ...
                         results.train_accuracy, results.val_accuracy, results.training_time / 60), ...
@@ -686,6 +689,9 @@ function train_gui(training_data, results_folder, log_callback)
                 assignin('base', 'trained_net', net);
                 assignin('base', 'training_results', results);
                 addStatus('Modell im Workspace gespeichert (trained_net, training_results)');
+
+                % Modell automatisch in Session-Ordner speichern
+                saveModelToSession(net, training_info, results, 'completed');
 
                 uialert(fig, sprintf('Training erfolgreich!\n\nTrain Acc: %.2f%%\nVal Acc: %.2f%%\nZeit: %.1f Min', ...
                         results.train_accuracy, results.val_accuracy, results.training_time / 60), ...
@@ -771,6 +777,40 @@ function train_gui(training_data, results_folder, log_callback)
         stopGPUMonitor();
 
         delete(fig);
+    end
+
+    function saveModelToSession(net, training_info, training_results, status)
+        % Speichert das trainierte Modell automatisch im Session-Ordner
+        % Dateiname enthaelt Trainingsresultate fuer einfache Identifikation
+        %
+        % Input:
+        %   net - Trainiertes Netzwerk
+        %   training_info - Informationen ueber Trainingsdaten
+        %   training_results - Trainingsresultate (Accuracy, etc.)
+        %   status - 'completed' oder 'stopped'
+
+        try
+            % Dateiname mit Resultaten erstellen
+            % Format: BILSTM_ValAcc-XX.X_TrAcc-XX.X_EpXX_status.mat
+            val_acc = training_results.val_accuracy;
+            train_acc = training_results.train_accuracy;
+            epochs = training_results.max_epochs;
+
+            filename = sprintf('BILSTM_ValAcc-%.1f_TrAcc-%.1f_Ep%d_%s.mat', ...
+                              val_acc, train_acc, epochs, status);
+
+            filepath = fullfile(results_folder, filename);
+
+            % Speichern
+            save(filepath, 'net', 'training_info', 'training_results');
+
+            addStatus(sprintf('Modell gespeichert: %s', filename));
+            log_callback(sprintf('Modell automatisch gespeichert: %s', filepath), 'success');
+
+        catch ME
+            addStatus(sprintf('Fehler beim Speichern: %s', ME.message));
+            log_callback(sprintf('Modell-Speichern fehlgeschlagen: %s', ME.message), 'error');
+        end
     end
 
 end

@@ -438,8 +438,8 @@ function btc_analyzer_gui()
     model_group.Layout.Row = 5;
     model_group.Layout.Column = 1;
 
-    model_grid = uigridlayout(model_group, [2, 1]);
-    model_grid.RowHeight = {25, 35};
+    model_grid = uigridlayout(model_group, [3, 1]);
+    model_grid.RowHeight = {25, 35, 35};
     model_grid.ColumnWidth = {'1x'};
     model_grid.RowSpacing = 5;
     model_grid.Padding = [10 10 10 10];
@@ -473,6 +473,16 @@ function btc_analyzer_gui()
                            'FontSize', 11, 'FontWeight', 'bold', ...
                            'Enable', 'off');
     predict_btn.Layout.Column = 2;
+
+    % Backtester Button
+    backtest_btn = uibutton(model_grid, 'Text', 'Backtester starten', ...
+                            'ButtonPushedFcn', @(btn,event) openBacktester(), ...
+                            'BackgroundColor', [0.7, 0.4, 0.8], ...
+                            'FontColor', 'white', ...
+                            'FontSize', 11, 'FontWeight', 'bold', ...
+                            'Enable', 'off');
+    backtest_btn.Layout.Row = 3;
+    backtest_btn.Layout.Column = 1;
 
     % ============================================================
     % GRUPPE 5: Parameter Management
@@ -1322,6 +1332,7 @@ function btc_analyzer_gui()
                    'Erfolgreich', 'Icon', 'success');
 
             predict_btn.Enable = 'on';
+            backtest_btn.Enable = 'on';
 
         catch ME
             logMessage(sprintf('Fehler beim Modell-Laden: %s', ME.message), 'error');
@@ -1375,6 +1386,26 @@ function btc_analyzer_gui()
                    'Fehler', 'Icon', 'error');
         end
         toc_log(t_func, 'makePrediction');
+    end
+
+    %% Callback: Backtester oeffnen
+    function openBacktester()
+        t_func = tic_if_enabled();
+        if isempty(trained_model) || isempty(app_data)
+            logMessage('Fehler: Modell oder Daten fehlen fuer Backtester', 'error');
+            uialert(fig, 'Modell oder Daten fehlen!', 'Fehler', 'Icon', 'error');
+            return;
+        end
+
+        try
+            logMessage('Oeffne Backtester GUI...', 'info');
+            backtest_gui(app_data, trained_model, model_info, results_folder, @logMessage);
+            logMessage('Backtester GUI geoeffnet', 'success');
+        catch ME
+            logMessage(sprintf('Fehler beim Oeffnen des Backtesters: %s', ME.message), 'error');
+            uialert(fig, sprintf('Fehler:\n%s', ME.message), 'Fehler', 'Icon', 'error');
+        end
+        toc_log(t_func, 'openBacktester');
     end
 
     %% Hilfsfunktion: Modell speichern
