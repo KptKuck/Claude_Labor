@@ -147,8 +147,8 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
                           'BackgroundColor', [0.2, 0.2, 0.2]);
     speed_group.Layout.Row = 3;
 
-    speed_grid = uigridlayout(speed_group, [2, 3]);
-    speed_grid.RowHeight = {35, 30};
+    speed_grid = uigridlayout(speed_group, [3, 3]);
+    speed_grid.RowHeight = {35, 30, 26};
     speed_grid.ColumnWidth = {80, '1x', 50};
     speed_grid.Padding = [10 10 10 10];
     speed_grid.RowSpacing = 5;
@@ -175,6 +175,22 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
                           'ValueChangedFcn', @(cb,e) setTurboMode(cb.Value));
     cb_turbo.Layout.Row = 2;
     cb_turbo.Layout.Column = [1, 3];
+
+    % Speedmesser (tatsaechliche Schritte/Sek)
+    speed_measure_lbl = uilabel(speed_grid, 'Text', 'Aktuell:', 'FontSize', 11, ...
+                                'FontColor', [0.6, 0.6, 0.6]);
+    speed_measure_lbl.Layout.Row = 3;
+    speed_measure_lbl.Layout.Column = 1;
+
+    speed_measure_value = uilabel(speed_grid, 'Text', '- Schritte/Sek', 'FontSize', 11, ...
+                                  'FontColor', [0.3, 0.9, 1], 'FontWeight', 'bold');
+    speed_measure_value.Layout.Row = 3;
+    speed_measure_value.Layout.Column = [2, 3];
+
+    % Variablen fuer Speedmessung
+    speed_measure_last_time = tic;
+    speed_measure_last_index = 0;
+    speed_measure_update_interval = 0.5;  % Aktualisierung alle 0.5 Sekunden
 
     % --------------------------------------------------------
     % Positions-Info
@@ -439,6 +455,11 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         step_btn.Enable = 'off';
         reset_btn.Enable = 'off';
 
+        % Speedmessung initialisieren
+        speed_measure_last_time = tic;
+        speed_measure_last_index = current_index;
+        speed_measure_value.Text = '- Schritte/Sek';
+
         log_callback('Backtest gestartet', 'info');
 
         % Timer fuer automatischen Durchlauf
@@ -469,12 +490,19 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
 
         log_callback('Backtest gestoppt', 'warning');
 
+        % Finale Geschwindigkeit anzeigen
+        speed_measure_value.Text = 'Gestoppt';
+
         % Charts aktualisieren und Ergebnisse speichern (auch bei manuellem Stop)
         updateCharts();
         updateUI();
         drawnow;
         saveResults();
+        saveTradesTable();
         saveScreenshots();
+
+        % Session-Ordner im Explorer oeffnen
+        openResultsFolder();
     end
 
     function resetBacktest()
@@ -706,7 +734,9 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         entry_price = price;
         entry_index = idx;
 
-        log_callback(sprintf('%s Position geoeffnet @ $%.2f', new_position, price), 'info');
+        if ~turbo_mode
+            log_callback(sprintf('%s Position geoeffnet @ $%.2f', new_position, price), 'info');
+        end
     end
 
     function closeTrade(price, idx, reason)
@@ -738,10 +768,12 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         % Trade-Log aktualisieren
         updateTradeLog(trade);
 
-        if pnl >= 0
-            log_callback(sprintf('%s Position geschlossen @ $%.2f | P/L: +$%.2f', position, price, pnl), 'success');
-        else
-            log_callback(sprintf('%s Position geschlossen @ $%.2f | P/L: -$%.2f', position, price, abs(pnl)), 'warning');
+        if ~turbo_mode
+            if pnl >= 0
+                log_callback(sprintf('%s Position geschlossen @ $%.2f | P/L: +$%.2f', position, price, pnl), 'success');
+            else
+                log_callback(sprintf('%s Position geschlossen @ $%.2f | P/L: -$%.2f', position, price, abs(pnl)), 'warning');
+            end
         end
 
         position = 'NONE';
@@ -764,6 +796,18 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
     end
 
     function updateUI()
+        % Speedmessung aktualisieren
+        elapsed = toc(speed_measure_last_time);
+        if elapsed >= speed_measure_update_interval && is_running
+            steps_done = current_index - speed_measure_last_index;
+            if steps_done > 0
+                actual_speed = steps_done / elapsed;
+                speed_measure_value.Text = sprintf('%.0f Schritte/Sek', actual_speed);
+            end
+            speed_measure_last_time = tic;
+            speed_measure_last_index = current_index;
+        end
+
         % Fortschritt
         datapoint_label.Text = sprintf('%d / %d', current_index, height(app_data));
         if current_index <= height(app_data)
@@ -1040,7 +1084,11 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
 
         % Ergebnisse und Screenshots speichern
         saveResults();
+        saveTradesTable();
         saveScreenshots();
+
+        % Session-Ordner im Explorer oeffnen
+        openResultsFolder();
     end
 
     function saveResults()
@@ -1069,6 +1117,142 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
             log_callback(sprintf('Ergebnisse gespeichert: %s', filename), 'success');
         catch ME
             log_callback(sprintf('Fehler beim Speichern: %s', ME.message), 'error');
+        end
+    end
+
+    function saveTradesTable()
+        % SAVETRADESTABLE Speichert Trades als Excel und CSV
+        if isempty(trades)
+            log_callback('Keine Trades zum Speichern vorhanden', 'warning');
+            return;
+        end
+
+        try
+            timestamp = datestr(now, 'yyyy-mm-dd_HH-MM-SS');
+
+            % Trade-Daten in Tabelle konvertieren
+            num_trades = length(trades);
+
+            % Arrays fuer Tabellenspalten vorbereiten
+            trade_nr = (1:num_trades)';
+            entry_datetime = cell(num_trades, 1);
+            exit_datetime = cell(num_trades, 1);
+            position_type = cell(num_trades, 1);
+            entry_prices = zeros(num_trades, 1);
+            exit_prices = zeros(num_trades, 1);
+            pnl_values = zeros(num_trades, 1);
+            pnl_percent = zeros(num_trades, 1);
+            duration_hours = zeros(num_trades, 1);
+            exit_reason = cell(num_trades, 1);
+            result_type = cell(num_trades, 1);
+
+            cumulative_pnl = zeros(num_trades, 1);
+            running_pnl = 0;
+
+            for i = 1:num_trades
+                t = trades(i);
+
+                % Datum/Zeit aus Indizes
+                if t.entry_index <= height(app_data)
+                    entry_datetime{i} = datestr(app_data.DateTime(t.entry_index), 'dd.mm.yyyy HH:MM');
+                else
+                    entry_datetime{i} = '-';
+                end
+
+                if t.exit_index <= height(app_data)
+                    exit_datetime{i} = datestr(app_data.DateTime(t.exit_index), 'dd.mm.yyyy HH:MM');
+                else
+                    exit_datetime{i} = '-';
+                end
+
+                position_type{i} = t.position;
+                entry_prices(i) = t.entry_price;
+                exit_prices(i) = t.exit_price;
+                pnl_values(i) = t.pnl;
+                pnl_percent(i) = (t.pnl / t.entry_price) * 100;
+
+                % Dauer in Stunden
+                if t.entry_index <= height(app_data) && t.exit_index <= height(app_data)
+                    duration_hours(i) = hours(app_data.DateTime(t.exit_index) - app_data.DateTime(t.entry_index));
+                else
+                    duration_hours(i) = 0;
+                end
+
+                exit_reason{i} = t.reason;
+
+                % Ergebnis-Typ
+                if t.pnl > 0
+                    result_type{i} = 'Gewinn';
+                elseif t.pnl < 0
+                    result_type{i} = 'Verlust';
+                else
+                    result_type{i} = 'Break-Even';
+                end
+
+                % Kumulativer P/L
+                running_pnl = running_pnl + t.pnl;
+                cumulative_pnl(i) = running_pnl;
+            end
+
+            % Tabelle erstellen
+            trades_table = table(trade_nr, entry_datetime, exit_datetime, position_type, ...
+                                 entry_prices, exit_prices, pnl_values, pnl_percent, ...
+                                 duration_hours, cumulative_pnl, exit_reason, result_type, ...
+                                 'VariableNames', {'Nr', 'Einstieg_Zeit', 'Ausstieg_Zeit', 'Position', ...
+                                                   'Einstieg_Preis', 'Ausstieg_Preis', 'PnL_USD', 'PnL_Prozent', ...
+                                                   'Dauer_Stunden', 'Kumulativ_PnL', 'Ausstieg_Grund', 'Ergebnis'});
+
+            % Zusammenfassungs-Zeile hinzufuegen
+            summary_row = table({''}, {''}, {''}, {'GESAMT'}, ...
+                                {''}, {''}, {total_pnl}, {(total_pnl/initial_capital)*100}, ...
+                                {sum(duration_hours)}, {total_pnl}, {''}, {sprintf('%d Trades', num_trades)}, ...
+                                'VariableNames', trades_table.Properties.VariableNames);
+
+            % CSV speichern (ohne Zusammenfassung fuer bessere Kompatibilitaet)
+            csv_filename = fullfile(results_folder, sprintf('trades_%s.csv', timestamp));
+            writetable(trades_table, csv_filename, 'Delimiter', ';', 'Encoding', 'UTF-8');
+            log_callback(sprintf('Trades CSV gespeichert: %s', csv_filename), 'success');
+
+            % Excel speichern (mit Zusammenfassung)
+            xlsx_filename = fullfile(results_folder, sprintf('trades_%s.xlsx', timestamp));
+
+            % Trades-Sheet
+            writetable(trades_table, xlsx_filename, 'Sheet', 'Trades');
+
+            % Statistik-Sheet erstellen
+            winners = sum(pnl_values > 0);
+            losers = sum(pnl_values <= 0);
+            avg_win = 0;
+            avg_loss = 0;
+            if winners > 0
+                avg_win = mean(pnl_values(pnl_values > 0));
+            end
+            if losers > 0
+                avg_loss = mean(pnl_values(pnl_values <= 0));
+            end
+
+            stats_names = {'Statistik'; 'Startkapital'; 'Endkapital'; 'Gesamt P/L'; 'P/L Prozent'; ...
+                          '---'; 'Anzahl Trades'; 'Gewinner'; 'Verlierer'; 'Win-Rate'; ...
+                          '---'; 'Durchschn. Gewinn'; 'Durchschn. Verlust'; 'Profit Factor'; ...
+                          '---'; 'Groesster Gewinn'; 'Groesster Verlust'; 'Durchschn. Dauer (h)'};
+
+            profit_factor = 0;
+            if sum(pnl_values(pnl_values < 0)) ~= 0
+                profit_factor = abs(sum(pnl_values(pnl_values > 0)) / sum(pnl_values(pnl_values < 0)));
+            end
+
+            stats_values = {'Wert'; initial_capital; current_equity; total_pnl; (total_pnl/initial_capital)*100; ...
+                           '---'; num_trades; winners; losers; (winners/num_trades)*100; ...
+                           '---'; avg_win; avg_loss; profit_factor; ...
+                           '---'; max(pnl_values); min(pnl_values); mean(duration_hours)};
+
+            stats_table = table(stats_names, stats_values, 'VariableNames', {'Statistik', 'Wert'});
+            writetable(stats_table, xlsx_filename, 'Sheet', 'Statistik');
+
+            log_callback(sprintf('Trades Excel gespeichert: %s', xlsx_filename), 'success');
+
+        catch ME
+            log_callback(sprintf('Fehler beim Trades-Speichern: %s', ME.message), 'error');
         end
     end
 
@@ -1121,6 +1305,29 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
 
         catch ME
             log_callback(sprintf('Fehler beim Screenshot-Speichern: %s', ME.message), 'warning');
+        end
+    end
+
+    function openResultsFolder()
+        % OPENRESULTSFOLDER Oeffnet den Session-Ordner im Windows Explorer
+        try
+            if isfolder(results_folder)
+                if ispc
+                    % Windows: Explorer oeffnen
+                    winopen(results_folder);
+                    log_callback(sprintf('Ordner geoeffnet: %s', results_folder), 'info');
+                elseif ismac
+                    % macOS: Finder oeffnen
+                    system(['open "' results_folder '"']);
+                else
+                    % Linux: Standard-Dateimanager
+                    system(['xdg-open "' results_folder '"']);
+                end
+            else
+                log_callback('Ergebnis-Ordner existiert nicht', 'warning');
+            end
+        catch ME
+            log_callback(sprintf('Fehler beim Oeffnen des Ordners: %s', ME.message), 'warning');
         end
     end
 

@@ -438,8 +438,8 @@ function btc_analyzer_gui()
     model_group.Layout.Row = 5;
     model_group.Layout.Column = 1;
 
-    model_grid = uigridlayout(model_group, [3, 1]);
-    model_grid.RowHeight = {25, 35, 35};
+    model_grid = uigridlayout(model_group, [5, 1]);
+    model_grid.RowHeight = {25, 35, 35, 18, 18};
     model_grid.ColumnWidth = {'1x'};
     model_grid.RowSpacing = 5;
     model_grid.Padding = [10 10 10 10];
@@ -493,6 +493,17 @@ function btc_analyzer_gui()
                             'Enable', 'off');
     backtest_btn.Layout.Row = 3;
     backtest_btn.Layout.Column = 1;
+
+    % Modell-Info Labels
+    model_name_label = uilabel(model_grid, 'Text', 'Modell: -', ...
+                               'FontSize', 10, 'FontColor', [0.6, 0.6, 0.6], ...
+                               'HorizontalAlignment', 'left');
+    model_name_label.Layout.Row = 4;
+
+    model_folder_label = uilabel(model_grid, 'Text', 'Ordner: -', ...
+                                 'FontSize', 10, 'FontColor', [0.5, 0.5, 0.5], ...
+                                 'HorizontalAlignment', 'left');
+    model_folder_label.Layout.Row = 5;
 
     % ============================================================
     % GRUPPE 5: Parameter Management
@@ -1383,8 +1394,15 @@ function btc_analyzer_gui()
 
             logMessage(sprintf('Modell geladen: Klassen=%s', strjoin(model_info.classes, ',')), 'success');
 
-            % Kurzer Dateiname fuer Alert
-            [~, filename, ext] = fileparts(filepath);
+            % Kurzer Dateiname und Ordner fuer Anzeige
+            [folder_path, filename, ext] = fileparts(filepath);
+            [~, folder_name] = fileparts(folder_path);
+
+            % Modell-Info Labels aktualisieren
+            model_name_label.Text = sprintf('Modell: %s%s', filename, ext);
+            model_name_label.FontColor = [0.5, 0.9, 0.5];
+            model_folder_label.Text = sprintf('Ordner: %s', folder_name);
+
             uialert(fig, sprintf('Modell geladen!\n\n%s%s\n\nKlassen: %s', ...
                    filename, ext, strjoin(model_info.classes, ', ')), ...
                    'Erfolgreich', 'Icon', 'success');
