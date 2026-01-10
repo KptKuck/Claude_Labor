@@ -52,9 +52,15 @@ function prepare_training_data_gui(data)
     result_info = struct();
     preview_computed = false;
 
-    %% GUI erstellen
+    %% GUI erstellen - dynamische Größe basierend auf Bildschirm
+    screen_size = get(0, 'ScreenSize');
+    fig_width = min(1500, screen_size(3) - 100);
+    fig_height = min(950, screen_size(4) - 100);
+    fig_x = max(50, (screen_size(3) - fig_width) / 2);
+    fig_y = max(50, (screen_size(4) - fig_height) / 2);
+
     fig = uifigure('Name', 'Trainingsdaten Vorbereitung', ...
-                   'Position', [80, 80, 1500, 850], ...
+                   'Position', [fig_x, fig_y, fig_width, fig_height], ...
                    'Color', [0.15, 0.15, 0.15]);
 
     % Haupt-Grid Layout: [Parameter Panel | Vorschau Panel]
@@ -64,15 +70,16 @@ function prepare_training_data_gui(data)
     mainGrid.ColumnSpacing = 10;
 
     %% ============================================================
-    %% LINKE SEITE: Parameter Panel
+    %% LINKE SEITE: Parameter Panel (scrollbar für kleinere Bildschirme)
     %% ============================================================
     paramPanel = uipanel(mainGrid, 'Title', '', ...
-                         'BackgroundColor', [0.18, 0.18, 0.18]);
+                         'BackgroundColor', [0.18, 0.18, 0.18], ...
+                         'Scrollable', 'on');
     paramPanel.Layout.Row = 1;
     paramPanel.Layout.Column = 1;
 
     paramGrid = uigridlayout(paramPanel, [12, 1]);
-    paramGrid.RowHeight = {30, 'fit', 'fit', 'fit', 'fit', 'fit', 10, 40, 40, 10, 50, '1x'};
+    paramGrid.RowHeight = {30, 145, 85, 115, 75, 120, 10, 40, 40, 10, 50, 10};  % Feste Höhen
     paramGrid.ColumnWidth = {'1x'};
     paramGrid.RowSpacing = 8;
     paramGrid.Padding = [10 10 10 10];

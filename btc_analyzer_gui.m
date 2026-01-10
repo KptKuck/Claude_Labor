@@ -7,9 +7,15 @@ function btc_analyzer_gui()
 %   - Einstellung von Datum und Intervall
 %   - Datenanalyse und Visualisierung
 
-    % Hauptfenster erstellen
+    % Hauptfenster erstellen - dynamische Größe basierend auf Bildschirm
+    screen_size = get(0, 'ScreenSize');
+    fig_width = min(1400, screen_size(3) - 100);
+    fig_height = min(950, screen_size(4) - 100);
+    fig_x = max(50, (screen_size(3) - fig_width) / 2);
+    fig_y = max(50, (screen_size(4) - fig_height) / 2);
+
     fig = uifigure('Name', 'BTCUSD Analyzer', ...
-                   'Position', [100, 100, 1200, 850]);
+                   'Position', [fig_x, fig_y, fig_width, fig_height]);
 
     % Grid Layout für strukturierte Anordnung: 2 Spalten (Bedienelemente | Logger)
     mainGrid = uigridlayout(fig, [1, 2]);
@@ -17,13 +23,16 @@ function btc_analyzer_gui()
     mainGrid.Padding = [10 10 10 10];
     mainGrid.ColumnSpacing = 10;
 
-    % Linkes Panel: Bedienelemente
-    leftPanel = uigridlayout(mainGrid);
-    leftPanel.Layout.Row = 1;
-    leftPanel.Layout.Column = 1;
-    leftPanel.RowHeight = {50, 'fit', 'fit', 'fit', 'fit', 'fit', '1x'};
+    % Linkes Panel: Bedienelemente (scrollbar für kleinere Bildschirme)
+    leftScrollPanel = uipanel(mainGrid, 'Title', '', 'Scrollable', 'on', ...
+                              'BackgroundColor', fig.Color);
+    leftScrollPanel.Layout.Row = 1;
+    leftScrollPanel.Layout.Column = 1;
+
+    leftPanel = uigridlayout(leftScrollPanel, [7, 1]);
+    leftPanel.RowHeight = {40, 185, 130, 190, 130, 85, 10};  % Feste Höhen für konsistentes Layout
     leftPanel.ColumnWidth = {'1x'};
-    leftPanel.RowSpacing = 10;
+    leftPanel.RowSpacing = 8;
     leftPanel.Padding = [5 5 5 5];
 
     % Rechtes Panel: Logger

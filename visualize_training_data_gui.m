@@ -86,9 +86,15 @@ function visualize_training_data_gui(data, training_data_info, X_train, Y_train)
 
     fprintf('Gesamt: %d Signale (chronologisch sortiert)\n', length(all_signals));
 
-    % GUI erstellen
+    % GUI erstellen - dynamische Größe basierend auf Bildschirm
+    screen_size = get(0, 'ScreenSize');
+    fig_width = min(1600, screen_size(3) - 100);
+    fig_height = min(950, screen_size(4) - 100);
+    fig_x = max(50, (screen_size(3) - fig_width) / 2);
+    fig_y = max(50, (screen_size(4) - fig_height) / 2);
+
     fig = uifigure('Name', 'Training Data Visualizer', ...
-                   'Position', [50, 50, 1600, 950]);
+                   'Position', [fig_x, fig_y, fig_width, fig_height]);
 
     % Haupt-Grid Layout: [Charts | Info Panel]
     mainGrid = uigridlayout(fig, [1, 2]);
@@ -143,12 +149,14 @@ function visualize_training_data_gui(data, training_data_info, X_train, Y_train)
     ylabel(ax_seq, 'Normalisierter Wert');
     hold(ax_seq, 'on');
 
-    % Rechtes Panel: Info und Steuerung
-    infoPanel = uigridlayout(mainGrid);
-    infoPanel.Layout.Row = 1;
-    infoPanel.Layout.Column = 2;
+    % Rechtes Panel: Info und Steuerung (scrollbar für kleinere Bildschirme)
+    infoScrollPanel = uipanel(mainGrid, 'Title', '', 'Scrollable', 'on');
+    infoScrollPanel.Layout.Row = 1;
+    infoScrollPanel.Layout.Column = 2;
+
+    infoPanel = uigridlayout(infoScrollPanel, [14, 1]);
     % Struktur: Info-Gruppe, Schritt-Gruppe (erweitert), Zoom-Gruppe, Achsen-Gruppe
-    infoPanel.RowHeight = {25, 22, 22, 22, 10, 25, 140, 10, 25, 75, 10, 25, 100, '1x'};
+    infoPanel.RowHeight = {25, 22, 22, 22, 10, 25, 140, 10, 25, 75, 10, 25, 100, 10};
     infoPanel.ColumnWidth = {'1x'};
     infoPanel.RowSpacing = 3;
     infoPanel.Padding = [5 5 5 5];
