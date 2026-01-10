@@ -31,8 +31,8 @@ function train_gui(training_data, results_folder, log_callback)
 
     % Hauptfenster erstellen
     screen_size = get(0, 'ScreenSize');
-    fig_width = 550;
-    fig_height = 850;
+    fig_width = 900;
+    fig_height = 700;
     fig_x = max(50, (screen_size(3) - fig_width) / 2);
     fig_y = max(50, (screen_size(4) - fig_height) / 2);
 
@@ -40,17 +40,92 @@ function train_gui(training_data, results_folder, log_callback)
                    'Position', [fig_x, fig_y, fig_width, fig_height], ...
                    'CloseRequestFcn', @closeRequest);
 
-    % Hauptgrid
-    mainGrid = uigridlayout(fig, [7, 1]);
-    mainGrid.RowHeight = {'fit', 'fit', 'fit', 'fit', 'fit', 'fit', '1x'};
-    mainGrid.ColumnWidth = {'1x'};
-    mainGrid.Padding = [15 15 15 15];
-    mainGrid.RowSpacing = 8;
+    % Hauptgrid: 2 Spalten (links Einstellungen, rechts Log)
+    mainGrid = uigridlayout(fig, [1, 2]);
+    mainGrid.RowHeight = {'1x'};
+    mainGrid.ColumnWidth = {480, '1x'};
+    mainGrid.Padding = [10 10 10 10];
+    mainGrid.ColumnSpacing = 10;
+
+    % ============================================================
+    % LINKE SPALTE: Einstellungen (scrollbar)
+    % ============================================================
+    leftPanel = uipanel(mainGrid, 'Title', '', 'Scrollable', 'on', ...
+                        'BackgroundColor', fig.Color);
+    leftPanel.Layout.Row = 1;
+    leftPanel.Layout.Column = 1;
+
+    leftGrid = uigridlayout(leftPanel, [4, 1]);
+    leftGrid.RowHeight = {'fit', 'fit', 'fit', 'fit'};
+    leftGrid.ColumnWidth = {'1x'};
+    leftGrid.Padding = [5 5 5 5];
+    leftGrid.RowSpacing = 8;
+
+    % ============================================================
+    % RECHTE SPALTE: Log und Status
+    % ============================================================
+    rightPanel = uipanel(mainGrid, 'Title', 'Training Log', ...
+                         'FontSize', 11, 'FontWeight', 'bold', ...
+                         'BackgroundColor', [0.15, 0.15, 0.15]);
+    rightPanel.Layout.Row = 1;
+    rightPanel.Layout.Column = 2;
+
+    rightGrid = uigridlayout(rightPanel, [3, 1]);
+    rightGrid.RowHeight = {30, '1x', 45};
+    rightGrid.ColumnWidth = {'1x'};
+    rightGrid.Padding = [10 10 10 10];
+    rightGrid.RowSpacing = 8;
+
+    % Status Header
+    status_header = uigridlayout(rightGrid, [1, 2]);
+    status_header.RowHeight = {'1x'};
+    status_header.ColumnWidth = {'1x', 'fit'};
+    status_header.Padding = [0 0 0 0];
+
+    progress_label = uilabel(status_header, 'Text', 'Bereit', ...
+                             'FontSize', 11, 'FontWeight', 'bold', ...
+                             'HorizontalAlignment', 'left');
+
+    epoch_label = uilabel(status_header, 'Text', '', ...
+                          'FontSize', 10, 'HorizontalAlignment', 'right');
+
+    % Log Text Area
+    status_area = uitextarea(rightGrid, 'Value', {''}, ...
+                             'Editable', 'off', 'FontSize', 9, ...
+                             'BackgroundColor', [0.1, 0.1, 0.1], ...
+                             'FontColor', [0.8, 0.8, 0.8]);
+    status_area.Layout.Row = 2;
+
+    % Buttons in rechter Spalte
+    right_btn_grid = uigridlayout(rightGrid, [1, 3]);
+    right_btn_grid.RowHeight = {'1x'};
+    right_btn_grid.ColumnWidth = {'1x', '1x', '1x'};
+    right_btn_grid.Padding = [0 0 0 0];
+    right_btn_grid.ColumnSpacing = 10;
+
+    start_btn = uibutton(right_btn_grid, 'Text', 'Training starten', ...
+                         'ButtonPushedFcn', @(btn,event) startTraining(), ...
+                         'BackgroundColor', [0.2, 0.7, 0.3], ...
+                         'FontColor', 'white', ...
+                         'FontSize', 12, 'FontWeight', 'bold');
+
+    stop_btn = uibutton(right_btn_grid, 'Text', 'Stoppen', ...
+                        'ButtonPushedFcn', @(btn,event) stopTraining(), ...
+                        'BackgroundColor', [0.8, 0.3, 0.2], ...
+                        'FontColor', 'white', ...
+                        'FontSize', 12, 'FontWeight', 'bold', ...
+                        'Enable', 'off');
+
+    close_btn = uibutton(right_btn_grid, 'Text', 'Schließen', ...
+                         'ButtonPushedFcn', @(btn,event) closeRequest(), ...
+                         'BackgroundColor', [0.5, 0.5, 0.5], ...
+                         'FontColor', 'white', ...
+                         'FontSize', 12, 'FontWeight', 'bold');
 
     % ============================================================
     % GRUPPE 1: Trainingsdaten Info (erweitert)
     % ============================================================
-    info_group = uipanel(mainGrid, 'Title', 'Trainingsdaten Details', ...
+    info_group = uipanel(leftGrid, 'Title', 'Trainingsdaten Details', ...
                          'FontSize', 11, 'FontWeight', 'bold', ...
                          'BackgroundColor', [0.15, 0.15, 0.15]);
     info_group.Layout.Row = 1;
@@ -95,7 +170,7 @@ function train_gui(training_data, results_folder, log_callback)
     % ============================================================
     % GRUPPE 2: GPU Monitor
     % ============================================================
-    gpu_group = uipanel(mainGrid, 'Title', 'GPU Status & Speicher', ...
+    gpu_group = uipanel(leftGrid, 'Title', 'GPU Status & Speicher', ...
                         'FontSize', 11, 'FontWeight', 'bold', ...
                         'BackgroundColor', [0.15, 0.15, 0.15]);
     gpu_group.Layout.Row = 2;
@@ -161,7 +236,7 @@ function train_gui(training_data, results_folder, log_callback)
     % ============================================================
     % GRUPPE 3: Netzwerk-Architektur
     % ============================================================
-    arch_group = uipanel(mainGrid, 'Title', 'Netzwerk-Architektur', ...
+    arch_group = uipanel(leftGrid, 'Title', 'Netzwerk-Architektur', ...
                          'FontSize', 11, 'FontWeight', 'bold', ...
                          'BackgroundColor', [0.15, 0.15, 0.15]);
     arch_group.Layout.Row = 3;
@@ -206,7 +281,7 @@ function train_gui(training_data, results_folder, log_callback)
     % ============================================================
     % GRUPPE 4: Training-Parameter
     % ============================================================
-    train_group = uipanel(mainGrid, 'Title', 'Training-Parameter', ...
+    train_group = uipanel(leftGrid, 'Title', 'Training-Parameter', ...
                           'FontSize', 11, 'FontWeight', 'bold', ...
                           'BackgroundColor', [0.15, 0.15, 0.15]);
     train_group.Layout.Row = 4;
@@ -264,79 +339,6 @@ function train_gui(training_data, results_folder, log_callback)
     uilabel(train_grid, 'Text', 'Shuffle:', 'FontSize', 10, 'FontWeight', 'bold');
     shuffle_dropdown = uidropdown(train_grid, 'Items', {'every-epoch', 'once', 'never'}, ...
                                    'Value', 'every-epoch', 'Tooltip', 'Daten mischen');
-
-    % ============================================================
-    % GRUPPE 5: Buttons
-    % ============================================================
-    btn_group = uipanel(mainGrid, 'Title', '', 'BorderType', 'none', ...
-                        'BackgroundColor', fig.Color);
-    btn_group.Layout.Row = 5;
-
-    btn_grid = uigridlayout(btn_group, [1, 3]);
-    btn_grid.RowHeight = {45};
-    btn_grid.ColumnWidth = {'1x', '1x', '1x'};
-    btn_grid.Padding = [0 5 0 5];
-    btn_grid.ColumnSpacing = 10;
-
-    start_btn = uibutton(btn_grid, 'Text', 'Training starten', ...
-                         'ButtonPushedFcn', @(btn,event) startTraining(), ...
-                         'BackgroundColor', [0.2, 0.7, 0.3], ...
-                         'FontColor', 'white', ...
-                         'FontSize', 12, 'FontWeight', 'bold');
-
-    stop_btn = uibutton(btn_grid, 'Text', 'Stoppen', ...
-                        'ButtonPushedFcn', @(btn,event) stopTraining(), ...
-                        'BackgroundColor', [0.8, 0.3, 0.2], ...
-                        'FontColor', 'white', ...
-                        'FontSize', 12, 'FontWeight', 'bold', ...
-                        'Enable', 'off');
-
-    close_btn = uibutton(btn_grid, 'Text', 'Schließen', ...
-                         'ButtonPushedFcn', @(btn,event) closeRequest(), ...
-                         'BackgroundColor', [0.5, 0.5, 0.5], ...
-                         'FontColor', 'white', ...
-                         'FontSize', 12, 'FontWeight', 'bold');
-
-    % ============================================================
-    % GRUPPE 6: Status / Log
-    % ============================================================
-    status_group = uipanel(mainGrid, 'Title', 'Training Status', ...
-                           'FontSize', 11, 'FontWeight', 'bold', ...
-                           'BackgroundColor', [0.15, 0.15, 0.15]);
-    status_group.Layout.Row = 6;
-
-    status_header_grid = uigridlayout(status_group, [1, 2]);
-    status_header_grid.RowHeight = {25};
-    status_header_grid.ColumnWidth = {'1x', 'fit'};
-    status_header_grid.Padding = [10 5 10 0];
-
-    % Progress Label
-    progress_label = uilabel(status_header_grid, 'Text', 'Bereit', ...
-                             'FontSize', 10, 'FontWeight', 'bold', ...
-                             'HorizontalAlignment', 'left');
-
-    % Epoch Counter
-    epoch_label = uilabel(status_header_grid, 'Text', '', ...
-                          'FontSize', 10, 'HorizontalAlignment', 'right');
-
-    % ============================================================
-    % GRUPPE 7: Log Area
-    % ============================================================
-    log_group = uipanel(mainGrid, 'Title', 'Log', ...
-                        'FontSize', 11, 'FontWeight', 'bold', ...
-                        'BackgroundColor', [0.15, 0.15, 0.15]);
-    log_group.Layout.Row = 7;
-
-    log_grid = uigridlayout(log_group, [1, 1]);
-    log_grid.RowHeight = {'1x'};
-    log_grid.ColumnWidth = {'1x'};
-    log_grid.Padding = [10 5 10 10];
-
-    % Status Text Area
-    status_area = uitextarea(log_grid, 'Value', {''}, ...
-                             'Editable', 'off', 'FontSize', 9, ...
-                             'BackgroundColor', [0.1, 0.1, 0.1], ...
-                             'FontColor', [0.8, 0.8, 0.8]);
 
     % Initial Updates
     updateGPUStatus();
