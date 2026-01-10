@@ -598,13 +598,14 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         % Signal interpretieren anhand des String-Wertes der Kategorie
         % WICHTIG: double(categorical) gibt den INDEX zurueck, nicht den Wert!
         % Daher muessen wir den String-Wert auslesen: char(string(prediction))
-        pred_str = char(string(prediction));
+        % Unterstuetzt sowohl numerische ('0','1','2') als auch String-Klassen ('HOLD','BUY','SELL')
+        pred_str = upper(char(string(prediction)));
         switch pred_str
-            case '0'
+            case {'0', 'HOLD'}
                 pred_value = 0;  % HOLD
-            case '1'
+            case {'1', 'BUY'}
                 pred_value = 1;  % BUY
-            case '2'
+            case {'2', 'SELL'}
                 pred_value = 2;  % SELL
             otherwise
                 % Fallback: Versuche numerische Konvertierung
