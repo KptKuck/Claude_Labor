@@ -147,10 +147,11 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
                           'BackgroundColor', [0.2, 0.2, 0.2]);
     speed_group.Layout.Row = 3;
 
-    speed_grid = uigridlayout(speed_group, [1, 3]);
-    speed_grid.RowHeight = {35};
+    speed_grid = uigridlayout(speed_group, [2, 3]);
+    speed_grid.RowHeight = {35, 30};
     speed_grid.ColumnWidth = {80, '1x', 50};
     speed_grid.Padding = [10 10 10 10];
+    speed_grid.RowSpacing = 5;
 
     uilabel(speed_grid, 'Text', 'Schritte/Sek:', 'FontSize', 11, ...
             'FontColor', 'white');
@@ -164,6 +165,16 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
                           'FontColor', 'white', ...
                           'HorizontalAlignment', 'right');
     speed_label.Layout.Column = 3;
+
+    % Turbo-Modus Checkbox (deaktiviert Chart-Updates waehrend Backtest)
+    turbo_mode = false;
+    cb_turbo = uicheckbox(speed_grid, 'Text', 'Turbo-Modus (keine Chart-Updates)', ...
+                          'Value', false, 'FontSize', 11, ...
+                          'FontColor', [0.5, 1, 0.5], ...
+                          'Tooltip', 'Deaktiviert Chart-Updates fuer maximale Geschwindigkeit', ...
+                          'ValueChangedFcn', @(cb,e) setTurboMode(cb.Value));
+    cb_turbo.Layout.Row = 2;
+    cb_turbo.Layout.Column = [1, 3];
 
     % --------------------------------------------------------
     % Positions-Info
@@ -856,9 +867,12 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         sell_count_label.Text = sprintf('%d', sell_count);
         hold_count_label.Text = sprintf('%d', hold_count);
 
-        % Charts aktualisieren (alle 10 Schritte fuer Performance)
-        if mod(current_index, 10) == 0 || ~is_running
-            updateCharts();
+        % Charts aktualisieren (nur wenn nicht im Turbo-Modus)
+        if ~turbo_mode
+            % Alle 10 Schritte fuer Performance
+            if mod(current_index, 10) == 0 || ~is_running
+                updateCharts();
+            end
         end
 
         drawnow limitrate;
@@ -988,11 +1002,27 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         end
     end
 
+    function setTurboMode(value)
+        turbo_mode = value;
+        if value
+            log_callback('Turbo-Modus aktiviert - Chart-Updates deaktiviert', 'info');
+        else
+            log_callback('Turbo-Modus deaktiviert - Chart-Updates aktiv', 'info');
+            % Sofortiges Chart-Update wenn deaktiviert
+            updateCharts();
+        end
+    end
+
     function finalizeBacktest()
         % Offene Position schliessen
         if ~strcmp(position, 'NONE') && current_index <= height(app_data)
             closeTrade(app_data.Close(end), height(app_data), 'Backtest Ende');
         end
+
+        % Finales Chart-Update (auch im Turbo-Modus)
+        updateCharts();
+        updateUI();
+        drawnow;
 
         % Finale Statistik loggen
         log_callback('=== Backtest Zusammenfassung ===', 'info');
