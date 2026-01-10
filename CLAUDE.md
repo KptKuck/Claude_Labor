@@ -20,6 +20,7 @@
 - Commit-Messages auf Englisch
 - Co-Authored-By Tag bei Commits
 - Push nur auf explizite Anfrage
+- Kein automatisches Push nach Commit
 
 ## GUI-Design
 - Dunkles Theme (BackgroundColor: [0.15, 0.15, 0.15])
