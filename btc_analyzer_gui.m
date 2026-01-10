@@ -519,10 +519,10 @@ function btc_analyzer_gui()
     % === RECHTES PANEL: Logger ===
 
     % Logger Header mit Schriftgrößen-Slider, Modus- und Level-Auswahl
-    logger_header_grid = uigridlayout(rightPanel, [1, 8]);
+    logger_header_grid = uigridlayout(rightPanel, [1, 9]);
     logger_header_grid.Layout.Row = 1;
     logger_header_grid.Layout.Column = 1;
-    logger_header_grid.ColumnWidth = {55, 115, 85, 60, '1x', 50, 120, 1};
+    logger_header_grid.ColumnWidth = {55, 115, 85, 60, 60, '1x', 50, 120, 1};
     logger_header_grid.RowHeight = {30};
     logger_header_grid.Padding = [0 0 0 0];
     logger_header_grid.ColumnSpacing = 5;
@@ -560,6 +560,15 @@ function btc_analyzer_gui()
     clear_log_btn.Layout.Row = 1;
     clear_log_btn.Layout.Column = 4;
 
+    % Timing Checkbox
+    timing_checkbox = uicheckbox(logger_header_grid, 'Text', 'Timing', ...
+                                  'Value', false, ...
+                                  'FontSize', 10, ...
+                                  'Tooltip', 'Zeitmessung aktivieren (in TRACE immer aktiv)', ...
+                                  'ValueChangedFcn', @(cb,event) updateTimingEnabled(cb));
+    timing_checkbox.Layout.Row = 1;
+    timing_checkbox.Layout.Column = 5;
+
     % Spacer
     uilabel(logger_header_grid, 'Text', '');
 
@@ -568,7 +577,7 @@ function btc_analyzer_gui()
                              'FontSize', 10, ...
                              'HorizontalAlignment', 'right');
     fontsize_label.Layout.Row = 1;
-    fontsize_label.Layout.Column = 6;
+    fontsize_label.Layout.Column = 7;
 
     % Schriftgrößen-Slider
     fontsize_slider = uislider(logger_header_grid, ...
@@ -577,7 +586,7 @@ function btc_analyzer_gui()
                                'MajorTicks', [8, 10, 12, 14], ...
                                'ValueChangedFcn', @(sld,event) updateLoggerFontSize(sld));
     fontsize_slider.Layout.Row = 1;
-    fontsize_slider.Layout.Column = 7;
+    fontsize_slider.Layout.Column = 8;
 
     % Logger HTML-Area für farbige Ausgabe
     log_html = uihtml(rightPanel);
@@ -601,6 +610,9 @@ function btc_analyzer_gui()
 
     % Log-Level: 1=ERROR, 2=WARNING, 3=INFO, 4=DEBUG, 5=TRACE
     log_level = 5;  % Default: TRACE
+
+    % Zeitmessung: Schalter (true = aktiv, wird automatisch bei TRACE aktiviert)
+    enable_timing = false;  % Manueller Schalter, bei TRACE immer aktiv
 
     % Log-Ordner erstellen falls nicht vorhanden
     log_folder = fullfile(fileparts(mfilename('fullpath')), 'log');
@@ -665,7 +677,7 @@ function btc_analyzer_gui()
 
     %% HTML-Logger aktualisieren
     function updateLoggerHTML()
-        % Baue HTML-Inhalt
+        % Baue HTML-Inhalt mit Auto-Scroll JavaScript
         html_content = sprintf(['<html><head><style>' ...
             'body { font-family: Consolas, monospace; font-size: %dpx; margin: 8px; background: #1e1e1e; color: #d4d4d4; }' ...
             '.log-entry { margin: 2px 0; padding: 3px 6px; border-radius: 3px; }' ...
@@ -677,7 +689,7 @@ function btc_analyzer_gui()
             '.trace { background: #2d2d2d; color: #888888; font-style: italic; }' ...
             '.timestamp { color: #a0aec0; font-size: %dpx; }' ...
             '.icon { margin-right: 6px; }' ...
-            '</style></head><body>'], log_font_size, log_font_size - 1);
+            '</style></head><body onload="window.scrollTo(0, document.body.scrollHeight);">'], log_font_size, log_font_size - 1);
 
         % Header
         html_content = [html_content, '<div style="color: #63b3ed; font-size: 14px; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #4a5568; padding-bottom: 5px;">'];
@@ -773,6 +785,32 @@ function btc_analyzer_gui()
         end
     end
 
+    %% Hilfsfunktion: Zeitmessung starten
+    function t = tic_if_enabled()
+        % Startet Zeitmessung wenn aktiviert oder Log-Level TRACE
+        if enable_timing || log_level >= 5
+            t = tic;
+        else
+            t = [];
+        end
+    end
+
+    %% Hilfsfunktion: Zeitmessung stoppen und loggen
+    function toc_log(t, func_name)
+        % Loggt die gemessene Zeit wenn aktiviert
+        if ~isempty(t) && (enable_timing || log_level >= 5)
+            elapsed = toc(t);
+            if elapsed < 1
+                time_str = sprintf('%.1f ms', elapsed * 1000);
+            elseif elapsed < 60
+                time_str = sprintf('%.2f s', elapsed);
+            else
+                time_str = sprintf('%.1f min', elapsed / 60);
+            end
+            logMessage(sprintf('[TIMING] %s: %s', func_name, time_str), 'trace');
+        end
+    end
+
     %% Callback: Logger-Modus ändern
     function updateLoggerMode(dd)
         old_mode = logger_mode;
@@ -808,6 +846,22 @@ function btc_analyzer_gui()
         log_level = dd.Value;
         level_names = {'ERROR', 'WARNING', 'INFO', 'DEBUG', 'TRACE'};
         logMessage(sprintf('Log-Level geändert: %s', level_names{log_level}), 'info');
+
+        % Bei TRACE: Timing automatisch aktivieren und Checkbox aktualisieren
+        if log_level >= 5
+            timing_checkbox.Value = true;
+            enable_timing = true;
+        end
+    end
+
+    %% Callback: Timing aktivieren/deaktivieren
+    function updateTimingEnabled(cb)
+        enable_timing = cb.Value;
+        if enable_timing
+            logMessage('Zeitmessung aktiviert', 'info');
+        else
+            logMessage('Zeitmessung deaktiviert', 'info');
+        end
     end
 
     %% Callback: Log löschen
@@ -819,6 +873,7 @@ function btc_analyzer_gui()
 
     %% Callback: Lokale Datei laden
     function loadLocalFile()
+        t_func = tic_if_enabled();
         logMessage('Öffne Dateiauswahl-Dialog...', 'debug');
         [file, path] = uigetfile('*.csv', 'CSV-Datei auswählen');
         if file == 0
@@ -831,7 +886,9 @@ function btc_analyzer_gui()
 
         try
             % Lade Daten
+            t_read = tic_if_enabled();
             app_data = read_btc_data(filepath);
+            toc_log(t_read, 'read_btc_data');
 
             % Erfolgsmeldung
             msg = sprintf('Erfolgreich geladen!\n\nDatensätze: %d\nZeitraum: %s bis %s', ...
@@ -858,10 +915,12 @@ function btc_analyzer_gui()
             uialert(fig, sprintf('Fehler beim Laden: %s', ME.message), ...
                    'Fehler', 'Icon', 'error');
         end
+        toc_log(t_func, 'loadLocalFile');
     end
 
     %% Callback: Daten von Binance laden
     function downloadFromBinance()
+        t_func = tic_if_enabled();
         % Datum und Intervall auslesen
         start_date = from_date_picker.Value;
         end_date = to_date_picker.Value;
@@ -886,7 +945,9 @@ function btc_analyzer_gui()
         try
             % Download starten
             logMessage('Verbinde zu Binance API...', 'debug');
+            t_download = tic_if_enabled();
             new_data = download_btc_data(start_date, end_date, interval);
+            toc_log(t_download, 'download_btc_data');
 
             % Wenn bereits Daten vorhanden, zusammenführen
             if ~isempty(app_data)
@@ -952,6 +1013,7 @@ function btc_analyzer_gui()
             uialert(fig, sprintf('Download fehlgeschlagen:\n%s', ME.message), ...
                    'Fehler', 'Icon', 'error');
         end
+        toc_log(t_func, 'downloadFromBinance');
     end
 
     %% Callback: Daten analysieren
@@ -990,6 +1052,7 @@ function btc_analyzer_gui()
 
     %% Hilfsfunktion: Daten als CSV speichern
     function saveDataAsCSV()
+        t_func = tic_if_enabled();
         % Standard-Dateiname mit Zeitstempel
         default_filename = sprintf('BTCUSD_%s_%s.csv', ...
             datestr(app_data.DateTime(1), 'yyyy-mm-dd'), ...
@@ -1025,7 +1088,9 @@ function btc_analyzer_gui()
             export_data.Spread = zeros(height(app_data), 1);
 
             % Speichern
+            t_write = tic_if_enabled();
             writetable(export_data, filepath, 'Delimiter', '\t');
+            toc_log(t_write, 'writetable');
             logMessage(sprintf('CSV gespeichert: %d Zeilen', height(export_data)), 'success');
 
             % Pfad der gespeicherten CSV-Datei für nächsten Start merken
@@ -1039,6 +1104,7 @@ function btc_analyzer_gui()
             uialert(fig, sprintf('Speichern fehlgeschlagen:\n%s', ME.message), ...
                    'Fehler', 'Icon', 'error');
         end
+        toc_log(t_func, 'saveDataAsCSV');
     end
 
     %% Hilfsfunktion: Analyse durchführen
@@ -1120,7 +1186,7 @@ function btc_analyzer_gui()
             logMessage('Öffne Trainingsdaten-Visualisierungs-GUI...', 'debug');
 
             % Rufe die GUI zur Visualisierung auf
-            visualize_training_data_gui(app_data, training_data.info, training_data.X, training_data.Y);
+            visualize_training_data_gui(app_data, training_data.info, training_data.X, training_data.Y, @logMessage);
 
             % Zähle Signale für Log
             buy_count = sum(cellfun(@(y) double(y) == 1, training_data.Y));
@@ -1138,6 +1204,7 @@ function btc_analyzer_gui()
 
     %% Callback: Trainingsdaten vorbereiten
     function prepareTrainingData()
+        t_func = tic_if_enabled();
         if isempty(app_data)
             logMessage('Fehler: Keine Daten für Training', 'error');
             uialert(fig, 'Keine Daten geladen!', 'Fehler', 'Icon', 'error');
@@ -1148,7 +1215,7 @@ function btc_analyzer_gui()
             logMessage('Öffne Trainingsdaten-Vorbereitungs-GUI...', 'debug');
 
             % Öffne die neue GUI für Parameter-Einstellung
-            prepare_training_data_gui(app_data);
+            prepare_training_data_gui(app_data, @logMessage);
 
             % Prüfe ob Daten im Base Workspace erstellt wurden
             % (wird von der GUI dort gespeichert wenn "Daten generieren" geklickt)
@@ -1162,10 +1229,12 @@ function btc_analyzer_gui()
             logMessage(sprintf('Fehler beim Öffnen der Vorbereitungs-GUI: %s', ME.message), 'error');
             uialert(fig, sprintf('Fehler:\n%s', ME.message), 'Fehler', 'Icon', 'error');
         end
+        toc_log(t_func, 'prepareTrainingData');
     end
 
     %% Callback: Trainingsdaten aus Workspace laden
     function loadTrainingDataFromWorkspace()
+        t_func = tic_if_enabled();
         try
             if evalin('base', 'exist(''X_train'', ''var'')') && ...
                evalin('base', 'exist(''Y_train'', ''var'')') && ...
@@ -1195,10 +1264,12 @@ function btc_analyzer_gui()
         catch ME
             logMessage(sprintf('Fehler beim Laden aus Workspace: %s', ME.message), 'error');
         end
+        toc_log(t_func, 'loadTrainingDataFromWorkspace');
     end
 
     %% Callback: Training GUI öffnen
     function openTrainGUI()
+        t_func = tic_if_enabled();
         if isempty(training_data)
             logMessage('Fehler: Keine Trainingsdaten vorhanden', 'error');
             uialert(fig, 'Keine Trainingsdaten vorbereitet!', 'Fehler', 'Icon', 'error');
@@ -1213,10 +1284,12 @@ function btc_analyzer_gui()
             logMessage(sprintf('Fehler beim Öffnen der Training GUI: %s', ME.message), 'error');
             uialert(fig, sprintf('Fehler:\n%s', ME.message), 'Fehler', 'Icon', 'error');
         end
+        toc_log(t_func, 'openTrainGUI');
     end
 
     %% Callback: Modell laden
     function loadModel()
+        t_func = tic_if_enabled();
         logMessage('Öffne Modellauswahl-Dialog...', 'debug');
         [file, path] = uigetfile('*.mat', 'Modell auswählen');
         if file == 0
@@ -1228,7 +1301,9 @@ function btc_analyzer_gui()
         logMessage(sprintf('Lade Modell: %s', file), 'info');
 
         try
+            t_load = tic_if_enabled();
             loaded = load(filepath);
+            toc_log(t_load, 'load(model)');
 
             if ~isfield(loaded, 'net') || ~isfield(loaded, 'training_info')
                 error('Ungültiges Modell-Format!');
@@ -1250,10 +1325,12 @@ function btc_analyzer_gui()
             uialert(fig, sprintf('Fehler beim Laden:\n%s', ME.message), ...
                    'Fehler', 'Icon', 'error');
         end
+        toc_log(t_func, 'loadModel');
     end
 
     %% Callback: Vorhersage machen
     function makePrediction()
+        t_func = tic_if_enabled();
         if isempty(trained_model) || isempty(app_data)
             logMessage('Fehler: Modell oder Daten fehlen für Vorhersage', 'error');
             uialert(fig, 'Modell oder Daten fehlen!', 'Fehler', 'Icon', 'error');
@@ -1279,7 +1356,9 @@ function btc_analyzer_gui()
             last_seq_norm = normalize(last_seq, 'zscore')';
 
             % Vorhersage
+            t_classify = tic_if_enabled();
             prediction = classify(trained_model, last_seq_norm);
+            toc_log(t_classify, 'classify');
 
             % Ergebnis anzeigen
             pred_class = char(prediction);
@@ -1292,6 +1371,7 @@ function btc_analyzer_gui()
             uialert(fig, sprintf('Vorhersage fehlgeschlagen:\n%s', ME.message), ...
                    'Fehler', 'Icon', 'error');
         end
+        toc_log(t_func, 'makePrediction');
     end
 
     %% Hilfsfunktion: Modell speichern
@@ -1478,6 +1558,7 @@ function btc_analyzer_gui()
 
     %% Hilfsfunktion: Letzte CSV-Daten beim Start laden
     function loadLastCSVData()
+        t_func = tic_if_enabled();
         last_session_file = fullfile(fileparts(mfilename('fullpath')), 'last_session.mat');
 
         if exist(last_session_file, 'file')
@@ -1488,7 +1569,9 @@ function btc_analyzer_gui()
                     logMessage(sprintf('Lade letzte CSV-Datei: %s', csv_path), 'debug');
 
                     % Lade Daten
+                    t_read = tic_if_enabled();
                     app_data = read_btc_data(csv_path);
+                    toc_log(t_read, 'read_btc_data');
                     last_csv_path = csv_path;
 
                     logMessage(sprintf('Daten automatisch geladen: %d Datensätze (%s bis %s)', ...
@@ -1512,6 +1595,7 @@ function btc_analyzer_gui()
         else
             logMessage('Keine vorherige Session gefunden - bitte Daten laden', 'debug');
         end
+        toc_log(t_func, 'loadLastCSVData');
     end
 
     %% Hilfsfunktion: Detaillierte Dateninfo loggen (DEBUG)

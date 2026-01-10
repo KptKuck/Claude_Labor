@@ -1,7 +1,7 @@
-function visualize_training_data_gui(data, training_data_info, X_train, Y_train)
+function visualize_training_data_gui(data, training_data_info, X_train, Y_train, log_func)
 % VISUALIZE_TRAINING_DATA_GUI GUI für Trainingsdaten-Visualisierung
 %
-%   visualize_training_data_gui(data, training_data_info, X_train, Y_train)
+%   visualize_training_data_gui(data, training_data_info, X_train, Y_train, log_func)
 %   öffnet eine GUI zur Visualisierung der BILSTM Trainingsdaten
 %   mit farbigen Bereichen für BUY und SELL Signale.
 %
@@ -10,13 +10,19 @@ function visualize_training_data_gui(data, training_data_info, X_train, Y_train)
 %       training_data_info - Struct mit Informationen über Trainingsdaten
 %       X_train - Cell Array mit Trainingssequenzen
 %       Y_train - Cell Array mit Labels (categorical)
+%       log_func - (Optional) Logger-Funktion aus Main-GUI (@logMessage)
 %
 %   Features:
 %       - Gesamter Datensatz sichtbar
 %       - BTCUSD Close-Preis Chart
 %       - Statistik-Panel mit Signal-Zählung
 
-    fprintf('=== Starte Training Data Visualizer GUI ===\n\n');
+    % Logger-Funktion (falls nicht übergeben, nutze fprintf)
+    if nargin < 5 || isempty(log_func)
+        log_func = @(msg, level) fprintf('[%s] %s\n', upper(level), msg);
+    end
+
+    log_func('Starte Training Data Visualizer GUI...', 'debug');
 
     % Extrahiere Informationen
     lookback = training_data_info.lookback_size;
@@ -55,7 +61,7 @@ function visualize_training_data_gui(data, training_data_info, X_train, Y_train)
         end
     end
 
-    fprintf('Signale gefunden: %d BUY, %d SELL\n', length(buy_positions), length(sell_positions));
+    log_func(sprintf('Signale gefunden: %d BUY, %d SELL', length(buy_positions), length(sell_positions)), 'debug');
 
     % Erstelle kombinierte, chronologisch sortierte Signal-Liste
     all_signals = [];
@@ -84,7 +90,7 @@ function visualize_training_data_gui(data, training_data_info, X_train, Y_train)
         all_signals = all_signals(sort_idx);
     end
 
-    fprintf('Gesamt: %d Signale (chronologisch sortiert)\n', length(all_signals));
+    log_func(sprintf('Gesamt: %d Signale (chronologisch sortiert)', length(all_signals)), 'trace');
 
     % GUI erstellen - dynamische Größe basierend auf Bildschirm
     screen_size = get(0, 'ScreenSize');
@@ -450,8 +456,7 @@ function visualize_training_data_gui(data, training_data_info, X_train, Y_train)
     % Initial Plot - zeige alle Daten
     updatePlot();
 
-    fprintf('\n=== GUI bereit - Zeige alle Daten ===\n');
-    fprintf('Chart zeigt gesamten Datensatz mit Training-Signalen\n');
+    log_func('Visualisierungs-GUI bereit', 'success');
 
     %% Callback: Schrittmodus Navigation
     function stepSignal(step, filter_type)

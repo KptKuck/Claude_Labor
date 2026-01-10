@@ -1,11 +1,12 @@
-function prepare_training_data_gui(data)
+function prepare_training_data_gui(data, log_func)
 % PREPARE_TRAINING_DATA_GUI GUI zum Einstellen und Vorschau der Trainingsdaten-Vorbereitung
 %
-%   PREPARE_TRAINING_DATA_GUI(data) öffnet eine GUI zum Konfigurieren der
+%   PREPARE_TRAINING_DATA_GUI(data, log_func) öffnet eine GUI zum Konfigurieren der
 %   Parameter für die Trainingsdaten-Vorbereitung und zeigt eine Vorschau.
 %
 %   Input:
 %       data - Table mit DateTime, Open, High, Low, Close Spalten
+%       log_func - (Optional) Logger-Funktion aus Main-GUI (@logMessage)
 %
 %   Features:
 %       - Linke Seite: Alle einstellbaren Parameter
@@ -15,6 +16,11 @@ function prepare_training_data_gui(data)
     %% Validierung
     if nargin < 1 || isempty(data)
         error('Daten müssen übergeben werden.');
+    end
+
+    % Logger-Funktion (falls nicht übergeben, nutze fprintf)
+    if nargin < 2 || isempty(log_func)
+        log_func = @(msg, level) fprintf('[%s] %s\n', upper(level), msg);
     end
 
     % Prüfe erforderliche Spalten
@@ -51,6 +57,9 @@ function prepare_training_data_gui(data)
     result_Y = {};
     result_info = struct();
     preview_computed = false;
+
+    % Timing-Variablen (immer aktiv in dieser GUI, Ausgabe in Command Window)
+    enable_timing = true;
 
     %% GUI erstellen - dynamische Größe basierend auf Bildschirm
     screen_size = get(0, 'ScreenSize');
@@ -586,13 +595,17 @@ function prepare_training_data_gui(data)
     end
 
     function computePreview()
+        t_func = tic_if_enabled();
+        logMsg('Berechne Vorschau...', 'debug');
         status_label.Text = 'Berechne Vorschau...';
         status_label.FontColor = [1, 1, 0.5];
         drawnow;
 
         try
             % Trainingsdaten mit aktuellen Parametern berechnen
+            t_prepare = tic_if_enabled();
             [result_X, result_Y, result_info] = prepareDataWithParams();
+            toc_log(t_prepare, 'prepareDataWithParams');
 
             % Statistiken aktualisieren
             buy_value_label.Text = sprintf('%d', result_info.num_buy);
@@ -617,20 +630,26 @@ function prepare_training_data_gui(data)
             end
 
             % Chart aktualisieren
+            t_chart = tic_if_enabled();
             updatePreviewChart();
+            toc_log(t_chart, 'updatePreviewChart');
 
             preview_computed = true;
             apply_btn.Enable = 'on';
 
             status_label.Text = sprintf('Vorschau berechnet: %d Sequenzen erstellt.', result_info.total_sequences);
             status_label.FontColor = [0.5, 1, 0.5];
+            logMsg(sprintf('Vorschau: %d Sequenzen (BUY:%d SELL:%d HOLD:%d)', ...
+                   result_info.total_sequences, result_info.num_buy, result_info.num_sell, result_info.num_hold), 'success');
 
         catch ME
             status_label.Text = sprintf('Fehler: %s', ME.message);
             status_label.FontColor = [1, 0.5, 0.5];
             preview_computed = false;
             apply_btn.Enable = 'off';
+            logMsg(sprintf('Fehler bei Vorschau: %s', ME.message), 'error');
         end
+        toc_log(t_func, 'computePreview');
     end
 
     function [X, Y, info] = prepareDataWithParams()
@@ -675,7 +694,9 @@ function prepare_training_data_gui(data)
         end
 
         % Extrema finden
+        t_extrema = tic_if_enabled();
         [high_points, low_points] = find_daily_extrema(data);
+        toc_log(t_extrema, 'find_daily_extrema');
 
         % Index-Mapping
         datetime_to_idx = containers.Map();
@@ -729,6 +750,7 @@ function prepare_training_data_gui(data)
         % HOLD-Samples
         num_hold = 0;
         if params.include_hold
+            t_hold = tic_if_enabled();
             num_hold_target = round((num_buy + num_sell) * params.hold_ratio);
 
             % Sammle Extrema-Indizes
@@ -769,6 +791,7 @@ function prepare_training_data_gui(data)
                     num_hold = num_hold + 1;
                 end
             end
+            toc_log(t_hold, 'HOLD-Sample generation');
         end
 
         X = X';
@@ -879,22 +902,53 @@ function prepare_training_data_gui(data)
     end
 
     function applyAndClose()
+        t_func = tic_if_enabled();
         if preview_computed && ~isempty(result_X)
             % Speichere Ergebnisse im Base Workspace
+            logMsg('Speichere Trainingsdaten in Workspace...', 'debug');
+            t_assign = tic_if_enabled();
             assignin('base', 'X_train', result_X);
             assignin('base', 'Y_train', result_Y);
             assignin('base', 'training_info', result_info);
+            toc_log(t_assign, 'assignin (Workspace)');
 
-            fprintf('\n=== Trainingsdaten generiert ===\n');
-            fprintf('X_train: %d Sequenzen\n', length(result_X));
-            fprintf('Y_train: %d Labels\n', length(result_Y));
-            fprintf('Sequenzlänge: %d\n', result_info.sequence_length);
-            fprintf('Features: %d\n', result_info.num_features);
-            fprintf('\nVariablen im Workspace gespeichert: X_train, Y_train, training_info\n');
+            logMsg(sprintf('Trainingsdaten generiert: %d Sequenzen, %d Features, Seq-Länge: %d', ...
+                   length(result_X), result_info.num_features, result_info.sequence_length), 'success');
+
+            toc_log(t_func, 'applyAndClose');
 
             % GUI schließen
             close(fig);
         end
+    end
+
+    %% Hilfsfunktion: Zeitmessung starten
+    function t = tic_if_enabled()
+        if enable_timing
+            t = tic;
+        else
+            t = [];
+        end
+    end
+
+    %% Hilfsfunktion: Zeitmessung stoppen und ausgeben
+    function toc_log(t, func_name)
+        if ~isempty(t) && enable_timing
+            elapsed = toc(t);
+            if elapsed < 1
+                time_str = sprintf('%.1f ms', elapsed * 1000);
+            elseif elapsed < 60
+                time_str = sprintf('%.2f s', elapsed);
+            else
+                time_str = sprintf('%.1f min', elapsed / 60);
+            end
+            log_func(sprintf('[TIMING] %s: %s', func_name, time_str), 'trace');
+        end
+    end
+
+    %% Hilfsfunktion: Log-Nachricht senden
+    function logMsg(msg, level)
+        log_func(msg, level);
     end
 
 end
