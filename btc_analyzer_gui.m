@@ -1467,17 +1467,26 @@ function btc_analyzer_gui()
             fclose(fid);
             logMessage(sprintf('Parameter-Datei erstellt: %s', params_filename), 'success');
 
-            % Zusätzlich .mat Datei zum Laden erstellen
+            % Zusätzlich .mat Datei zum Laden erstellen (strukturiert)
             params_mat_filename = fullfile(results_folder, 'parameters.mat');
             params = struct();
-            params.from_date = from_date_picker.Value;
-            params.to_date = to_date_picker.Value;
-            params.interval = interval_dropdown.Value;
-            params.epochs = epochs_field.Value;
-            params.batch_size = batch_field.Value;
-            params.hidden_units = hidden_field.Value;
-            params.learning_rate = lr_field.Value;
-            params.execution_env = gpu_switch.Value;
+
+            % Session Information
+            params.session.timestamp = session_timestamp;
+            params.session.results_folder = results_folder;
+
+            % Datenlade-Parameter
+            params.data_loading.from_date = from_date_picker.Value;
+            params.data_loading.to_date = to_date_picker.Value;
+            params.data_loading.interval = interval_dropdown.Value;
+
+            % Training-Parameter
+            params.training.epochs = epochs_field.Value;
+            params.training.batch_size = batch_field.Value;
+            params.training.hidden_units = hidden_field.Value;
+            params.training.learning_rate = lr_field.Value;
+            params.training.execution_env = gpu_switch.Value;
+
             save(params_mat_filename, 'params');
 
         catch ME
@@ -1501,14 +1510,22 @@ function btc_analyzer_gui()
         filepath = fullfile(path, file);
         try
             params = struct();
-            params.from_date = from_date_picker.Value;
-            params.to_date = to_date_picker.Value;
-            params.interval = interval_dropdown.Value;
-            params.epochs = epochs_field.Value;
-            params.batch_size = batch_field.Value;
-            params.hidden_units = hidden_field.Value;
-            params.learning_rate = lr_field.Value;
-            params.execution_env = gpu_switch.Value;
+
+            % Session Information
+            params.session.timestamp = session_timestamp;
+            params.session.results_folder = results_folder;
+
+            % Datenlade-Parameter
+            params.data_loading.from_date = from_date_picker.Value;
+            params.data_loading.to_date = to_date_picker.Value;
+            params.data_loading.interval = interval_dropdown.Value;
+
+            % Training-Parameter
+            params.training.epochs = epochs_field.Value;
+            params.training.batch_size = batch_field.Value;
+            params.training.hidden_units = hidden_field.Value;
+            params.training.learning_rate = lr_field.Value;
+            params.training.execution_env = gpu_switch.Value;
 
             save(filepath, 'params');
             logMessage(sprintf('Parameter gespeichert: %s', filepath), 'success');
@@ -1541,14 +1558,17 @@ function btc_analyzer_gui()
             params = loaded.params;
 
             % Technische Parameter in GUI setzen
-            from_date_picker.Value = params.from_date;
-            to_date_picker.Value = params.to_date;
-            interval_dropdown.Value = params.interval;
-            epochs_field.Value = params.epochs;
-            batch_field.Value = params.batch_size;
-            hidden_field.Value = params.hidden_units;
-            lr_field.Value = params.learning_rate;
-            gpu_switch.Value = params.execution_env;
+            % Datenlade-Parameter
+            from_date_picker.Value = params.data_loading.from_date;
+            to_date_picker.Value = params.data_loading.to_date;
+            interval_dropdown.Value = params.data_loading.interval;
+
+            % Training-Parameter
+            epochs_field.Value = params.training.epochs;
+            batch_field.Value = params.training.batch_size;
+            hidden_field.Value = params.training.hidden_units;
+            lr_field.Value = params.training.learning_rate;
+            gpu_switch.Value = params.training.execution_env;
 
             % Update GPU Status
             updateGPUStatus(gpu_switch);
