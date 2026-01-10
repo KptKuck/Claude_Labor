@@ -542,11 +542,11 @@ function btc_analyzer_gui()
     logger_mode_dropdown.Layout.Row = 1;
     logger_mode_dropdown.Layout.Column = 2;
 
-    % Log-Level Dropdown (Default: INFO)
+    % Log-Level Dropdown (Default: TRACE)
     logger_level_dropdown = uidropdown(logger_header_grid, ...
                                        'Items', {'ERROR', 'WARNING', 'INFO', 'DEBUG', 'TRACE'}, ...
                                        'ItemsData', {1, 2, 3, 4, 5}, ...
-                                       'Value', 3, ...
+                                       'Value', 5, ...
                                        'FontSize', 10, ...
                                        'Tooltip', 'Log-Level: Zeigt alle Meldungen bis zu diesem Level', ...
                                        'ValueChangedFcn', @(dd,event) updateLoggerLevel(dd));
@@ -600,7 +600,7 @@ function btc_analyzer_gui()
     logger_mode = 'both';  % 'window', 'both', 'file'
 
     % Log-Level: 1=ERROR, 2=WARNING, 3=INFO, 4=DEBUG, 5=TRACE
-    log_level = 3;  % Default: INFO
+    log_level = 5;  % Default: TRACE
 
     % Log-Ordner erstellen falls nicht vorhanden
     log_folder = fullfile(fileparts(mfilename('fullpath')), 'log');
@@ -840,6 +840,9 @@ function btc_analyzer_gui()
                          datestr(app_data.DateTime(end)));
             uialert(fig, msg, 'Erfolgreich', 'Icon', 'success');
             logMessage(sprintf('Daten geladen: %d Datensätze', height(app_data)), 'success');
+
+            % DEBUG: Detaillierte Dateninfo
+            logDataDetails(app_data, filepath);
 
             % Buttons aktivieren
             analyze_btn.Enable = 'on';
@@ -1493,6 +1496,9 @@ function btc_analyzer_gui()
                                datestr(app_data.DateTime(1), 'yyyy-mm-dd'), ...
                                datestr(app_data.DateTime(end), 'yyyy-mm-dd')), 'success');
 
+                    % DEBUG: Detaillierte Dateninfo
+                    logDataDetails(app_data, csv_path);
+
                     % Buttons aktivieren
                     analyze_btn.Enable = 'on';
                     prepare_data_btn.Enable = 'on';
@@ -1506,5 +1512,57 @@ function btc_analyzer_gui()
         else
             logMessage('Keine vorherige Session gefunden - bitte Daten laden', 'debug');
         end
+    end
+
+    %% Hilfsfunktion: Detaillierte Dateninfo loggen (DEBUG)
+    function logDataDetails(data, filepath)
+        % Zeigt detaillierte Informationen über geladene CSV-Daten im DEBUG-Level
+
+        % Dateigröße
+        file_info = dir(filepath);
+        file_size_mb = file_info.bytes / (1024^2);
+
+        % Zeitraum berechnen
+        start_dt = data.DateTime(1);
+        end_dt = data.DateTime(end);
+        duration_days = days(end_dt - start_dt);
+
+        % Intervall schätzen (Median der Zeitdifferenzen)
+        if height(data) > 1
+            time_diffs = diff(data.DateTime);
+            median_interval = median(time_diffs);
+            if median_interval < hours(1)
+                interval_str = sprintf('%d Min', round(minutes(median_interval)));
+            elseif median_interval < days(1)
+                interval_str = sprintf('%d Std', round(hours(median_interval)));
+            else
+                interval_str = sprintf('%d Tage', round(days(median_interval)));
+            end
+        else
+            interval_str = 'N/A';
+        end
+
+        % Preis-Statistiken
+        price_min = min(data.Low);
+        price_max = max(data.High);
+        price_avg = mean(data.Close);
+        price_range_pct = ((price_max - price_min) / price_min) * 100;
+
+        % Spalten-Info
+        columns = data.Properties.VariableNames;
+        num_columns = length(columns);
+
+        % Log ausgeben
+        logMessage(sprintf('Dateipfad: %s', filepath), 'debug');
+        logMessage(sprintf('Dateigröße: %.2f MB | Spalten: %d | Intervall: ~%s', ...
+                  file_size_mb, num_columns, interval_str), 'debug');
+        logMessage(sprintf('Zeitraum: %.1f Tage (%s bis %s)', ...
+                  duration_days, datestr(start_dt, 'dd.mm.yyyy HH:MM'), ...
+                  datestr(end_dt, 'dd.mm.yyyy HH:MM')), 'debug');
+        logMessage(sprintf('Preis: Min=%.2f | Max=%.2f | Avg=%.2f | Range=%.1f%%', ...
+                  price_min, price_max, price_avg, price_range_pct), 'debug');
+
+        % Spalten als TRACE
+        logMessage(sprintf('Spalten: %s', strjoin(columns, ', ')), 'trace');
     end
 end
