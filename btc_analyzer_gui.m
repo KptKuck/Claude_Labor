@@ -628,6 +628,7 @@ function btc_analyzer_gui()
     trained_model = [];
     model_info = [];
     use_gpu = false;  % GPU/CPU Flag
+    last_csv_path = '';  % Pfad zur zuletzt geladenen CSV-Datei
 
     % Logger-Variablen (Default: Fenster+Datei)
     logger_mode = 'both';  % 'window', 'both', 'file'
@@ -671,6 +672,9 @@ function btc_analyzer_gui()
 
     % Parameter-Datei erstellen
     saveParametersToFile();
+
+    % Letzte CSV-Datei automatisch laden (falls vorhanden)
+    loadLastCSVData();
 
     %% Datum anpassen Funktion
     function adjustDate(date_picker, amount, unit)
@@ -885,6 +889,9 @@ function btc_analyzer_gui()
             visualize_signals_btn.Enable = 'on';
             logMessage('Analyse-Buttons aktiviert', 'info');
 
+            % Pfad der geladenen CSV-Datei speichern für nächsten Start
+            saveLastCSVPath(filepath);
+
         catch ME
             logMessage(sprintf('Fehler beim Laden: %s', ME.message), 'error');
             uialert(fig, sprintf('Fehler beim Laden: %s', ME.message), ...
@@ -1059,6 +1066,9 @@ function btc_analyzer_gui()
             % Speichern
             writetable(export_data, filepath, 'Delimiter', '\t');
             logMessage(sprintf('CSV gespeichert: %d Zeilen', height(export_data)), 'success');
+
+            % Pfad der gespeicherten CSV-Datei für nächsten Start merken
+            saveLastCSVPath(filepath);
 
             uialert(fig, sprintf('Daten gespeichert:\n%s', filepath), ...
                    'Erfolgreich', 'Icon', 'success');
@@ -1582,6 +1592,53 @@ function btc_analyzer_gui()
             logMessage(sprintf('Fehler beim Laden: %s', ME.message), 'error');
             uialert(fig, sprintf('Fehler beim Laden:\n%s', ME.message), ...
                    'Fehler', 'Icon', 'error');
+        end
+    end
+
+    %% Hilfsfunktion: Letzte CSV-Pfad speichern
+    function saveLastCSVPath(csv_path)
+        try
+            last_csv_path = csv_path;
+            last_session_file = fullfile(fileparts(mfilename('fullpath')), 'last_session.mat');
+            save(last_session_file, 'csv_path');
+            logMessage(sprintf('Letzte CSV-Datei gemerkt: %s', csv_path), 'info');
+        catch ME
+            logMessage(sprintf('Warnung: Konnte letzten CSV-Pfad nicht speichern: %s', ME.message), 'warning');
+        end
+    end
+
+    %% Hilfsfunktion: Letzte CSV-Daten beim Start laden
+    function loadLastCSVData()
+        last_session_file = fullfile(fileparts(mfilename('fullpath')), 'last_session.mat');
+
+        if exist(last_session_file, 'file')
+            try
+                loaded = load(last_session_file);
+                if isfield(loaded, 'csv_path') && exist(loaded.csv_path, 'file')
+                    csv_path = loaded.csv_path;
+                    logMessage(sprintf('Lade letzte CSV-Datei: %s', csv_path), 'info');
+
+                    % Lade Daten
+                    app_data = read_btc_data(csv_path);
+                    last_csv_path = csv_path;
+
+                    logMessage(sprintf('Daten automatisch geladen: %d Datensätze (%s bis %s)', ...
+                               height(app_data), ...
+                               datestr(app_data.DateTime(1), 'yyyy-mm-dd'), ...
+                               datestr(app_data.DateTime(end), 'yyyy-mm-dd')), 'success');
+
+                    % Buttons aktivieren
+                    analyze_btn.Enable = 'on';
+                    prepare_data_btn.Enable = 'on';
+                    visualize_signals_btn.Enable = 'on';
+                else
+                    logMessage('Letzte CSV-Datei nicht mehr vorhanden', 'warning');
+                end
+            catch ME
+                logMessage(sprintf('Warnung: Konnte letzte Daten nicht laden: %s', ME.message), 'warning');
+            end
+        else
+            logMessage('Keine vorherige Session gefunden - bitte Daten laden', 'info');
         end
     end
 end
