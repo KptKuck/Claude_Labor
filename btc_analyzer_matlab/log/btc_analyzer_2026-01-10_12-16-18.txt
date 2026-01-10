@@ -1,0 +1,14 @@
+[2026-01-10 12:16:18] [info] BTCUSD Analyzer gestartet
+[2026-01-10 12:16:18] [info] Log-Datei: C:\Work\MatLab\Claude_Labor\log\btc_analyzer_2026-01-10_12-16-18.txt
+[2026-01-10 12:16:18] [info] Results-Ordner: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_12-16-18
+[2026-01-10 12:16:18] [success] Parameter-Datei erstellt: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_12-16-18\parameters.txt
+[2026-01-10 12:16:18] [info] Lade letzte CSV-Datei: C:\Work\MatLab\Claude_Labor\Daten_csv\BTCUSD_2024-12-01_2026-01-08.csv
+[2026-01-10 12:16:18] [success] Daten automatisch geladen: 9673 Datensätze (2024-12-01 bis 2026-01-08)
+[2026-01-10 12:16:21] [success] Trainingsdaten geladen: 792 Sequenzen (BUY:396 SELL:396 HOLD:0)
+[2026-01-10 12:16:22] [info] Öffne Training GUI...
+[2026-01-10 12:16:23] [success] Training GUI geöffnet
+[2026-01-10 12:16:23] [info] Training GUI gestartet
+[2026-01-10 12:16:52] [info] Öffne Training GUI...
+[2026-01-10 12:16:52] [success] Training GUI geöffnet
+[2026-01-10 12:16:55] [info] Training GUI gestartet
+[2026-01-10 12:17:05] [warning] Training manuell gestoppt

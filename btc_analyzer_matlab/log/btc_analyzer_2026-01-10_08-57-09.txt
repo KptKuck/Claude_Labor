@@ -1,0 +1,16 @@
+[2026-01-10 08:57:09] [info] BTCUSD Analyzer gestartet
+[2026-01-10 08:57:09] [info] Log-Datei: C:\Work\MatLab\Cloude_labor\log\btc_analyzer_2026-01-10_08-57-09.txt
+[2026-01-10 08:57:09] [info] Results-Ordner: C:\Work\MatLab\Cloude_labor\Results\2026-01-10_08-57-09
+[2026-01-10 08:57:09] [success] Parameter-Datei erstellt: C:\Work\MatLab\Cloude_labor\Results\2026-01-10_08-57-09\parameters.txt
+[2026-01-10 08:57:13] [info] Öffne Dateiauswahl-Dialog...
+[2026-01-10 08:57:16] [info] Lade Datei: BTCUSD_2024-12-01_2026-01-08.csv
+[2026-01-10 08:57:17] [success] Daten geladen: 9673 Datensätze
+[2026-01-10 08:57:17] [info] Analyse-Buttons aktiviert
+[2026-01-10 08:57:22] [info] Öffne Trainingsdaten-Vorbereitungs-GUI...
+[2026-01-10 08:57:24] [info] GUI geöffnet. Nach Abschluss werden Daten übernommen.
+[2026-01-10 08:57:38] [success] Trainingsdaten geladen: 792 Sequenzen (BUY:396 SELL:396 HOLD:0)
+[2026-01-10 08:58:00] [info] GPU-Modus aktiviert, prüfe Verfügbarkeit...
+[2026-01-10 08:58:00] [info] CUDA Forward Compatibility aktiviert
+[2026-01-10 08:58:00] [success] GPU erkannt: NVIDIA GeForce RTX 5080 (15.5 GB, CC 49.0)GPU erkannt: 2.0 (
+[2026-01-10 08:58:01] [info] Starte BILSTM Training auf GPU (50 Epochen)...
+[2026-01-10 08:58:09] [success] Training abgeschlossen: Train Acc=50.63%, Val Acc=47.47%, Zeit=0.1min

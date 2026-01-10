@@ -1,0 +1,6 @@
+[2026-01-10 10:35:42] [info] BTCUSD Analyzer gestartet
+[2026-01-10 10:35:42] [info] Log-Datei: C:\Work\MatLab\Claude_Labor\log\btc_analyzer_2026-01-10_10-35-42.txt
+[2026-01-10 10:35:42] [info] Results-Ordner: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_10-35-42
+[2026-01-10 10:35:42] [success] Parameter-Datei erstellt: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_10-35-42\parameters.txt
+[2026-01-10 10:35:42] [info] Lade letzte CSV-Datei: C:\Work\MatLab\Claude_Labor\Daten_csv\BTCUSD_2024-12-01_2026-01-08.csv
+[2026-01-10 10:35:42] [success] Daten automatisch geladen: 9673 Datensätze (2024-12-01 bis 2026-01-08)

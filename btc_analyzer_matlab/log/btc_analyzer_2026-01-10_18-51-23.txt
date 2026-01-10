@@ -1,0 +1,1730 @@
+[2026-01-10 18:51:23] [info] BTCUSD Analyzer gestartet
+[2026-01-10 18:51:23] [info] Log-Datei: C:\Work\MatLab\Claude_Labor\log\btc_analyzer_2026-01-10_18-51-23.txt
+[2026-01-10 18:51:23] [info] Results-Ordner: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-51-23
+[2026-01-10 18:51:23] [success] Parameter-Datei erstellt: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-51-23\parameters.txt
+[2026-01-10 18:51:23] [debug] Lade letzte CSV-Datei: C:\Work\MatLab\Claude_Labor\Daten_csv\BTCUSD_2025-01-01_2026-01-10.csv
+[2026-01-10 18:51:23] [trace] [TIMING] read_btc_data: 27.0 ms
+[2026-01-10 18:51:23] [success] Daten automatisch geladen: 8977 Datensätze (2025-01-01 bis 2026-01-10)
+[2026-01-10 18:51:23] [debug] Dateipfad: C:\Work\MatLab\Claude_Labor\Daten_csv\BTCUSD_2025-01-01_2026-01-10.csv
+[2026-01-10 18:51:23] [debug] Dateigröße: 0.54 MB | Spalten: 10 | Intervall: ~1 Std
+[2026-01-10 18:51:23] [debug] Zeitraum: 374.0 Tage (01.01.2025 00:00 bis 10.01.2026 00:00)
+[2026-01-10 18:51:23] [debug] Preis: Min=74508.00 | Max=126199.63 | Avg=101374.08 | Range=69.4%
+[2026-01-10 18:51:23] [trace] Spalten: DateTime, Date, Time, Open, High, Low, Close, TickVol, Vol, Spread
+[2026-01-10 18:51:23] [trace] --- Erste 10 Datenzeilen ---
+[2026-01-10 18:51:23] [trace]   [1] 01.01.25 00:00 | O:93576.00 H:94509.42 L:93489.03 C:94401.14
+[2026-01-10 18:51:23] [trace]   [2] 01.01.25 01:00 | O:94401.13 H:94408.72 L:93578.77 C:93607.74
+[2026-01-10 18:51:23] [trace]   [3] 01.01.25 02:00 | O:93607.74 H:94105.12 L:93594.56 C:94098.91
+[2026-01-10 18:51:23] [trace]   [4] 01.01.25 03:00 | O:94098.90 H:94098.91 L:93728.22 C:93838.04
+[2026-01-10 18:51:23] [trace]   [5] 01.01.25 04:00 | O:93838.04 H:93838.04 L:93500.00 C:93553.91
+[2026-01-10 18:51:23] [trace]   [6] 01.01.25 05:00 | O:93553.91 H:93937.19 L:93547.40 C:93792.02
+[2026-01-10 18:51:23] [trace]   [7] 01.01.25 06:00 | O:93792.02 H:93792.02 L:93568.38 C:93757.58
+[2026-01-10 18:51:23] [trace]   [8] 01.01.25 07:00 | O:93757.57 H:93800.00 L:93664.08 C:93684.10
+[2026-01-10 18:51:24] [trace]   [9] 01.01.25 08:00 | O:93684.11 H:93756.02 L:93304.00 C:93428.46
+[2026-01-10 18:51:24] [trace]   [10] 01.01.25 09:00 | O:93428.47 H:93486.29 L:92888.00 C:93413.06
+[2026-01-10 18:51:24] [trace] [TIMING] loadLastCSVData: 55.9 ms
+[2026-01-10 18:51:35] [debug] Suche neuestes Modell in Results-Ordnern...
+[2026-01-10 18:51:35] [info] Neuestes Modell gefunden: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-31-38\BILSTM_ValAcc-55.6_TrAcc-73.3_Ep50_completed.mat
+[2026-01-10 18:51:35] [info] Lade Modell: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-31-38\BILSTM_ValAcc-55.6_TrAcc-73.3_Ep50_completed.mat
+[2026-01-10 18:51:35] [trace] [TIMING] load(model): 11.8 ms
+[2026-01-10 18:51:35] [trace] Modellpfad gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-31-38\BILSTM_ValAcc-55.6_TrAcc-73.3_Ep50_completed.mat
+[2026-01-10 18:51:35] [success] Modell geladen: Klassen=HOLD,BUY,SELL
+[2026-01-10 18:51:35] [trace] [TIMING] loadLastModel: 32.2 ms
+[2026-01-10 18:51:40] [info] Oeffne Backtester GUI...
+[2026-01-10 18:51:40] [info] === Validierung: Daten-Modell-Kompatibilitaet ===
+[2026-01-10 18:51:40] [debug] model_info Struktur: OK
+[2026-01-10 18:51:40] [debug] Basis-Datenspalten: OK
+[2026-01-10 18:51:40] [debug] Features werden generiert: PriceChange, PriceChangePct
+[2026-01-10 18:51:40] [debug] Modell-Features (6): Close, High, Low, Open, PriceChange, PriceChangePct
+[2026-01-10 18:51:40] [debug] Datenpunkte: 8977 (min. 121 benoetigt)
+[2026-01-10 18:51:40] [debug] Feature-Dimension: 6
+[2026-01-10 18:51:40] [debug] Klassen: HOLD, BUY, SELL
+[2026-01-10 18:51:40] [success] === Validierung erfolgreich ===
+[2026-01-10 18:51:40] [info] Sequenzlaenge: 120 (Lookback: 100, Lookforward: 20)
+[2026-01-10 18:51:40] [info] Backtest-Bereich: 8857 Schritte moeglich
+[2026-01-10 18:51:40] [info] Backtester GUI geoeffnet
+[2026-01-10 18:51:40] [debug] Datenpunkte: 8977, Sequenzlaenge: 120
+[2026-01-10 18:51:40] [success] Backtester GUI geoeffnet
+[2026-01-10 18:51:40] [trace] [TIMING] openBacktester: 165.7 ms
+[2026-01-10 18:51:43] [info] Backtest gestartet
+[2026-01-10 18:51:43] [debug] Feature "PriceChange" aus Rohdaten generiert
+[2026-01-10 18:51:43] [debug] Feature "PriceChangePct" aus Rohdaten generiert
+[2026-01-10 18:51:43] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 18:51:43] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 18:51:43] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 18:51:43] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 18:51:43] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 18:51:43] [info] SHORT Position geoeffnet @ $101738.80
+[2026-01-10 18:51:44] [success] SHORT Position geschlossen @ $96750.86 | P/L: +$4987.94
+[2026-01-10 18:51:44] [info] LONG Position geoeffnet @ $96750.86
+[2026-01-10 18:51:44] [warning] LONG Position geschlossen @ $94030.82 | P/L: -$2720.04
+[2026-01-10 18:51:44] [info] SHORT Position geoeffnet @ $94030.82
+[2026-01-10 18:51:45] [success] SHORT Position geschlossen @ $93980.00 | P/L: +$50.82
+[2026-01-10 18:51:45] [info] LONG Position geoeffnet @ $93980.00
+[2026-01-10 18:51:45] [success] LONG Position geschlossen @ $94244.02 | P/L: +$264.02
+[2026-01-10 18:51:45] [info] SHORT Position geoeffnet @ $94244.02
+[2026-01-10 18:51:45] [success] SHORT Position geschlossen @ $92693.11 | P/L: +$1550.91
+[2026-01-10 18:51:45] [info] LONG Position geoeffnet @ $92693.11
+[2026-01-10 18:51:45] [success] LONG Position geschlossen @ $93020.11 | P/L: +$327.00
+[2026-01-10 18:51:45] [info] SHORT Position geoeffnet @ $93020.11
+[2026-01-10 18:51:46] [warning] SHORT Position geschlossen @ $94586.11 | P/L: -$1566.00
+[2026-01-10 18:51:46] [info] LONG Position geoeffnet @ $94586.11
+[2026-01-10 18:51:47] [success] LONG Position geschlossen @ $94650.26 | P/L: +$64.15
+[2026-01-10 18:51:47] [info] SHORT Position geoeffnet @ $94650.26
+[2026-01-10 18:51:47] [success] SHORT Position geschlossen @ $92312.18 | P/L: +$2338.08
+[2026-01-10 18:51:47] [info] LONG Position geoeffnet @ $92312.18
+[2026-01-10 18:51:48] [success] LONG Position geschlossen @ $96777.80 | P/L: +$4465.62
+[2026-01-10 18:51:48] [info] SHORT Position geoeffnet @ $96777.80
+[2026-01-10 18:51:48] [success] SHORT Position geschlossen @ $96537.80 | P/L: +$240.00
+[2026-01-10 18:51:48] [info] LONG Position geoeffnet @ $96537.80
+[2026-01-10 18:51:49] [success] LONG Position geschlossen @ $99346.39 | P/L: +$2808.59
+[2026-01-10 18:51:49] [info] SHORT Position geoeffnet @ $99346.39
+[2026-01-10 18:51:49] [warning] SHORT Position geschlossen @ $99838.54 | P/L: -$492.15
+[2026-01-10 18:51:49] [info] LONG Position geoeffnet @ $99838.54
+[2026-01-10 18:51:50] [success] LONG Position geschlossen @ $104125.46 | P/L: +$4286.92
+[2026-01-10 18:51:50] [info] SHORT Position geoeffnet @ $104125.46
+[2026-01-10 18:51:50] [warning] SHORT Position geschlossen @ $105834.93 | P/L: -$1709.47
+[2026-01-10 18:51:50] [info] LONG Position geoeffnet @ $105834.93
+[2026-01-10 18:51:51] [warning] LONG Position geschlossen @ $103826.16 | P/L: -$2008.77
+[2026-01-10 18:51:51] [info] SHORT Position geoeffnet @ $103826.16
+[2026-01-10 18:51:51] [warning] SHORT Position geschlossen @ $104084.74 | P/L: -$258.58
+[2026-01-10 18:51:51] [info] LONG Position geoeffnet @ $104084.74
+[2026-01-10 18:51:52] [warning] LONG Position geschlossen @ $103691.63 | P/L: -$393.11
+[2026-01-10 18:51:52] [info] SHORT Position geoeffnet @ $103691.63
+[2026-01-10 18:51:52] [success] SHORT Position geschlossen @ $103647.16 | P/L: +$44.47
+[2026-01-10 18:51:52] [info] LONG Position geoeffnet @ $103647.16
+[2026-01-10 18:51:53] [success] LONG Position geschlossen @ $103896.01 | P/L: +$248.85
+[2026-01-10 18:51:53] [info] SHORT Position geoeffnet @ $103896.01
+[2026-01-10 18:51:53] [warning] SHORT Position geschlossen @ $104321.10 | P/L: -$425.09
+[2026-01-10 18:51:53] [info] LONG Position geoeffnet @ $104321.10
+[2026-01-10 18:51:54] [success] LONG Position geschlossen @ $105424.39 | P/L: +$1103.29
+[2026-01-10 18:51:54] [info] SHORT Position geoeffnet @ $105424.39
+[2026-01-10 18:51:55] [success] SHORT Position geschlossen @ $105102.84 | P/L: +$321.55
+[2026-01-10 18:51:55] [info] LONG Position geoeffnet @ $105102.84
+[2026-01-10 18:51:57] [warning] LONG Position geschlossen @ $99180.00 | P/L: -$5922.84
+[2026-01-10 18:51:57] [info] SHORT Position geoeffnet @ $99180.00
+[2026-01-10 18:51:57] [warning] SHORT Position geschlossen @ $101386.50 | P/L: -$2206.50
+[2026-01-10 18:51:57] [info] LONG Position geoeffnet @ $101386.50
+[2026-01-10 18:51:58] [success] LONG Position geschlossen @ $102424.24 | P/L: +$1037.74
+[2026-01-10 18:51:58] [info] SHORT Position geoeffnet @ $102424.24
+[2026-01-10 18:51:58] [success] SHORT Position geschlossen @ $102406.98 | P/L: +$17.26
+[2026-01-10 18:51:58] [info] LONG Position geoeffnet @ $102406.98
+[2026-01-10 18:51:59] [success] LONG Position geschlossen @ $105578.95 | P/L: +$3171.97
+[2026-01-10 18:51:59] [info] SHORT Position geoeffnet @ $105578.95
+[2026-01-10 18:51:59] [warning] SHORT Position geschlossen @ $105711.27 | P/L: -$132.32
+[2026-01-10 18:51:59] [info] LONG Position geoeffnet @ $105711.27
+[2026-01-10 18:52:00] [warning] LONG Position geschlossen @ $102627.29 | P/L: -$3083.98
+[2026-01-10 18:52:00] [info] SHORT Position geoeffnet @ $102627.29
+[2026-01-10 18:52:03] [success] SHORT Position geschlossen @ $99206.38 | P/L: +$3420.91
+[2026-01-10 18:52:03] [info] LONG Position geoeffnet @ $99206.38
+[2026-01-10 18:52:03] [warning] LONG Position geschlossen @ $97691.20 | P/L: -$1515.18
+[2026-01-10 18:52:03] [info] SHORT Position geoeffnet @ $97691.20
+[2026-01-10 18:52:04] [success] SHORT Position geschlossen @ $96904.11 | P/L: +$787.09
+[2026-01-10 18:52:04] [info] LONG Position geoeffnet @ $96904.11
+[2026-01-10 18:52:05] [warning] LONG Position geschlossen @ $96316.84 | P/L: -$587.27
+[2026-01-10 18:52:05] [info] SHORT Position geoeffnet @ $96316.84
+[2026-01-10 18:52:05] [warning] SHORT Position geschlossen @ $96807.43 | P/L: -$490.59
+[2026-01-10 18:52:05] [info] LONG Position geoeffnet @ $96807.43
+[2026-01-10 18:52:06] [success] LONG Position geschlossen @ $96898.56 | P/L: +$91.13
+[2026-01-10 18:52:06] [info] SHORT Position geoeffnet @ $96898.56
+[2026-01-10 18:52:07] [success] SHORT Position geschlossen @ $96527.36 | P/L: +$371.20
+[2026-01-10 18:52:07] [info] LONG Position geoeffnet @ $96527.36
+[2026-01-10 18:52:08] [warning] LONG Position geschlossen @ $96212.00 | P/L: -$315.36
+[2026-01-10 18:52:08] [info] SHORT Position geoeffnet @ $96212.00
+[2026-01-10 18:52:09] [warning] SHORT Position geschlossen @ $97331.95 | P/L: -$1119.95
+[2026-01-10 18:52:09] [info] LONG Position geoeffnet @ $97331.95
+[2026-01-10 18:52:10] [warning] LONG Position geschlossen @ $96165.29 | P/L: -$1166.66
+[2026-01-10 18:52:10] [info] SHORT Position geoeffnet @ $96165.29
+[2026-01-10 18:52:11] [warning] SHORT Position geschlossen @ $97205.06 | P/L: -$1039.77
+[2026-01-10 18:52:11] [info] LONG Position geoeffnet @ $97205.06
+[2026-01-10 18:52:13] [warning] LONG Position geschlossen @ $95627.76 | P/L: -$1577.30
+[2026-01-10 18:52:13] [info] SHORT Position geoeffnet @ $95627.76
+[2026-01-10 18:52:15] [warning] SHORT Position geschlossen @ $97684.23 | P/L: -$2056.47
+[2026-01-10 18:52:15] [info] LONG Position geoeffnet @ $97684.23
+[2026-01-10 18:52:16] [warning] LONG Position geschlossen @ $96872.59 | P/L: -$811.64
+[2026-01-10 18:52:16] [info] SHORT Position geoeffnet @ $96872.59
+[2026-01-10 18:52:16] [warning] SHORT Position geschlossen @ $97165.09 | P/L: -$292.50
+[2026-01-10 18:52:16] [info] LONG Position geoeffnet @ $97165.09
+[2026-01-10 18:52:17] [warning] LONG Position geschlossen @ $95340.83 | P/L: -$1824.26
+[2026-01-10 18:52:17] [info] SHORT Position geoeffnet @ $95340.83
+[2026-01-10 18:52:17] [warning] SHORT Position geschlossen @ $95971.36 | P/L: -$630.53
+[2026-01-10 18:52:17] [info] LONG Position geoeffnet @ $95971.36
+[2026-01-10 18:52:18] [warning] LONG Position geschlossen @ $93924.03 | P/L: -$2047.33
+[2026-01-10 18:52:18] [info] SHORT Position geoeffnet @ $93924.03
+[2026-01-10 18:52:19] [warning] SHORT Position geschlossen @ $96315.64 | P/L: -$2391.61
+[2026-01-10 18:52:20] [info] LONG Position geoeffnet @ $96315.64
+[2026-01-10 18:52:21] [success] LONG Position geschlossen @ $98295.08 | P/L: +$1979.44
+[2026-01-10 18:52:21] [info] SHORT Position geoeffnet @ $98295.08
+[2026-01-10 18:52:21] [warning] SHORT Position geschlossen @ $98422.80 | P/L: -$127.72
+[2026-01-10 18:52:21] [info] LONG Position geoeffnet @ $98422.80
+[2026-01-10 18:52:22] [warning] LONG Position geschlossen @ $95285.11 | P/L: -$3137.69
+[2026-01-10 18:52:22] [info] SHORT Position geoeffnet @ $95285.11
+[2026-01-10 18:52:24] [warning] SHORT Position geschlossen @ $95777.70 | P/L: -$492.59
+[2026-01-10 18:52:24] [info] LONG Position geoeffnet @ $95777.70
+[2026-01-10 18:52:25] [warning] LONG Position geschlossen @ $94644.00 | P/L: -$1133.70
+[2026-01-10 18:52:25] [info] SHORT Position geoeffnet @ $94644.00
+[2026-01-10 18:52:27] [success] SHORT Position geschlossen @ $87947.25 | P/L: +$6696.75
+[2026-01-10 18:52:27] [info] LONG Position geoeffnet @ $87947.25
+[2026-01-10 18:52:28] [warning] LONG Position geschlossen @ $86805.99 | P/L: -$1141.26
+[2026-01-10 18:52:28] [info] SHORT Position geoeffnet @ $86805.99
+[2026-01-10 18:52:29] [success] SHORT Position geschlossen @ $84113.98 | P/L: +$2692.01
+[2026-01-10 18:52:29] [info] LONG Position geoeffnet @ $84113.98
+[2026-01-10 18:52:29] [warning] LONG Position geschlossen @ $83524.98 | P/L: -$589.00
+[2026-01-10 18:52:29] [info] SHORT Position geoeffnet @ $83524.98
+[2026-01-10 18:52:30] [warning] SHORT Position geschlossen @ $84363.69 | P/L: -$838.71
+[2026-01-10 18:52:30] [info] LONG Position geoeffnet @ $84363.69
+[2026-01-10 18:52:32] [success] LONG Position geschlossen @ $85274.82 | P/L: +$911.13
+[2026-01-10 18:52:32] [info] SHORT Position geoeffnet @ $85274.82
+[2026-01-10 18:52:32] [success] SHORT Position geschlossen @ $85214.70 | P/L: +$60.12
+[2026-01-10 18:52:32] [info] LONG Position geoeffnet @ $85214.70
+[2026-01-10 18:52:34] [success] LONG Position geschlossen @ $93522.00 | P/L: +$8307.30
+[2026-01-10 18:52:34] [info] SHORT Position geoeffnet @ $93522.00
+[2026-01-10 18:52:34] [warning] SHORT Position geschlossen @ $94330.00 | P/L: -$808.00
+[2026-01-10 18:52:34] [info] LONG Position geoeffnet @ $94330.00
+[2026-01-10 18:52:35] [warning] LONG Position geschlossen @ $90300.01 | P/L: -$4029.99
+[2026-01-10 18:52:35] [info] SHORT Position geoeffnet @ $90300.01
+[2026-01-10 18:52:35] [success] SHORT Position geschlossen @ $87132.80 | P/L: +$3167.21
+[2026-01-10 18:52:35] [info] LONG Position geoeffnet @ $87132.80
+[2026-01-10 18:52:38] [success] LONG Position geschlossen @ $89712.00 | P/L: +$2579.20
+[2026-01-10 18:52:38] [info] SHORT Position geoeffnet @ $89712.00
+[2026-01-10 18:52:38] [warning] SHORT Position geschlossen @ $89750.00 | P/L: -$38.00
+[2026-01-10 18:52:38] [info] LONG Position geoeffnet @ $89750.00
+[2026-01-10 18:52:39] [warning] LONG Position geschlossen @ $88628.01 | P/L: -$1121.99
+[2026-01-10 18:52:39] [info] SHORT Position geoeffnet @ $88628.01
+[2026-01-10 18:52:39] [warning] SHORT Position geschlossen @ $89045.44 | P/L: -$417.43
+[2026-01-10 18:52:39] [info] LONG Position geoeffnet @ $89045.44
+[2026-01-10 18:52:41] [warning] LONG Position geschlossen @ $88589.33 | P/L: -$456.11
+[2026-01-10 18:52:41] [info] SHORT Position geoeffnet @ $88589.33
+[2026-01-10 18:52:41] [success] SHORT Position geschlossen @ $86314.63 | P/L: +$2274.70
+[2026-01-10 18:52:41] [info] LONG Position geoeffnet @ $86314.63
+[2026-01-10 18:52:42] [warning] LONG Position geschlossen @ $86044.02 | P/L: -$270.61
+[2026-01-10 18:52:42] [info] SHORT Position geoeffnet @ $86044.02
+[2026-01-10 18:52:44] [success] SHORT Position geschlossen @ $82640.86 | P/L: +$3403.16
+[2026-01-10 18:52:44] [info] LONG Position geoeffnet @ $82640.86
+[2026-01-10 18:52:46] [warning] LONG Position geschlossen @ $78459.91 | P/L: -$4180.95
+[2026-01-10 18:52:46] [info] SHORT Position geoeffnet @ $78459.91
+[2026-01-10 18:52:48] [warning] SHORT Position geschlossen @ $82628.68 | P/L: -$4168.77
+[2026-01-10 18:52:48] [info] LONG Position geoeffnet @ $82628.68
+[2026-01-10 18:52:50] [warning] LONG Position geschlossen @ $80876.36 | P/L: -$1752.32
+[2026-01-10 18:52:50] [info] SHORT Position geoeffnet @ $80876.36
+[2026-01-10 18:52:50] [success] SHORT Position geschlossen @ $80211.40 | P/L: +$664.96
+[2026-01-10 18:52:50] [info] LONG Position geoeffnet @ $80211.40
+[2026-01-10 18:52:51] [success] LONG Position geschlossen @ $84365.18 | P/L: +$4153.78
+[2026-01-10 18:52:51] [info] SHORT Position geoeffnet @ $84365.18
+[2026-01-10 18:52:55] [success] SHORT Position geschlossen @ $83098.47 | P/L: +$1266.71
+[2026-01-10 18:52:55] [info] LONG Position geoeffnet @ $83098.47
+[2026-01-10 18:52:56] [success] LONG Position geschlossen @ $84197.46 | P/L: +$1098.99
+[2026-01-10 18:52:56] [info] SHORT Position geoeffnet @ $84197.46
+[2026-01-10 18:52:56] [warning] SHORT Position geschlossen @ $84482.55 | P/L: -$285.09
+[2026-01-10 18:52:56] [info] LONG Position geoeffnet @ $84482.55
+[2026-01-10 18:52:58] [warning] LONG Position geschlossen @ $81466.70 | P/L: -$3015.85
+[2026-01-10 18:52:58] [info] SHORT Position geoeffnet @ $81466.70
+[2026-01-10 18:52:58] [warning] SHORT Position geschlossen @ $82317.21 | P/L: -$850.51
+[2026-01-10 18:52:58] [info] LONG Position geoeffnet @ $82317.21
+[2026-01-10 18:52:59] [success] LONG Position geschlossen @ $84230.97 | P/L: +$1913.76
+[2026-01-10 18:52:59] [info] SHORT Position geoeffnet @ $84230.97
+[2026-01-10 18:53:00] [warning] SHORT Position geschlossen @ $85635.99 | P/L: -$1405.02
+[2026-01-10 18:53:00] [info] LONG Position geoeffnet @ $85635.99
+[2026-01-10 18:53:01] [warning] LONG Position geschlossen @ $84093.43 | P/L: -$1542.56
+[2026-01-10 18:53:01] [info] SHORT Position geoeffnet @ $84093.43
+[2026-01-10 18:53:01] [warning] SHORT Position geschlossen @ $84174.79 | P/L: -$81.36
+[2026-01-10 18:53:01] [info] LONG Position geoeffnet @ $84174.79
+[2026-01-10 18:53:03] [warning] LONG Position geschlossen @ $84024.11 | P/L: -$150.68
+[2026-01-10 18:53:03] [info] SHORT Position geoeffnet @ $84024.11
+[2026-01-10 18:53:05] [success] SHORT Position geschlossen @ $83944.69 | P/L: +$79.42
+[2026-01-10 18:53:05] [info] LONG Position geoeffnet @ $83944.69
+[2026-01-10 18:53:06] [success] LONG Position geschlossen @ $84972.78 | P/L: +$1028.09
+[2026-01-10 18:53:06] [info] SHORT Position geoeffnet @ $84972.78
+[2026-01-10 18:53:06] [warning] SHORT Position geschlossen @ $85102.62 | P/L: -$129.84
+[2026-01-10 18:53:06] [info] LONG Position geoeffnet @ $85102.62
+[2026-01-10 18:53:07] [success] LONG Position geschlossen @ $88461.88 | P/L: +$3359.26
+[2026-01-10 18:53:07] [info] SHORT Position geoeffnet @ $88461.88
+[2026-01-10 18:53:08] [success] SHORT Position geschlossen @ $88222.00 | P/L: +$239.88
+[2026-01-10 18:53:08] [info] LONG Position geoeffnet @ $88222.00
+[2026-01-10 18:53:09] [warning] LONG Position geschlossen @ $87937.27 | P/L: -$284.73
+[2026-01-10 18:53:09] [info] SHORT Position geoeffnet @ $87937.27
+[2026-01-10 18:53:10] [warning] SHORT Position geschlossen @ $88116.23 | P/L: -$178.96
+[2026-01-10 18:53:10] [info] LONG Position geoeffnet @ $88116.23
+[2026-01-10 18:53:11] [warning] LONG Position geschlossen @ $86569.99 | P/L: -$1546.24
+[2026-01-10 18:53:11] [info] SHORT Position geoeffnet @ $86569.99
+[2026-01-10 18:53:11] [success] SHORT Position geschlossen @ $86198.53 | P/L: +$371.46
+[2026-01-10 18:53:11] [info] LONG Position geoeffnet @ $86198.53
+[2026-01-10 18:53:12] [success] LONG Position geschlossen @ $86913.05 | P/L: +$714.52
+[2026-01-10 18:53:12] [info] SHORT Position geoeffnet @ $86913.05
+[2026-01-10 18:53:12] [warning] SHORT Position geschlossen @ $87206.52 | P/L: -$293.47
+[2026-01-10 18:53:12] [info] LONG Position geoeffnet @ $87206.52
+[2026-01-10 18:53:14] [warning] LONG Position geschlossen @ $84008.45 | P/L: -$3198.07
+[2026-01-10 18:53:14] [info] SHORT Position geoeffnet @ $84008.45
+[2026-01-10 18:53:14] [success] SHORT Position geschlossen @ $83790.73 | P/L: +$217.72
+[2026-01-10 18:53:14] [info] LONG Position geoeffnet @ $83790.73
+[2026-01-10 18:53:16] [warning] LONG Position geschlossen @ $82198.43 | P/L: -$1592.30
+[2026-01-10 18:53:16] [info] SHORT Position geoeffnet @ $82198.43
+[2026-01-10 18:53:16] [warning] SHORT Position geschlossen @ $82758.40 | P/L: -$559.97
+[2026-01-10 18:53:16] [info] LONG Position geoeffnet @ $82758.40
+[2026-01-10 18:53:18] [warning] LONG Position geschlossen @ $82284.01 | P/L: -$474.39
+[2026-01-10 18:53:18] [info] SHORT Position geoeffnet @ $82284.01
+[2026-01-10 18:53:18] [warning] SHORT Position geschlossen @ $82548.81 | P/L: -$264.80
+[2026-01-10 18:53:18] [info] LONG Position geoeffnet @ $82548.81
+[2026-01-10 18:53:20] [success] LONG Position geschlossen @ $83291.42 | P/L: +$742.61
+[2026-01-10 18:53:20] [info] SHORT Position geoeffnet @ $83291.42
+[2026-01-10 18:53:21] [warning] SHORT Position geschlossen @ $85119.99 | P/L: -$1828.57
+[2026-01-10 18:53:21] [info] LONG Position geoeffnet @ $85119.99
+[2026-01-10 18:53:23] [success] LONG Position geschlossen @ $87065.18 | P/L: +$1945.19
+[2026-01-10 18:53:23] [info] SHORT Position geoeffnet @ $87065.18
+[2026-01-10 18:53:23] [success] SHORT Position geschlossen @ $86900.02 | P/L: +$165.16
+[2026-01-10 18:53:23] [info] LONG Position geoeffnet @ $86900.02
+[2026-01-10 18:53:25] [warning] LONG Position geschlossen @ $81830.01 | P/L: -$5070.01
+[2026-01-10 18:53:25] [info] SHORT Position geoeffnet @ $81830.01
+[2026-01-10 18:53:25] [warning] SHORT Position geschlossen @ $82008.70 | P/L: -$178.69
+[2026-01-10 18:53:25] [info] LONG Position geoeffnet @ $82008.70
+[2026-01-10 18:53:27] [success] LONG Position geschlossen @ $82860.00 | P/L: +$851.30
+[2026-01-10 18:53:27] [info] SHORT Position geoeffnet @ $82860.00
+[2026-01-10 18:53:27] [warning] SHORT Position geschlossen @ $84460.00 | P/L: -$1600.00
+[2026-01-10 18:53:27] [info] LONG Position geoeffnet @ $84460.00
+[2026-01-10 18:53:29] [warning] LONG Position geschlossen @ $82739.96 | P/L: -$1720.04
+[2026-01-10 18:53:29] [info] SHORT Position geoeffnet @ $82739.96
+[2026-01-10 18:53:38] [success] SHORT Position geschlossen @ $78267.68 | P/L: +$4472.28
+[2026-01-10 18:53:38] [info] LONG Position geoeffnet @ $78267.68
+[2026-01-10 18:53:41] [success] LONG Position geschlossen @ $79502.07 | P/L: +$1234.39
+[2026-01-10 18:53:41] [info] SHORT Position geoeffnet @ $79502.07
+[2026-01-10 18:53:41] [warning] SHORT Position geschlossen @ $79649.34 | P/L: -$147.27
+[2026-01-10 18:53:41] [info] LONG Position geoeffnet @ $79649.34
+[2026-01-10 18:53:42] [success] LONG Position geschlossen @ $83930.00 | P/L: +$4280.66
+[2026-01-10 18:53:42] [info] SHORT Position geoeffnet @ $83930.00
+[2026-01-10 18:53:43] [success] SHORT Position geschlossen @ $83858.28 | P/L: +$71.72
+[2026-01-10 18:53:43] [info] LONG Position geoeffnet @ $83858.28
+[2026-01-10 18:53:45] [success] LONG Position geschlossen @ $84760.71 | P/L: +$902.43
+[2026-01-10 18:53:45] [info] SHORT Position geoeffnet @ $84760.71
+[2026-01-10 18:53:45] [warning] SHORT Position geschlossen @ $84943.40 | P/L: -$182.69
+[2026-01-10 18:53:45] [info] LONG Position geoeffnet @ $84943.40
+[2026-01-10 18:53:47] [warning] LONG Position geschlossen @ $84754.85 | P/L: -$188.55
+[2026-01-10 18:53:47] [info] SHORT Position geoeffnet @ $84754.85
+[2026-01-10 18:53:47] [success] SHORT Position geschlossen @ $83981.31 | P/L: +$773.54
+[2026-01-10 18:53:47] [info] LONG Position geoeffnet @ $83981.31
+[2026-01-10 18:53:49] [success] LONG Position geschlossen @ $84988.04 | P/L: +$1006.73
+[2026-01-10 18:53:49] [info] SHORT Position geoeffnet @ $84988.04
+[2026-01-10 18:53:49] [success] SHORT Position geschlossen @ $84861.82 | P/L: +$126.22
+[2026-01-10 18:53:49] [info] LONG Position geoeffnet @ $84861.82
+[2026-01-10 18:53:51] [warning] LONG Position geschlossen @ $84483.23 | P/L: -$378.59
+[2026-01-10 18:53:51] [info] SHORT Position geoeffnet @ $84483.23
+[2026-01-10 18:53:51] [success] SHORT Position geschlossen @ $83998.52 | P/L: +$484.71
+[2026-01-10 18:53:51] [info] LONG Position geoeffnet @ $83998.52
+[2026-01-10 18:53:53] [success] LONG Position geschlossen @ $84029.97 | P/L: +$31.45
+[2026-01-10 18:53:53] [info] SHORT Position geoeffnet @ $84029.97
+[2026-01-10 18:53:59] [warning] SHORT Position geschlossen @ $85195.85 | P/L: -$1165.88
+[2026-01-10 18:53:59] [info] LONG Position geoeffnet @ $85195.85
+[2026-01-10 18:54:03] [success] LONG Position geschlossen @ $87176.96 | P/L: +$1981.11
+[2026-01-10 18:54:03] [info] SHORT Position geoeffnet @ $87176.96
+[2026-01-10 18:54:04] [warning] SHORT Position geschlossen @ $87415.10 | P/L: -$238.14
+[2026-01-10 18:54:04] [info] LONG Position geoeffnet @ $87415.10
+[2026-01-10 18:54:08] [success] LONG Position geschlossen @ $93641.74 | P/L: +$6226.64
+[2026-01-10 18:54:08] [info] SHORT Position geoeffnet @ $93641.74
+[2026-01-10 18:54:08] [warning] SHORT Position geschlossen @ $93894.37 | P/L: -$252.63
+[2026-01-10 18:54:08] [info] LONG Position geoeffnet @ $93894.37
+[2026-01-10 18:54:10] [warning] LONG Position geschlossen @ $93380.00 | P/L: -$514.37
+[2026-01-10 18:54:10] [info] SHORT Position geoeffnet @ $93380.00
+[2026-01-10 18:54:10] [warning] SHORT Position geschlossen @ $93390.66 | P/L: -$10.66
+[2026-01-10 18:54:10] [info] LONG Position geoeffnet @ $93390.66
+[2026-01-10 18:54:12] [success] LONG Position geschlossen @ $94970.15 | P/L: +$1579.49
+[2026-01-10 18:54:12] [info] SHORT Position geoeffnet @ $94970.15
+[2026-01-10 18:54:12] [success] SHORT Position geschlossen @ $94869.57 | P/L: +$100.58
+[2026-01-10 18:54:12] [info] LONG Position geoeffnet @ $94869.57
+[2026-01-10 18:54:14] [warning] LONG Position geschlossen @ $94154.71 | P/L: -$714.86
+[2026-01-10 18:54:14] [info] SHORT Position geoeffnet @ $94154.71
+[2026-01-10 18:54:15] [success] SHORT Position geschlossen @ $94087.00 | P/L: +$67.71
+[2026-01-10 18:54:15] [info] LONG Position geoeffnet @ $94087.00
+[2026-01-10 18:54:17] [success] LONG Position geschlossen @ $94287.29 | P/L: +$200.29
+[2026-01-10 18:54:17] [info] SHORT Position geoeffnet @ $94287.29
+[2026-01-10 18:54:17] [success] SHORT Position geschlossen @ $94260.86 | P/L: +$26.43
+[2026-01-10 18:54:17] [info] LONG Position geoeffnet @ $94260.86
+[2026-01-10 18:54:19] [warning] LONG Position geschlossen @ $94100.39 | P/L: -$160.47
+[2026-01-10 18:54:19] [info] SHORT Position geoeffnet @ $94100.39
+[2026-01-10 18:54:19] [warning] SHORT Position geschlossen @ $94175.89 | P/L: -$75.50
+[2026-01-10 18:54:19] [info] LONG Position geoeffnet @ $94175.89
+[2026-01-10 18:54:22] [success] LONG Position geschlossen @ $95391.29 | P/L: +$1215.40
+[2026-01-10 18:54:22] [info] SHORT Position geoeffnet @ $95391.29
+[2026-01-10 18:54:22] [success] SHORT Position geschlossen @ $94839.32 | P/L: +$551.97
+[2026-01-10 18:54:22] [info] LONG Position geoeffnet @ $94839.32
+[2026-01-10 18:54:24] [warning] LONG Position geschlossen @ $94100.39 | P/L: -$738.93
+[2026-01-10 18:54:24] [info] SHORT Position geoeffnet @ $94100.39
+[2026-01-10 18:54:24] [success] SHORT Position geschlossen @ $94078.24 | P/L: +$22.15
+[2026-01-10 18:54:24] [info] LONG Position geoeffnet @ $94078.24
+[2026-01-10 18:54:26] [success] LONG Position geschlossen @ $97007.14 | P/L: +$2928.90
+[2026-01-10 18:54:26] [info] SHORT Position geoeffnet @ $97007.14
+[2026-01-10 18:54:27] [success] SHORT Position geschlossen @ $96523.26 | P/L: +$483.88
+[2026-01-10 18:54:27] [info] LONG Position geoeffnet @ $96523.26
+[2026-01-10 18:54:29] [success] LONG Position geschlossen @ $97402.55 | P/L: +$879.29
+[2026-01-10 18:54:29] [info] SHORT Position geoeffnet @ $97402.55
+[2026-01-10 18:54:30] [success] SHORT Position geschlossen @ $96354.34 | P/L: +$1048.21
+[2026-01-10 18:54:30] [info] LONG Position geoeffnet @ $96354.34
+[2026-01-10 18:54:33] [warning] LONG Position geschlossen @ $95410.08 | P/L: -$944.26
+[2026-01-10 18:54:33] [info] SHORT Position geoeffnet @ $95410.08
+[2026-01-10 18:54:33] [success] SHORT Position geschlossen @ $95389.07 | P/L: +$21.01
+[2026-01-10 18:54:33] [info] LONG Position geoeffnet @ $95389.07
+[2026-01-10 18:54:35] [warning] LONG Position geschlossen @ $94206.31 | P/L: -$1182.76
+[2026-01-10 18:54:35] [info] SHORT Position geoeffnet @ $94206.31
+[2026-01-10 18:54:35] [warning] SHORT Position geschlossen @ $94500.00 | P/L: -$293.69
+[2026-01-10 18:54:35] [info] LONG Position geoeffnet @ $94500.00
+[2026-01-10 18:54:37] [success] LONG Position geschlossen @ $94558.95 | P/L: +$58.95
+[2026-01-10 18:54:37] [info] SHORT Position geoeffnet @ $94558.95
+[2026-01-10 18:54:37] [success] SHORT Position geschlossen @ $94241.01 | P/L: +$317.94
+[2026-01-10 18:54:37] [info] LONG Position geoeffnet @ $94241.01
+[2026-01-10 18:54:37] [success] LONG Position geschlossen @ $94535.93 | P/L: +$294.92
+[2026-01-10 18:54:37] [info] SHORT Position geoeffnet @ $94535.93
+[2026-01-10 18:54:37] [warning] SHORT Position geschlossen @ $95067.36 | P/L: -$531.43
+[2026-01-10 18:54:37] [info] LONG Position geoeffnet @ $95067.36
+[2026-01-10 18:54:45] [success] LONG Position geschlossen @ $103176.46 | P/L: +$8109.10
+[2026-01-10 18:54:45] [info] SHORT Position geoeffnet @ $103176.46
+[2026-01-10 18:54:45] [success] SHORT Position geschlossen @ $102984.99 | P/L: +$191.47
+[2026-01-10 18:54:45] [info] LONG Position geoeffnet @ $102984.99
+[2026-01-10 18:54:47] [success] LONG Position geschlossen @ $103176.88 | P/L: +$191.89
+[2026-01-10 18:54:47] [info] SHORT Position geoeffnet @ $103176.88
+[2026-01-10 18:54:47] [warning] SHORT Position geschlossen @ $103191.35 | P/L: -$14.47
+[2026-01-10 18:54:47] [info] LONG Position geoeffnet @ $103191.35
+[2026-01-10 18:54:49] [success] LONG Position geschlossen @ $104528.19 | P/L: +$1336.84
+[2026-01-10 18:54:49] [info] SHORT Position geoeffnet @ $104528.19
+[2026-01-10 18:54:50] [success] SHORT Position geschlossen @ $104420.00 | P/L: +$108.19
+[2026-01-10 18:54:50] [info] LONG Position geoeffnet @ $104420.00
+[2026-01-10 18:54:52] [warning] LONG Position geschlossen @ $102556.19 | P/L: -$1863.81
+[2026-01-10 18:54:52] [info] SHORT Position geoeffnet @ $102556.19
+[2026-01-10 18:54:52] [success] SHORT Position geschlossen @ $101630.59 | P/L: +$925.60
+[2026-01-10 18:54:52] [info] LONG Position geoeffnet @ $101630.59
+[2026-01-10 18:54:55] [success] LONG Position geschlossen @ $103725.85 | P/L: +$2095.26
+[2026-01-10 18:54:55] [info] SHORT Position geoeffnet @ $103725.85
+[2026-01-10 18:54:55] [warning] SHORT Position geschlossen @ $104268.17 | P/L: -$542.32
+[2026-01-10 18:54:55] [info] LONG Position geoeffnet @ $104268.17
+[2026-01-10 18:55:00] [warning] LONG Position geschlossen @ $103968.24 | P/L: -$299.93
+[2026-01-10 18:55:00] [info] SHORT Position geoeffnet @ $103968.24
+[2026-01-10 18:55:03] [success] SHORT Position geschlossen @ $103692.48 | P/L: +$275.76
+[2026-01-10 18:55:03] [info] LONG Position geoeffnet @ $103692.48
+[2026-01-10 18:55:05] [warning] LONG Position geschlossen @ $102987.20 | P/L: -$705.28
+[2026-01-10 18:55:05] [info] SHORT Position geoeffnet @ $102987.20
+[2026-01-10 18:55:05] [warning] SHORT Position geschlossen @ $103372.04 | P/L: -$384.84
+[2026-01-10 18:55:05] [info] LONG Position geoeffnet @ $103372.04
+[2026-01-10 18:55:07] [success] LONG Position geschlossen @ $104836.67 | P/L: +$1464.63
+[2026-01-10 18:55:07] [info] SHORT Position geoeffnet @ $104836.67
+[2026-01-10 18:55:07] [success] SHORT Position geschlossen @ $104053.05 | P/L: +$783.62
+[2026-01-10 18:55:07] [info] LONG Position geoeffnet @ $104053.05
+[2026-01-10 18:55:12] [success] LONG Position geschlossen @ $105333.68 | P/L: +$1280.63
+[2026-01-10 18:55:12] [info] SHORT Position geoeffnet @ $105333.68
+[2026-01-10 18:55:12] [success] SHORT Position geschlossen @ $105212.49 | P/L: +$121.19
+[2026-01-10 18:55:12] [info] LONG Position geoeffnet @ $105212.49
+[2026-01-10 18:55:14] [success] LONG Position geschlossen @ $106965.05 | P/L: +$1752.56
+[2026-01-10 18:55:14] [info] SHORT Position geoeffnet @ $106965.05
+[2026-01-10 18:55:16] [warning] SHORT Position geschlossen @ $108238.09 | P/L: -$1273.04
+[2026-01-10 18:55:16] [info] LONG Position geoeffnet @ $108238.09
+[2026-01-10 18:55:20] [success] LONG Position geschlossen @ $109413.03 | P/L: +$1174.94
+[2026-01-10 18:55:20] [info] SHORT Position geoeffnet @ $109413.03
+[2026-01-10 18:55:20] [success] SHORT Position geschlossen @ $108794.09 | P/L: +$618.94
+[2026-01-10 18:55:20] [info] LONG Position geoeffnet @ $108794.09
+[2026-01-10 18:55:21] [info] Backtester GUI geschlossen
+[2026-01-10 18:57:03] [info] Log-Level geändert: INFO
+[2026-01-10 18:57:08] [info] Log-Level geändert: TRACE
+[2026-01-10 18:58:01] [debug] Öffne Trainingsdaten-Vorbereitungs-GUI...
+[2026-01-10 18:58:03] [debug] GUI geöffnet. Nach Abschluss werden Daten übernommen.
+[2026-01-10 18:58:03] [trace] [TIMING] prepareTrainingData: 1.72 s
+[2026-01-10 18:58:10] [debug] Berechne Vorschau...
+[2026-01-10 18:58:10] [trace] [TIMING] find_daily_extrema: 37.2 ms
+[2026-01-10 18:58:11] [trace] [TIMING] HOLD-Sample generation: 38.2 ms
+[2026-01-10 18:58:11] [trace] [TIMING] prepareDataWithParams: 713.4 ms
+[2026-01-10 18:58:12] [trace] [TIMING] updatePreviewChart: 1.79 s
+[2026-01-10 18:58:12] [success] Vorschau: 807 Sequenzen (BUY:367 SELL:367 HOLD:73)
+[2026-01-10 18:58:12] [trace] [TIMING] computePreview: 2.53 s
+[2026-01-10 18:58:25] [debug] Berechne Vorschau...
+[2026-01-10 18:58:25] [trace] [TIMING] find_daily_extrema: 36.5 ms
+[2026-01-10 18:58:25] [trace] [TIMING] HOLD-Sample generation: 45.2 ms
+[2026-01-10 18:58:25] [trace] [TIMING] prepareDataWithParams: 667.6 ms
+[2026-01-10 18:58:27] [trace] [TIMING] updatePreviewChart: 1.74 s
+[2026-01-10 18:58:27] [success] Vorschau: 812 Sequenzen (BUY:369 SELL:369 HOLD:74)
+[2026-01-10 18:58:27] [trace] [TIMING] computePreview: 2.43 s
+[2026-01-10 18:58:42] [debug] Speichere Trainingsdaten in Workspace...
+[2026-01-10 18:58:42] [trace] [TIMING] assignin (Workspace): 1.7 ms
+[2026-01-10 18:58:42] [success] Trainingsdaten generiert: 812 Sequenzen, 6 Features, Seq-Länge: 110
+[2026-01-10 18:58:42] [trace] [TIMING] applyAndClose: 5.8 ms
+[2026-01-10 18:58:45] [error] Fehler: Keine Trainingsdaten verfügbar
+[2026-01-10 18:58:48] [success] Trainingsdaten geladen: 812 Sequenzen (BUY:369 SELL:369 HOLD:74)
+[2026-01-10 18:58:48] [trace] [TIMING] loadTrainingDataFromWorkspace: 3.4 ms
+[2026-01-10 18:58:50] [info] Öffne Training GUI...
+[2026-01-10 18:58:50] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 18:58:50] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 18:58:50] [success] Training GUI geöffnet
+[2026-01-10 18:58:50] [trace] [TIMING] openTrainGUI: 127.7 ms
+[2026-01-10 18:58:52] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 18:58:57] [debug] Training GUI gestartet
+[2026-01-10 19:00:03] [success] Training abgeschlossen: Val Acc=28.40%
+[2026-01-10 19:00:03] [success] Modell automatisch gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-51-23\BILSTM_ValAcc-28.4_TrAcc-58.8_Ep50_completed.mat
+[2026-01-10 19:00:03] [trace] Letztes Modell aktualisiert: BILSTM_ValAcc-28.4_TrAcc-58.8_Ep50_completed.mat
+[2026-01-10 19:00:20] [debug] Öffne Trainingsdaten-Vorbereitungs-GUI...
+[2026-01-10 19:00:22] [debug] GUI geöffnet. Nach Abschluss werden Daten übernommen.
+[2026-01-10 19:00:22] [trace] [TIMING] prepareTrainingData: 1.72 s
+[2026-01-10 19:00:35] [debug] Berechne Vorschau...
+[2026-01-10 19:00:35] [trace] [TIMING] find_daily_extrema: 37.7 ms
+[2026-01-10 19:00:36] [trace] [TIMING] HOLD-Sample generation: 51.3 ms
+[2026-01-10 19:00:36] [trace] [TIMING] prepareDataWithParams: 689.7 ms
+[2026-01-10 19:00:38] [trace] [TIMING] updatePreviewChart: 1.77 s
+[2026-01-10 19:00:38] [success] Vorschau: 1188 Sequenzen (BUY:369 SELL:369 HOLD:450)
+[2026-01-10 19:00:38] [trace] [TIMING] computePreview: 2.48 s
+[2026-01-10 19:00:43] [debug] Speichere Trainingsdaten in Workspace...
+[2026-01-10 19:00:43] [trace] [TIMING] assignin (Workspace): 0.8 ms
+[2026-01-10 19:00:43] [success] Trainingsdaten generiert: 1188 Sequenzen, 6 Features, Seq-Länge: 110
+[2026-01-10 19:00:43] [trace] [TIMING] applyAndClose: 4.6 ms
+[2026-01-10 19:01:16] [success] Trainingsdaten geladen: 1188 Sequenzen (BUY:369 SELL:369 HOLD:450)
+[2026-01-10 19:01:16] [trace] [TIMING] loadTrainingDataFromWorkspace: 4.5 ms
+[2026-01-10 19:01:18] [info] Öffne Training GUI...
+[2026-01-10 19:01:18] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 19:01:18] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 19:01:18] [success] Training GUI geöffnet
+[2026-01-10 19:01:18] [trace] [TIMING] openTrainGUI: 112.2 ms
+[2026-01-10 19:01:20] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 19:01:24] [debug] Training GUI gestartet
+[2026-01-10 19:03:04] [success] Training abgeschlossen: Val Acc=49.16%
+[2026-01-10 19:03:04] [success] Modell automatisch gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-51-23\BILSTM_ValAcc-49.2_TrAcc-67.8_Ep50_completed.mat
+[2026-01-10 19:03:04] [trace] Letztes Modell aktualisiert: BILSTM_ValAcc-49.2_TrAcc-67.8_Ep50_completed.mat
+[2026-01-10 19:03:15] [debug] Netzwerk: ~8.04 Mio. Parameter, geschätzt 0.24 GB GPU-RAM
+[2026-01-10 19:03:16] [debug] Netzwerk: ~14.04 Mio. Parameter, geschätzt 0.40 GB GPU-RAM
+[2026-01-10 19:03:18] [info] Netzwerk zurückgesetzt
+[2026-01-10 19:03:18] [debug] Training GUI gestartet
+[2026-01-10 19:05:53] [success] Training abgeschlossen: Val Acc=53.78%
+[2026-01-10 19:05:53] [success] Modell automatisch gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-51-23\BILSTM_ValAcc-53.8_TrAcc-67.1_Ep50_completed.mat
+[2026-01-10 19:05:53] [trace] Letztes Modell aktualisiert: BILSTM_ValAcc-53.8_TrAcc-67.1_Ep50_completed.mat
+[2026-01-10 19:06:03] [info] Oeffne Backtester GUI...
+[2026-01-10 19:06:03] [info] === Validierung: Daten-Modell-Kompatibilitaet ===
+[2026-01-10 19:06:03] [debug] model_info Struktur: OK
+[2026-01-10 19:06:03] [debug] Basis-Datenspalten: OK
+[2026-01-10 19:06:03] [debug] Features werden generiert: PriceChange, PriceChangePct
+[2026-01-10 19:06:03] [debug] Modell-Features (6): Close, High, Low, Open, PriceChange, PriceChangePct
+[2026-01-10 19:06:03] [debug] Datenpunkte: 8977 (min. 121 benoetigt)
+[2026-01-10 19:06:03] [debug] Feature-Dimension: 6
+[2026-01-10 19:06:03] [debug] Klassen: HOLD, BUY, SELL
+[2026-01-10 19:06:03] [success] === Validierung erfolgreich ===
+[2026-01-10 19:06:03] [info] Sequenzlaenge: 120 (Lookback: 100, Lookforward: 20)
+[2026-01-10 19:06:03] [info] Backtest-Bereich: 8857 Schritte moeglich
+[2026-01-10 19:06:04] [info] Backtester GUI geoeffnet
+[2026-01-10 19:06:04] [debug] Datenpunkte: 8977, Sequenzlaenge: 120
+[2026-01-10 19:06:04] [success] Backtester GUI geoeffnet
+[2026-01-10 19:06:04] [trace] [TIMING] openBacktester: 155.0 ms
+[2026-01-10 19:06:05] [info] Backtest gestartet
+[2026-01-10 19:06:05] [debug] Feature "PriceChange" aus Rohdaten generiert
+[2026-01-10 19:06:05] [debug] Feature "PriceChangePct" aus Rohdaten generiert
+[2026-01-10 19:06:05] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:06:05] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:06:06] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:06:06] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:06:06] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:06:07] [info] SHORT Position geoeffnet @ $101738.80
+[2026-01-10 19:06:10] [success] SHORT Position geschlossen @ $96750.86 | P/L: +$4987.94
+[2026-01-10 19:06:10] [info] LONG Position geoeffnet @ $96750.86
+[2026-01-10 19:06:12] [warning] LONG Position geschlossen @ $94030.82 | P/L: -$2720.04
+[2026-01-10 19:06:12] [info] SHORT Position geoeffnet @ $94030.82
+[2026-01-10 19:06:12] [success] SHORT Position geschlossen @ $93980.00 | P/L: +$50.82
+[2026-01-10 19:06:12] [info] LONG Position geoeffnet @ $93980.00
+[2026-01-10 19:06:14] [success] LONG Position geschlossen @ $94244.02 | P/L: +$264.02
+[2026-01-10 19:06:14] [info] SHORT Position geoeffnet @ $94244.02
+[2026-01-10 19:06:14] [success] SHORT Position geschlossen @ $92693.11 | P/L: +$1550.91
+[2026-01-10 19:06:14] [info] LONG Position geoeffnet @ $92693.11
+[2026-01-10 19:06:14] [success] LONG Position geschlossen @ $93020.11 | P/L: +$327.00
+[2026-01-10 19:06:14] [info] SHORT Position geoeffnet @ $93020.11
+[2026-01-10 19:06:19] [warning] SHORT Position geschlossen @ $94586.11 | P/L: -$1566.00
+[2026-01-10 19:06:19] [info] LONG Position geoeffnet @ $94586.11
+[2026-01-10 19:06:22] [success] LONG Position geschlossen @ $94650.26 | P/L: +$64.15
+[2026-01-10 19:06:22] [info] SHORT Position geoeffnet @ $94650.26
+[2026-01-10 19:06:24] [success] SHORT Position geschlossen @ $92312.18 | P/L: +$2338.08
+[2026-01-10 19:06:24] [info] LONG Position geoeffnet @ $92312.18
+[2026-01-10 19:06:27] [success] LONG Position geschlossen @ $96777.80 | P/L: +$4465.62
+[2026-01-10 19:06:27] [info] SHORT Position geoeffnet @ $96777.80
+[2026-01-10 19:06:27] [success] SHORT Position geschlossen @ $96537.80 | P/L: +$240.00
+[2026-01-10 19:06:27] [info] LONG Position geoeffnet @ $96537.80
+[2026-01-10 19:06:31] [success] LONG Position geschlossen @ $99346.39 | P/L: +$2808.59
+[2026-01-10 19:06:31] [info] SHORT Position geoeffnet @ $99346.39
+[2026-01-10 19:06:31] [warning] SHORT Position geschlossen @ $99838.54 | P/L: -$492.15
+[2026-01-10 19:06:31] [info] LONG Position geoeffnet @ $99838.54
+[2026-01-10 19:06:34] [success] LONG Position geschlossen @ $104125.46 | P/L: +$4286.92
+[2026-01-10 19:06:34] [info] SHORT Position geoeffnet @ $104125.46
+[2026-01-10 19:06:34] [warning] SHORT Position geschlossen @ $105834.93 | P/L: -$1709.47
+[2026-01-10 19:06:34] [info] LONG Position geoeffnet @ $105834.93
+[2026-01-10 19:06:36] [warning] LONG Position geschlossen @ $103826.16 | P/L: -$2008.77
+[2026-01-10 19:06:36] [info] SHORT Position geoeffnet @ $103826.16
+[2026-01-10 19:06:36] [warning] SHORT Position geschlossen @ $104084.74 | P/L: -$258.58
+[2026-01-10 19:06:36] [info] LONG Position geoeffnet @ $104084.74
+[2026-01-10 19:06:41] [warning] LONG Position geschlossen @ $103691.63 | P/L: -$393.11
+[2026-01-10 19:06:41] [info] SHORT Position geoeffnet @ $103691.63
+[2026-01-10 19:06:42] [success] SHORT Position geschlossen @ $103647.16 | P/L: +$44.47
+[2026-01-10 19:06:42] [info] LONG Position geoeffnet @ $103647.16
+[2026-01-10 19:06:47] [success] LONG Position geschlossen @ $103896.01 | P/L: +$248.85
+[2026-01-10 19:06:47] [info] SHORT Position geoeffnet @ $103896.01
+[2026-01-10 19:06:47] [warning] SHORT Position geschlossen @ $104321.10 | P/L: -$425.09
+[2026-01-10 19:06:47] [info] LONG Position geoeffnet @ $104321.10
+[2026-01-10 19:06:49] [success] LONG Position geschlossen @ $105424.39 | P/L: +$1103.29
+[2026-01-10 19:06:49] [info] SHORT Position geoeffnet @ $105424.39
+[2026-01-10 19:06:55] [success] SHORT Position geschlossen @ $105102.84 | P/L: +$321.55
+[2026-01-10 19:06:55] [info] LONG Position geoeffnet @ $105102.84
+[2026-01-10 19:07:00] [warning] LONG Position geschlossen @ $99180.00 | P/L: -$5922.84
+[2026-01-10 19:07:00] [info] SHORT Position geoeffnet @ $99180.00
+[2026-01-10 19:07:00] [warning] SHORT Position geschlossen @ $101386.50 | P/L: -$2206.50
+[2026-01-10 19:07:00] [info] LONG Position geoeffnet @ $101386.50
+[2026-01-10 19:07:02] [success] LONG Position geschlossen @ $102424.24 | P/L: +$1037.74
+[2026-01-10 19:07:02] [info] SHORT Position geoeffnet @ $102424.24
+[2026-01-10 19:07:05] [success] SHORT Position geschlossen @ $102406.98 | P/L: +$17.26
+[2026-01-10 19:07:05] [info] LONG Position geoeffnet @ $102406.98
+[2026-01-10 19:07:08] [success] LONG Position geschlossen @ $105578.95 | P/L: +$3171.97
+[2026-01-10 19:07:08] [info] SHORT Position geoeffnet @ $105578.95
+[2026-01-10 19:07:08] [warning] SHORT Position geschlossen @ $105711.27 | P/L: -$132.32
+[2026-01-10 19:07:08] [info] LONG Position geoeffnet @ $105711.27
+[2026-01-10 19:07:11] [warning] LONG Position geschlossen @ $102627.29 | P/L: -$3083.98
+[2026-01-10 19:07:11] [info] SHORT Position geoeffnet @ $102627.29
+[2026-01-10 19:07:15] [success] SHORT Position geschlossen @ $99206.38 | P/L: +$3420.91
+[2026-01-10 19:07:15] [info] LONG Position geoeffnet @ $99206.38
+[2026-01-10 19:07:16] [warning] LONG Position geschlossen @ $97691.20 | P/L: -$1515.18
+[2026-01-10 19:07:16] [info] SHORT Position geoeffnet @ $97691.20
+[2026-01-10 19:07:17] [success] SHORT Position geschlossen @ $96904.11 | P/L: +$787.09
+[2026-01-10 19:07:17] [info] LONG Position geoeffnet @ $96904.11
+[2026-01-10 19:07:18] [warning] LONG Position geschlossen @ $96316.84 | P/L: -$587.27
+[2026-01-10 19:07:18] [info] SHORT Position geoeffnet @ $96316.84
+[2026-01-10 19:07:18] [warning] SHORT Position geschlossen @ $96807.43 | P/L: -$490.59
+[2026-01-10 19:07:18] [info] LONG Position geoeffnet @ $96807.43
+[2026-01-10 19:07:19] [success] LONG Position geschlossen @ $96898.56 | P/L: +$91.13
+[2026-01-10 19:07:19] [info] SHORT Position geoeffnet @ $96898.56
+[2026-01-10 19:07:21] [success] SHORT Position geschlossen @ $96527.36 | P/L: +$371.20
+[2026-01-10 19:07:21] [info] LONG Position geoeffnet @ $96527.36
+[2026-01-10 19:07:22] [warning] LONG Position geschlossen @ $96212.00 | P/L: -$315.36
+[2026-01-10 19:07:22] [info] SHORT Position geoeffnet @ $96212.00
+[2026-01-10 19:07:23] [warning] SHORT Position geschlossen @ $97331.95 | P/L: -$1119.95
+[2026-01-10 19:07:23] [info] LONG Position geoeffnet @ $97331.95
+[2026-01-10 19:07:24] [warning] LONG Position geschlossen @ $96165.29 | P/L: -$1166.66
+[2026-01-10 19:07:24] [info] SHORT Position geoeffnet @ $96165.29
+[2026-01-10 19:07:26] [warning] SHORT Position geschlossen @ $97205.06 | P/L: -$1039.77
+[2026-01-10 19:07:26] [info] LONG Position geoeffnet @ $97205.06
+[2026-01-10 19:07:27] [warning] LONG Position geschlossen @ $95627.76 | P/L: -$1577.30
+[2026-01-10 19:07:27] [info] SHORT Position geoeffnet @ $95627.76
+[2026-01-10 19:07:30] [warning] SHORT Position geschlossen @ $97684.23 | P/L: -$2056.47
+[2026-01-10 19:07:30] [info] LONG Position geoeffnet @ $97684.23
+[2026-01-10 19:07:31] [warning] LONG Position geschlossen @ $96872.59 | P/L: -$811.64
+[2026-01-10 19:07:31] [info] SHORT Position geoeffnet @ $96872.59
+[2026-01-10 19:07:31] [warning] SHORT Position geschlossen @ $97165.09 | P/L: -$292.50
+[2026-01-10 19:07:31] [info] LONG Position geoeffnet @ $97165.09
+[2026-01-10 19:07:32] [warning] LONG Position geschlossen @ $95340.83 | P/L: -$1824.26
+[2026-01-10 19:07:32] [info] SHORT Position geoeffnet @ $95340.83
+[2026-01-10 19:07:32] [warning] SHORT Position geschlossen @ $95971.36 | P/L: -$630.53
+[2026-01-10 19:07:32] [info] LONG Position geoeffnet @ $95971.36
+[2026-01-10 19:07:33] [warning] LONG Position geschlossen @ $93924.03 | P/L: -$2047.33
+[2026-01-10 19:07:33] [info] SHORT Position geoeffnet @ $93924.03
+[2026-01-10 19:07:35] [warning] SHORT Position geschlossen @ $96315.64 | P/L: -$2391.61
+[2026-01-10 19:07:35] [info] LONG Position geoeffnet @ $96315.64
+[2026-01-10 19:07:36] [success] LONG Position geschlossen @ $98295.08 | P/L: +$1979.44
+[2026-01-10 19:07:36] [info] SHORT Position geoeffnet @ $98295.08
+[2026-01-10 19:07:36] [warning] SHORT Position geschlossen @ $98422.80 | P/L: -$127.72
+[2026-01-10 19:07:36] [info] LONG Position geoeffnet @ $98422.80
+[2026-01-10 19:07:38] [warning] LONG Position geschlossen @ $95285.11 | P/L: -$3137.69
+[2026-01-10 19:07:38] [info] SHORT Position geoeffnet @ $95285.11
+[2026-01-10 19:07:41] [warning] SHORT Position geschlossen @ $95777.70 | P/L: -$492.59
+[2026-01-10 19:07:41] [info] LONG Position geoeffnet @ $95777.70
+[2026-01-10 19:07:42] [warning] LONG Position geschlossen @ $94644.00 | P/L: -$1133.70
+[2026-01-10 19:07:42] [info] SHORT Position geoeffnet @ $94644.00
+[2026-01-10 19:07:44] [success] SHORT Position geschlossen @ $87947.25 | P/L: +$6696.75
+[2026-01-10 19:07:44] [info] LONG Position geoeffnet @ $87947.25
+[2026-01-10 19:07:45] [warning] LONG Position geschlossen @ $86805.99 | P/L: -$1141.26
+[2026-01-10 19:07:45] [info] SHORT Position geoeffnet @ $86805.99
+[2026-01-10 19:07:46] [success] SHORT Position geschlossen @ $84113.98 | P/L: +$2692.01
+[2026-01-10 19:07:46] [info] LONG Position geoeffnet @ $84113.98
+[2026-01-10 19:07:46] [warning] LONG Position geschlossen @ $83524.98 | P/L: -$589.00
+[2026-01-10 19:07:46] [info] SHORT Position geoeffnet @ $83524.98
+[2026-01-10 19:07:47] [warning] SHORT Position geschlossen @ $84363.69 | P/L: -$838.71
+[2026-01-10 19:07:47] [info] LONG Position geoeffnet @ $84363.69
+[2026-01-10 19:07:49] [success] LONG Position geschlossen @ $85274.82 | P/L: +$911.13
+[2026-01-10 19:07:49] [info] SHORT Position geoeffnet @ $85274.82
+[2026-01-10 19:07:49] [success] SHORT Position geschlossen @ $85214.70 | P/L: +$60.12
+[2026-01-10 19:07:49] [info] LONG Position geoeffnet @ $85214.70
+[2026-01-10 19:07:51] [success] LONG Position geschlossen @ $93522.00 | P/L: +$8307.30
+[2026-01-10 19:07:51] [info] SHORT Position geoeffnet @ $93522.00
+[2026-01-10 19:07:51] [warning] SHORT Position geschlossen @ $94330.00 | P/L: -$808.00
+[2026-01-10 19:07:51] [info] LONG Position geoeffnet @ $94330.00
+[2026-01-10 19:07:53] [warning] LONG Position geschlossen @ $90300.01 | P/L: -$4029.99
+[2026-01-10 19:07:53] [info] SHORT Position geoeffnet @ $90300.01
+[2026-01-10 19:07:53] [success] SHORT Position geschlossen @ $87132.80 | P/L: +$3167.21
+[2026-01-10 19:07:53] [info] LONG Position geoeffnet @ $87132.80
+[2026-01-10 19:07:56] [success] LONG Position geschlossen @ $89712.00 | P/L: +$2579.20
+[2026-01-10 19:07:56] [info] SHORT Position geoeffnet @ $89712.00
+[2026-01-10 19:07:56] [warning] SHORT Position geschlossen @ $89750.00 | P/L: -$38.00
+[2026-01-10 19:07:56] [info] LONG Position geoeffnet @ $89750.00
+[2026-01-10 19:07:57] [warning] LONG Position geschlossen @ $88628.01 | P/L: -$1121.99
+[2026-01-10 19:07:57] [info] SHORT Position geoeffnet @ $88628.01
+[2026-01-10 19:07:57] [warning] SHORT Position geschlossen @ $89045.44 | P/L: -$417.43
+[2026-01-10 19:07:57] [info] LONG Position geoeffnet @ $89045.44
+[2026-01-10 19:07:59] [warning] LONG Position geschlossen @ $88589.33 | P/L: -$456.11
+[2026-01-10 19:07:59] [info] SHORT Position geoeffnet @ $88589.33
+[2026-01-10 19:07:59] [success] SHORT Position geschlossen @ $86314.63 | P/L: +$2274.70
+[2026-01-10 19:07:59] [info] LONG Position geoeffnet @ $86314.63
+[2026-01-10 19:08:01] [warning] LONG Position geschlossen @ $86044.02 | P/L: -$270.61
+[2026-01-10 19:08:01] [info] SHORT Position geoeffnet @ $86044.02
+[2026-01-10 19:08:02] [success] SHORT Position geschlossen @ $82640.86 | P/L: +$3403.16
+[2026-01-10 19:08:02] [info] LONG Position geoeffnet @ $82640.86
+[2026-01-10 19:08:04] [warning] LONG Position geschlossen @ $78459.91 | P/L: -$4180.95
+[2026-01-10 19:08:04] [info] SHORT Position geoeffnet @ $78459.91
+[2026-01-10 19:08:07] [warning] SHORT Position geschlossen @ $82628.68 | P/L: -$4168.77
+[2026-01-10 19:08:07] [info] LONG Position geoeffnet @ $82628.68
+[2026-01-10 19:08:09] [warning] LONG Position geschlossen @ $80876.36 | P/L: -$1752.32
+[2026-01-10 19:08:09] [info] SHORT Position geoeffnet @ $80876.36
+[2026-01-10 19:08:09] [success] SHORT Position geschlossen @ $80211.40 | P/L: +$664.96
+[2026-01-10 19:08:09] [info] LONG Position geoeffnet @ $80211.40
+[2026-01-10 19:08:11] [success] LONG Position geschlossen @ $84365.18 | P/L: +$4153.78
+[2026-01-10 19:08:11] [info] SHORT Position geoeffnet @ $84365.18
+[2026-01-10 19:08:14] [success] SHORT Position geschlossen @ $83098.47 | P/L: +$1266.71
+[2026-01-10 19:08:14] [info] LONG Position geoeffnet @ $83098.47
+[2026-01-10 19:08:16] [success] LONG Position geschlossen @ $84197.46 | P/L: +$1098.99
+[2026-01-10 19:08:16] [info] SHORT Position geoeffnet @ $84197.46
+[2026-01-10 19:08:16] [warning] SHORT Position geschlossen @ $84482.55 | P/L: -$285.09
+[2026-01-10 19:08:16] [info] LONG Position geoeffnet @ $84482.55
+[2026-01-10 19:08:18] [warning] LONG Position geschlossen @ $81466.70 | P/L: -$3015.85
+[2026-01-10 19:08:18] [info] SHORT Position geoeffnet @ $81466.70
+[2026-01-10 19:08:18] [warning] SHORT Position geschlossen @ $82317.21 | P/L: -$850.51
+[2026-01-10 19:08:18] [info] LONG Position geoeffnet @ $82317.21
+[2026-01-10 19:08:20] [success] LONG Position geschlossen @ $84230.97 | P/L: +$1913.76
+[2026-01-10 19:08:20] [info] SHORT Position geoeffnet @ $84230.97
+[2026-01-10 19:08:20] [warning] SHORT Position geschlossen @ $85635.99 | P/L: -$1405.02
+[2026-01-10 19:08:20] [info] LONG Position geoeffnet @ $85635.99
+[2026-01-10 19:08:22] [warning] LONG Position geschlossen @ $84093.43 | P/L: -$1542.56
+[2026-01-10 19:08:22] [info] SHORT Position geoeffnet @ $84093.43
+[2026-01-10 19:08:22] [warning] SHORT Position geschlossen @ $84174.79 | P/L: -$81.36
+[2026-01-10 19:08:22] [info] LONG Position geoeffnet @ $84174.79
+[2026-01-10 19:08:24] [warning] LONG Position geschlossen @ $84024.11 | P/L: -$150.68
+[2026-01-10 19:08:24] [info] SHORT Position geoeffnet @ $84024.11
+[2026-01-10 19:08:25] [warning] Backtest gestoppt
+[2026-01-10 19:11:55] [info] Backtester GUI geschlossen
+[2026-01-10 19:11:57] [info] Oeffne Backtester GUI...
+[2026-01-10 19:11:57] [info] === Validierung: Daten-Modell-Kompatibilitaet ===
+[2026-01-10 19:11:57] [debug] model_info Struktur: OK
+[2026-01-10 19:11:57] [debug] Basis-Datenspalten: OK
+[2026-01-10 19:11:57] [debug] Features werden generiert: PriceChange, PriceChangePct
+[2026-01-10 19:11:57] [debug] Modell-Features (6): Close, High, Low, Open, PriceChange, PriceChangePct
+[2026-01-10 19:11:57] [debug] Datenpunkte: 8977 (min. 121 benoetigt)
+[2026-01-10 19:11:57] [debug] Feature-Dimension: 6
+[2026-01-10 19:11:57] [debug] Klassen: HOLD, BUY, SELL
+[2026-01-10 19:11:57] [success] === Validierung erfolgreich ===
+[2026-01-10 19:11:57] [info] Sequenzlaenge: 120 (Lookback: 100, Lookforward: 20)
+[2026-01-10 19:11:57] [info] Backtest-Bereich: 8857 Schritte moeglich
+[2026-01-10 19:11:57] [info] Backtester GUI geoeffnet
+[2026-01-10 19:11:57] [debug] Datenpunkte: 8977, Sequenzlaenge: 120
+[2026-01-10 19:11:57] [success] Backtester GUI geoeffnet
+[2026-01-10 19:11:57] [trace] [TIMING] openBacktester: 185.5 ms
+[2026-01-10 19:12:02] [info] Turbo-Modus aktiviert - Chart-Updates deaktiviert
+[2026-01-10 19:12:04] [info] Backtest gestartet
+[2026-01-10 19:12:04] [debug] Feature "PriceChange" aus Rohdaten generiert
+[2026-01-10 19:12:04] [debug] Feature "PriceChangePct" aus Rohdaten generiert
+[2026-01-10 19:12:04] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:12:04] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:12:04] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:12:04] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:12:04] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:12:06] [info] SHORT Position geoeffnet @ $101738.80
+[2026-01-10 19:12:07] [success] SHORT Position geschlossen @ $96750.86 | P/L: +$4987.94
+[2026-01-10 19:12:07] [info] LONG Position geoeffnet @ $96750.86
+[2026-01-10 19:12:08] [warning] LONG Position geschlossen @ $94030.82 | P/L: -$2720.04
+[2026-01-10 19:12:08] [info] SHORT Position geoeffnet @ $94030.82
+[2026-01-10 19:12:08] [success] SHORT Position geschlossen @ $93980.00 | P/L: +$50.82
+[2026-01-10 19:12:08] [info] LONG Position geoeffnet @ $93980.00
+[2026-01-10 19:12:08] [success] LONG Position geschlossen @ $94244.02 | P/L: +$264.02
+[2026-01-10 19:12:08] [info] SHORT Position geoeffnet @ $94244.02
+[2026-01-10 19:12:08] [success] SHORT Position geschlossen @ $92693.11 | P/L: +$1550.91
+[2026-01-10 19:12:08] [info] LONG Position geoeffnet @ $92693.11
+[2026-01-10 19:12:08] [success] LONG Position geschlossen @ $93020.11 | P/L: +$327.00
+[2026-01-10 19:12:08] [info] SHORT Position geoeffnet @ $93020.11
+[2026-01-10 19:12:09] [warning] SHORT Position geschlossen @ $94586.11 | P/L: -$1566.00
+[2026-01-10 19:12:09] [info] LONG Position geoeffnet @ $94586.11
+[2026-01-10 19:12:09] [success] LONG Position geschlossen @ $94650.26 | P/L: +$64.15
+[2026-01-10 19:12:09] [info] SHORT Position geoeffnet @ $94650.26
+[2026-01-10 19:12:10] [success] SHORT Position geschlossen @ $92312.18 | P/L: +$2338.08
+[2026-01-10 19:12:10] [info] LONG Position geoeffnet @ $92312.18
+[2026-01-10 19:12:10] [success] LONG Position geschlossen @ $96777.80 | P/L: +$4465.62
+[2026-01-10 19:12:10] [info] SHORT Position geoeffnet @ $96777.80
+[2026-01-10 19:12:10] [success] SHORT Position geschlossen @ $96537.80 | P/L: +$240.00
+[2026-01-10 19:12:10] [info] LONG Position geoeffnet @ $96537.80
+[2026-01-10 19:12:11] [success] LONG Position geschlossen @ $99346.39 | P/L: +$2808.59
+[2026-01-10 19:12:11] [info] SHORT Position geoeffnet @ $99346.39
+[2026-01-10 19:12:11] [warning] SHORT Position geschlossen @ $99838.54 | P/L: -$492.15
+[2026-01-10 19:12:11] [info] LONG Position geoeffnet @ $99838.54
+[2026-01-10 19:12:11] [success] LONG Position geschlossen @ $104125.46 | P/L: +$4286.92
+[2026-01-10 19:12:11] [info] SHORT Position geoeffnet @ $104125.46
+[2026-01-10 19:12:11] [warning] SHORT Position geschlossen @ $105834.93 | P/L: -$1709.47
+[2026-01-10 19:12:11] [info] LONG Position geoeffnet @ $105834.93
+[2026-01-10 19:12:12] [warning] LONG Position geschlossen @ $103826.16 | P/L: -$2008.77
+[2026-01-10 19:12:12] [info] SHORT Position geoeffnet @ $103826.16
+[2026-01-10 19:12:12] [warning] SHORT Position geschlossen @ $104084.74 | P/L: -$258.58
+[2026-01-10 19:12:12] [info] LONG Position geoeffnet @ $104084.74
+[2026-01-10 19:12:12] [warning] LONG Position geschlossen @ $103691.63 | P/L: -$393.11
+[2026-01-10 19:12:12] [info] SHORT Position geoeffnet @ $103691.63
+[2026-01-10 19:12:12] [success] SHORT Position geschlossen @ $103647.16 | P/L: +$44.47
+[2026-01-10 19:12:12] [info] LONG Position geoeffnet @ $103647.16
+[2026-01-10 19:12:13] [success] LONG Position geschlossen @ $103896.01 | P/L: +$248.85
+[2026-01-10 19:12:13] [info] SHORT Position geoeffnet @ $103896.01
+[2026-01-10 19:12:13] [warning] SHORT Position geschlossen @ $104321.10 | P/L: -$425.09
+[2026-01-10 19:12:13] [info] LONG Position geoeffnet @ $104321.10
+[2026-01-10 19:12:13] [success] LONG Position geschlossen @ $105424.39 | P/L: +$1103.29
+[2026-01-10 19:12:13] [info] SHORT Position geoeffnet @ $105424.39
+[2026-01-10 19:12:14] [success] SHORT Position geschlossen @ $105102.84 | P/L: +$321.55
+[2026-01-10 19:12:14] [info] LONG Position geoeffnet @ $105102.84
+[2026-01-10 19:12:14] [warning] LONG Position geschlossen @ $99180.00 | P/L: -$5922.84
+[2026-01-10 19:12:14] [info] SHORT Position geoeffnet @ $99180.00
+[2026-01-10 19:12:14] [warning] SHORT Position geschlossen @ $101386.50 | P/L: -$2206.50
+[2026-01-10 19:12:14] [info] LONG Position geoeffnet @ $101386.50
+[2026-01-10 19:12:15] [success] LONG Position geschlossen @ $102424.24 | P/L: +$1037.74
+[2026-01-10 19:12:15] [info] SHORT Position geoeffnet @ $102424.24
+[2026-01-10 19:12:15] [success] SHORT Position geschlossen @ $102406.98 | P/L: +$17.26
+[2026-01-10 19:12:15] [info] LONG Position geoeffnet @ $102406.98
+[2026-01-10 19:12:15] [success] LONG Position geschlossen @ $105578.95 | P/L: +$3171.97
+[2026-01-10 19:12:15] [info] SHORT Position geoeffnet @ $105578.95
+[2026-01-10 19:12:15] [warning] SHORT Position geschlossen @ $105711.27 | P/L: -$132.32
+[2026-01-10 19:12:15] [info] LONG Position geoeffnet @ $105711.27
+[2026-01-10 19:12:16] [warning] LONG Position geschlossen @ $102627.29 | P/L: -$3083.98
+[2026-01-10 19:12:16] [info] SHORT Position geoeffnet @ $102627.29
+[2026-01-10 19:12:17] [success] SHORT Position geschlossen @ $99206.38 | P/L: +$3420.91
+[2026-01-10 19:12:17] [info] LONG Position geoeffnet @ $99206.38
+[2026-01-10 19:12:17] [warning] LONG Position geschlossen @ $97691.20 | P/L: -$1515.18
+[2026-01-10 19:12:17] [info] SHORT Position geoeffnet @ $97691.20
+[2026-01-10 19:12:17] [success] SHORT Position geschlossen @ $96904.11 | P/L: +$787.09
+[2026-01-10 19:12:17] [info] LONG Position geoeffnet @ $96904.11
+[2026-01-10 19:12:18] [warning] LONG Position geschlossen @ $96316.84 | P/L: -$587.27
+[2026-01-10 19:12:18] [info] SHORT Position geoeffnet @ $96316.84
+[2026-01-10 19:12:18] [warning] SHORT Position geschlossen @ $96807.43 | P/L: -$490.59
+[2026-01-10 19:12:18] [info] LONG Position geoeffnet @ $96807.43
+[2026-01-10 19:12:18] [success] LONG Position geschlossen @ $96898.56 | P/L: +$91.13
+[2026-01-10 19:12:18] [info] SHORT Position geoeffnet @ $96898.56
+[2026-01-10 19:12:19] [success] SHORT Position geschlossen @ $96527.36 | P/L: +$371.20
+[2026-01-10 19:12:19] [info] LONG Position geoeffnet @ $96527.36
+[2026-01-10 19:12:19] [warning] LONG Position geschlossen @ $96212.00 | P/L: -$315.36
+[2026-01-10 19:12:19] [info] SHORT Position geoeffnet @ $96212.00
+[2026-01-10 19:12:19] [warning] SHORT Position geschlossen @ $97331.95 | P/L: -$1119.95
+[2026-01-10 19:12:19] [info] LONG Position geoeffnet @ $97331.95
+[2026-01-10 19:12:20] [warning] LONG Position geschlossen @ $96165.29 | P/L: -$1166.66
+[2026-01-10 19:12:20] [info] SHORT Position geoeffnet @ $96165.29
+[2026-01-10 19:12:20] [warning] SHORT Position geschlossen @ $97205.06 | P/L: -$1039.77
+[2026-01-10 19:12:20] [info] LONG Position geoeffnet @ $97205.06
+[2026-01-10 19:12:20] [warning] LONG Position geschlossen @ $95627.76 | P/L: -$1577.30
+[2026-01-10 19:12:20] [info] SHORT Position geoeffnet @ $95627.76
+[2026-01-10 19:12:21] [warning] SHORT Position geschlossen @ $97684.23 | P/L: -$2056.47
+[2026-01-10 19:12:21] [info] LONG Position geoeffnet @ $97684.23
+[2026-01-10 19:12:22] [warning] LONG Position geschlossen @ $96872.59 | P/L: -$811.64
+[2026-01-10 19:12:22] [info] SHORT Position geoeffnet @ $96872.59
+[2026-01-10 19:12:22] [warning] SHORT Position geschlossen @ $97165.09 | P/L: -$292.50
+[2026-01-10 19:12:22] [info] LONG Position geoeffnet @ $97165.09
+[2026-01-10 19:12:22] [warning] LONG Position geschlossen @ $95340.83 | P/L: -$1824.26
+[2026-01-10 19:12:22] [info] SHORT Position geoeffnet @ $95340.83
+[2026-01-10 19:12:22] [warning] SHORT Position geschlossen @ $95971.36 | P/L: -$630.53
+[2026-01-10 19:12:22] [info] LONG Position geoeffnet @ $95971.36
+[2026-01-10 19:12:22] [warning] LONG Position geschlossen @ $93924.03 | P/L: -$2047.33
+[2026-01-10 19:12:22] [info] SHORT Position geoeffnet @ $93924.03
+[2026-01-10 19:12:23] [warning] SHORT Position geschlossen @ $96315.64 | P/L: -$2391.61
+[2026-01-10 19:12:23] [info] LONG Position geoeffnet @ $96315.64
+[2026-01-10 19:12:23] [success] LONG Position geschlossen @ $98295.08 | P/L: +$1979.44
+[2026-01-10 19:12:23] [info] SHORT Position geoeffnet @ $98295.08
+[2026-01-10 19:12:23] [warning] SHORT Position geschlossen @ $98422.80 | P/L: -$127.72
+[2026-01-10 19:12:23] [info] LONG Position geoeffnet @ $98422.80
+[2026-01-10 19:12:23] [warning] LONG Position geschlossen @ $95285.11 | P/L: -$3137.69
+[2026-01-10 19:12:23] [info] SHORT Position geoeffnet @ $95285.11
+[2026-01-10 19:12:24] [warning] SHORT Position geschlossen @ $95777.70 | P/L: -$492.59
+[2026-01-10 19:12:24] [info] LONG Position geoeffnet @ $95777.70
+[2026-01-10 19:12:24] [warning] LONG Position geschlossen @ $94644.00 | P/L: -$1133.70
+[2026-01-10 19:12:24] [info] SHORT Position geoeffnet @ $94644.00
+[2026-01-10 19:12:25] [success] SHORT Position geschlossen @ $87947.25 | P/L: +$6696.75
+[2026-01-10 19:12:25] [info] LONG Position geoeffnet @ $87947.25
+[2026-01-10 19:12:25] [warning] LONG Position geschlossen @ $86805.99 | P/L: -$1141.26
+[2026-01-10 19:12:25] [info] SHORT Position geoeffnet @ $86805.99
+[2026-01-10 19:12:25] [success] SHORT Position geschlossen @ $84113.98 | P/L: +$2692.01
+[2026-01-10 19:12:25] [info] LONG Position geoeffnet @ $84113.98
+[2026-01-10 19:12:25] [warning] LONG Position geschlossen @ $83524.98 | P/L: -$589.00
+[2026-01-10 19:12:25] [info] SHORT Position geoeffnet @ $83524.98
+[2026-01-10 19:12:26] [warning] SHORT Position geschlossen @ $84363.69 | P/L: -$838.71
+[2026-01-10 19:12:26] [info] LONG Position geoeffnet @ $84363.69
+[2026-01-10 19:12:26] [success] LONG Position geschlossen @ $85274.82 | P/L: +$911.13
+[2026-01-10 19:12:26] [info] SHORT Position geoeffnet @ $85274.82
+[2026-01-10 19:12:26] [success] SHORT Position geschlossen @ $85214.70 | P/L: +$60.12
+[2026-01-10 19:12:26] [info] LONG Position geoeffnet @ $85214.70
+[2026-01-10 19:12:26] [success] LONG Position geschlossen @ $93522.00 | P/L: +$8307.30
+[2026-01-10 19:12:26] [info] SHORT Position geoeffnet @ $93522.00
+[2026-01-10 19:12:26] [warning] SHORT Position geschlossen @ $94330.00 | P/L: -$808.00
+[2026-01-10 19:12:26] [info] LONG Position geoeffnet @ $94330.00
+[2026-01-10 19:12:27] [warning] LONG Position geschlossen @ $90300.01 | P/L: -$4029.99
+[2026-01-10 19:12:27] [info] SHORT Position geoeffnet @ $90300.01
+[2026-01-10 19:12:27] [success] SHORT Position geschlossen @ $87132.80 | P/L: +$3167.21
+[2026-01-10 19:12:27] [info] LONG Position geoeffnet @ $87132.80
+[2026-01-10 19:12:27] [success] LONG Position geschlossen @ $89712.00 | P/L: +$2579.20
+[2026-01-10 19:12:27] [info] SHORT Position geoeffnet @ $89712.00
+[2026-01-10 19:12:27] [warning] SHORT Position geschlossen @ $89750.00 | P/L: -$38.00
+[2026-01-10 19:12:27] [info] LONG Position geoeffnet @ $89750.00
+[2026-01-10 19:12:28] [warning] LONG Position geschlossen @ $88628.01 | P/L: -$1121.99
+[2026-01-10 19:12:28] [info] SHORT Position geoeffnet @ $88628.01
+[2026-01-10 19:12:28] [warning] SHORT Position geschlossen @ $89045.44 | P/L: -$417.43
+[2026-01-10 19:12:28] [info] LONG Position geoeffnet @ $89045.44
+[2026-01-10 19:12:28] [warning] LONG Position geschlossen @ $88589.33 | P/L: -$456.11
+[2026-01-10 19:12:28] [info] SHORT Position geoeffnet @ $88589.33
+[2026-01-10 19:12:28] [success] SHORT Position geschlossen @ $86314.63 | P/L: +$2274.70
+[2026-01-10 19:12:28] [info] LONG Position geoeffnet @ $86314.63
+[2026-01-10 19:12:28] [warning] LONG Position geschlossen @ $86044.02 | P/L: -$270.61
+[2026-01-10 19:12:28] [info] SHORT Position geoeffnet @ $86044.02
+[2026-01-10 19:12:29] [success] SHORT Position geschlossen @ $82640.86 | P/L: +$3403.16
+[2026-01-10 19:12:29] [info] LONG Position geoeffnet @ $82640.86
+[2026-01-10 19:12:29] [warning] LONG Position geschlossen @ $78459.91 | P/L: -$4180.95
+[2026-01-10 19:12:29] [info] SHORT Position geoeffnet @ $78459.91
+[2026-01-10 19:12:30] [warning] SHORT Position geschlossen @ $82628.68 | P/L: -$4168.77
+[2026-01-10 19:12:30] [info] LONG Position geoeffnet @ $82628.68
+[2026-01-10 19:12:30] [warning] LONG Position geschlossen @ $80876.36 | P/L: -$1752.32
+[2026-01-10 19:12:30] [info] SHORT Position geoeffnet @ $80876.36
+[2026-01-10 19:12:30] [success] SHORT Position geschlossen @ $80211.40 | P/L: +$664.96
+[2026-01-10 19:12:30] [info] LONG Position geoeffnet @ $80211.40
+[2026-01-10 19:12:31] [success] LONG Position geschlossen @ $84365.18 | P/L: +$4153.78
+[2026-01-10 19:12:31] [info] SHORT Position geoeffnet @ $84365.18
+[2026-01-10 19:12:31] [success] SHORT Position geschlossen @ $83098.47 | P/L: +$1266.71
+[2026-01-10 19:12:31] [info] LONG Position geoeffnet @ $83098.47
+[2026-01-10 19:12:32] [success] LONG Position geschlossen @ $84197.46 | P/L: +$1098.99
+[2026-01-10 19:12:32] [info] SHORT Position geoeffnet @ $84197.46
+[2026-01-10 19:12:32] [warning] SHORT Position geschlossen @ $84482.55 | P/L: -$285.09
+[2026-01-10 19:12:32] [info] LONG Position geoeffnet @ $84482.55
+[2026-01-10 19:12:32] [warning] LONG Position geschlossen @ $81466.70 | P/L: -$3015.85
+[2026-01-10 19:12:32] [info] SHORT Position geoeffnet @ $81466.70
+[2026-01-10 19:12:32] [warning] SHORT Position geschlossen @ $82317.21 | P/L: -$850.51
+[2026-01-10 19:12:32] [info] LONG Position geoeffnet @ $82317.21
+[2026-01-10 19:12:32] [success] LONG Position geschlossen @ $84230.97 | P/L: +$1913.76
+[2026-01-10 19:12:32] [info] SHORT Position geoeffnet @ $84230.97
+[2026-01-10 19:12:32] [warning] SHORT Position geschlossen @ $85635.99 | P/L: -$1405.02
+[2026-01-10 19:12:32] [info] LONG Position geoeffnet @ $85635.99
+[2026-01-10 19:12:33] [warning] LONG Position geschlossen @ $84093.43 | P/L: -$1542.56
+[2026-01-10 19:12:33] [info] SHORT Position geoeffnet @ $84093.43
+[2026-01-10 19:12:33] [warning] SHORT Position geschlossen @ $84174.79 | P/L: -$81.36
+[2026-01-10 19:12:33] [info] LONG Position geoeffnet @ $84174.79
+[2026-01-10 19:12:33] [warning] LONG Position geschlossen @ $84024.11 | P/L: -$150.68
+[2026-01-10 19:12:33] [info] SHORT Position geoeffnet @ $84024.11
+[2026-01-10 19:12:33] [success] SHORT Position geschlossen @ $83944.69 | P/L: +$79.42
+[2026-01-10 19:12:33] [info] LONG Position geoeffnet @ $83944.69
+[2026-01-10 19:12:34] [success] LONG Position geschlossen @ $84972.78 | P/L: +$1028.09
+[2026-01-10 19:12:34] [info] SHORT Position geoeffnet @ $84972.78
+[2026-01-10 19:12:34] [warning] SHORT Position geschlossen @ $85102.62 | P/L: -$129.84
+[2026-01-10 19:12:34] [info] LONG Position geoeffnet @ $85102.62
+[2026-01-10 19:12:34] [success] LONG Position geschlossen @ $88461.88 | P/L: +$3359.26
+[2026-01-10 19:12:34] [info] SHORT Position geoeffnet @ $88461.88
+[2026-01-10 19:12:34] [success] SHORT Position geschlossen @ $88222.00 | P/L: +$239.88
+[2026-01-10 19:12:34] [info] LONG Position geoeffnet @ $88222.00
+[2026-01-10 19:12:34] [warning] LONG Position geschlossen @ $87937.27 | P/L: -$284.73
+[2026-01-10 19:12:34] [info] SHORT Position geoeffnet @ $87937.27
+[2026-01-10 19:12:34] [warning] SHORT Position geschlossen @ $88116.23 | P/L: -$178.96
+[2026-01-10 19:12:34] [info] LONG Position geoeffnet @ $88116.23
+[2026-01-10 19:12:35] [warning] LONG Position geschlossen @ $86569.99 | P/L: -$1546.24
+[2026-01-10 19:12:35] [info] SHORT Position geoeffnet @ $86569.99
+[2026-01-10 19:12:35] [success] SHORT Position geschlossen @ $86198.53 | P/L: +$371.46
+[2026-01-10 19:12:35] [info] LONG Position geoeffnet @ $86198.53
+[2026-01-10 19:12:35] [success] LONG Position geschlossen @ $86913.05 | P/L: +$714.52
+[2026-01-10 19:12:35] [info] SHORT Position geoeffnet @ $86913.05
+[2026-01-10 19:12:35] [warning] SHORT Position geschlossen @ $87206.52 | P/L: -$293.47
+[2026-01-10 19:12:35] [info] LONG Position geoeffnet @ $87206.52
+[2026-01-10 19:12:35] [warning] LONG Position geschlossen @ $84008.45 | P/L: -$3198.07
+[2026-01-10 19:12:35] [info] SHORT Position geoeffnet @ $84008.45
+[2026-01-10 19:12:35] [success] SHORT Position geschlossen @ $83790.73 | P/L: +$217.72
+[2026-01-10 19:12:35] [info] LONG Position geoeffnet @ $83790.73
+[2026-01-10 19:12:35] [warning] LONG Position geschlossen @ $82198.43 | P/L: -$1592.30
+[2026-01-10 19:12:35] [info] SHORT Position geoeffnet @ $82198.43
+[2026-01-10 19:12:35] [warning] SHORT Position geschlossen @ $82758.40 | P/L: -$559.97
+[2026-01-10 19:12:35] [info] LONG Position geoeffnet @ $82758.40
+[2026-01-10 19:12:36] [warning] LONG Position geschlossen @ $82284.01 | P/L: -$474.39
+[2026-01-10 19:12:36] [info] SHORT Position geoeffnet @ $82284.01
+[2026-01-10 19:12:36] [warning] SHORT Position geschlossen @ $82548.81 | P/L: -$264.80
+[2026-01-10 19:12:36] [info] LONG Position geoeffnet @ $82548.81
+[2026-01-10 19:12:36] [success] LONG Position geschlossen @ $83291.42 | P/L: +$742.61
+[2026-01-10 19:12:36] [info] SHORT Position geoeffnet @ $83291.42
+[2026-01-10 19:12:36] [warning] SHORT Position geschlossen @ $85119.99 | P/L: -$1828.57
+[2026-01-10 19:12:36] [info] LONG Position geoeffnet @ $85119.99
+[2026-01-10 19:12:37] [success] LONG Position geschlossen @ $87065.18 | P/L: +$1945.19
+[2026-01-10 19:12:37] [info] SHORT Position geoeffnet @ $87065.18
+[2026-01-10 19:12:37] [success] SHORT Position geschlossen @ $86900.02 | P/L: +$165.16
+[2026-01-10 19:12:37] [info] LONG Position geoeffnet @ $86900.02
+[2026-01-10 19:12:37] [warning] LONG Position geschlossen @ $81830.01 | P/L: -$5070.01
+[2026-01-10 19:12:37] [info] SHORT Position geoeffnet @ $81830.01
+[2026-01-10 19:12:37] [warning] SHORT Position geschlossen @ $82008.70 | P/L: -$178.69
+[2026-01-10 19:12:37] [info] LONG Position geoeffnet @ $82008.70
+[2026-01-10 19:12:37] [success] LONG Position geschlossen @ $82860.00 | P/L: +$851.30
+[2026-01-10 19:12:37] [info] SHORT Position geoeffnet @ $82860.00
+[2026-01-10 19:12:37] [warning] SHORT Position geschlossen @ $84460.00 | P/L: -$1600.00
+[2026-01-10 19:12:37] [info] LONG Position geoeffnet @ $84460.00
+[2026-01-10 19:12:38] [warning] LONG Position geschlossen @ $82739.96 | P/L: -$1720.04
+[2026-01-10 19:12:38] [info] SHORT Position geoeffnet @ $82739.96
+[2026-01-10 19:12:39] [success] SHORT Position geschlossen @ $78267.68 | P/L: +$4472.28
+[2026-01-10 19:12:39] [info] LONG Position geoeffnet @ $78267.68
+[2026-01-10 19:12:39] [success] LONG Position geschlossen @ $79502.07 | P/L: +$1234.39
+[2026-01-10 19:12:39] [info] SHORT Position geoeffnet @ $79502.07
+[2026-01-10 19:12:39] [warning] SHORT Position geschlossen @ $79649.34 | P/L: -$147.27
+[2026-01-10 19:12:39] [info] LONG Position geoeffnet @ $79649.34
+[2026-01-10 19:12:40] [success] LONG Position geschlossen @ $83930.00 | P/L: +$4280.66
+[2026-01-10 19:12:40] [info] SHORT Position geoeffnet @ $83930.00
+[2026-01-10 19:12:40] [success] SHORT Position geschlossen @ $83858.28 | P/L: +$71.72
+[2026-01-10 19:12:40] [info] LONG Position geoeffnet @ $83858.28
+[2026-01-10 19:12:40] [success] LONG Position geschlossen @ $84760.71 | P/L: +$902.43
+[2026-01-10 19:12:40] [info] SHORT Position geoeffnet @ $84760.71
+[2026-01-10 19:12:40] [warning] SHORT Position geschlossen @ $84943.40 | P/L: -$182.69
+[2026-01-10 19:12:40] [info] LONG Position geoeffnet @ $84943.40
+[2026-01-10 19:12:41] [warning] LONG Position geschlossen @ $84754.85 | P/L: -$188.55
+[2026-01-10 19:12:41] [info] SHORT Position geoeffnet @ $84754.85
+[2026-01-10 19:12:41] [success] SHORT Position geschlossen @ $83981.31 | P/L: +$773.54
+[2026-01-10 19:12:41] [info] LONG Position geoeffnet @ $83981.31
+[2026-01-10 19:12:41] [success] LONG Position geschlossen @ $84988.04 | P/L: +$1006.73
+[2026-01-10 19:12:41] [info] SHORT Position geoeffnet @ $84988.04
+[2026-01-10 19:12:41] [success] SHORT Position geschlossen @ $84861.82 | P/L: +$126.22
+[2026-01-10 19:12:41] [info] LONG Position geoeffnet @ $84861.82
+[2026-01-10 19:12:41] [warning] LONG Position geschlossen @ $84483.23 | P/L: -$378.59
+[2026-01-10 19:12:41] [info] SHORT Position geoeffnet @ $84483.23
+[2026-01-10 19:12:41] [success] SHORT Position geschlossen @ $83998.52 | P/L: +$484.71
+[2026-01-10 19:12:41] [info] LONG Position geoeffnet @ $83998.52
+[2026-01-10 19:12:42] [success] LONG Position geschlossen @ $84029.97 | P/L: +$31.45
+[2026-01-10 19:12:42] [info] SHORT Position geoeffnet @ $84029.97
+[2026-01-10 19:12:43] [warning] SHORT Position geschlossen @ $85195.85 | P/L: -$1165.88
+[2026-01-10 19:12:43] [info] LONG Position geoeffnet @ $85195.85
+[2026-01-10 19:12:43] [success] LONG Position geschlossen @ $87176.96 | P/L: +$1981.11
+[2026-01-10 19:12:43] [info] SHORT Position geoeffnet @ $87176.96
+[2026-01-10 19:12:43] [warning] SHORT Position geschlossen @ $87415.10 | P/L: -$238.14
+[2026-01-10 19:12:43] [info] LONG Position geoeffnet @ $87415.10
+[2026-01-10 19:12:44] [success] LONG Position geschlossen @ $93641.74 | P/L: +$6226.64
+[2026-01-10 19:12:44] [info] SHORT Position geoeffnet @ $93641.74
+[2026-01-10 19:12:44] [warning] SHORT Position geschlossen @ $93894.37 | P/L: -$252.63
+[2026-01-10 19:12:44] [info] LONG Position geoeffnet @ $93894.37
+[2026-01-10 19:12:44] [warning] LONG Position geschlossen @ $93380.00 | P/L: -$514.37
+[2026-01-10 19:12:44] [info] SHORT Position geoeffnet @ $93380.00
+[2026-01-10 19:12:44] [warning] SHORT Position geschlossen @ $93390.66 | P/L: -$10.66
+[2026-01-10 19:12:44] [info] LONG Position geoeffnet @ $93390.66
+[2026-01-10 19:12:45] [success] LONG Position geschlossen @ $94970.15 | P/L: +$1579.49
+[2026-01-10 19:12:45] [info] SHORT Position geoeffnet @ $94970.15
+[2026-01-10 19:12:45] [success] SHORT Position geschlossen @ $94869.57 | P/L: +$100.58
+[2026-01-10 19:12:45] [info] LONG Position geoeffnet @ $94869.57
+[2026-01-10 19:12:45] [warning] LONG Position geschlossen @ $94154.71 | P/L: -$714.86
+[2026-01-10 19:12:45] [info] SHORT Position geoeffnet @ $94154.71
+[2026-01-10 19:12:45] [success] SHORT Position geschlossen @ $94087.00 | P/L: +$67.71
+[2026-01-10 19:12:45] [info] LONG Position geoeffnet @ $94087.00
+[2026-01-10 19:12:45] [info] Turbo-Modus deaktiviert - Chart-Updates aktiv
+[2026-01-10 19:12:48] [success] LONG Position geschlossen @ $94287.29 | P/L: +$200.29
+[2026-01-10 19:12:48] [info] SHORT Position geoeffnet @ $94287.29
+[2026-01-10 19:12:48] [info] Turbo-Modus aktiviert - Chart-Updates deaktiviert
+[2026-01-10 19:12:48] [success] SHORT Position geschlossen @ $94260.86 | P/L: +$26.43
+[2026-01-10 19:12:48] [info] LONG Position geoeffnet @ $94260.86
+[2026-01-10 19:12:48] [warning] LONG Position geschlossen @ $94100.39 | P/L: -$160.47
+[2026-01-10 19:12:48] [info] SHORT Position geoeffnet @ $94100.39
+[2026-01-10 19:12:48] [warning] SHORT Position geschlossen @ $94175.89 | P/L: -$75.50
+[2026-01-10 19:12:48] [info] LONG Position geoeffnet @ $94175.89
+[2026-01-10 19:12:48] [success] LONG Position geschlossen @ $95391.29 | P/L: +$1215.40
+[2026-01-10 19:12:48] [info] SHORT Position geoeffnet @ $95391.29
+[2026-01-10 19:12:48] [success] SHORT Position geschlossen @ $94839.32 | P/L: +$551.97
+[2026-01-10 19:12:48] [info] LONG Position geoeffnet @ $94839.32
+[2026-01-10 19:12:49] [warning] LONG Position geschlossen @ $94100.39 | P/L: -$738.93
+[2026-01-10 19:12:49] [info] SHORT Position geoeffnet @ $94100.39
+[2026-01-10 19:12:49] [success] SHORT Position geschlossen @ $94078.24 | P/L: +$22.15
+[2026-01-10 19:12:49] [info] LONG Position geoeffnet @ $94078.24
+[2026-01-10 19:12:49] [success] LONG Position geschlossen @ $97007.14 | P/L: +$2928.90
+[2026-01-10 19:12:49] [info] SHORT Position geoeffnet @ $97007.14
+[2026-01-10 19:12:49] [success] SHORT Position geschlossen @ $96523.26 | P/L: +$483.88
+[2026-01-10 19:12:49] [info] LONG Position geoeffnet @ $96523.26
+[2026-01-10 19:12:49] [success] LONG Position geschlossen @ $97402.55 | P/L: +$879.29
+[2026-01-10 19:12:49] [info] SHORT Position geoeffnet @ $97402.55
+[2026-01-10 19:12:50] [success] SHORT Position geschlossen @ $96354.34 | P/L: +$1048.21
+[2026-01-10 19:12:50] [info] LONG Position geoeffnet @ $96354.34
+[2026-01-10 19:12:50] [warning] LONG Position geschlossen @ $95410.08 | P/L: -$944.26
+[2026-01-10 19:12:50] [info] SHORT Position geoeffnet @ $95410.08
+[2026-01-10 19:12:50] [success] SHORT Position geschlossen @ $95389.07 | P/L: +$21.01
+[2026-01-10 19:12:50] [info] LONG Position geoeffnet @ $95389.07
+[2026-01-10 19:12:50] [warning] LONG Position geschlossen @ $94206.31 | P/L: -$1182.76
+[2026-01-10 19:12:50] [info] SHORT Position geoeffnet @ $94206.31
+[2026-01-10 19:12:51] [warning] SHORT Position geschlossen @ $94500.00 | P/L: -$293.69
+[2026-01-10 19:12:51] [info] LONG Position geoeffnet @ $94500.00
+[2026-01-10 19:12:51] [success] LONG Position geschlossen @ $94558.95 | P/L: +$58.95
+[2026-01-10 19:12:51] [info] SHORT Position geoeffnet @ $94558.95
+[2026-01-10 19:12:51] [success] SHORT Position geschlossen @ $94241.01 | P/L: +$317.94
+[2026-01-10 19:12:51] [info] LONG Position geoeffnet @ $94241.01
+[2026-01-10 19:12:51] [success] LONG Position geschlossen @ $94535.93 | P/L: +$294.92
+[2026-01-10 19:12:51] [info] SHORT Position geoeffnet @ $94535.93
+[2026-01-10 19:12:51] [warning] SHORT Position geschlossen @ $95067.36 | P/L: -$531.43
+[2026-01-10 19:12:51] [info] LONG Position geoeffnet @ $95067.36
+[2026-01-10 19:12:52] [success] LONG Position geschlossen @ $103176.46 | P/L: +$8109.10
+[2026-01-10 19:12:52] [info] SHORT Position geoeffnet @ $103176.46
+[2026-01-10 19:12:52] [success] SHORT Position geschlossen @ $102984.99 | P/L: +$191.47
+[2026-01-10 19:12:52] [info] LONG Position geoeffnet @ $102984.99
+[2026-01-10 19:12:52] [success] LONG Position geschlossen @ $103176.88 | P/L: +$191.89
+[2026-01-10 19:12:52] [info] SHORT Position geoeffnet @ $103176.88
+[2026-01-10 19:12:53] [warning] SHORT Position geschlossen @ $103191.35 | P/L: -$14.47
+[2026-01-10 19:12:53] [info] LONG Position geoeffnet @ $103191.35
+[2026-01-10 19:12:53] [success] LONG Position geschlossen @ $104528.19 | P/L: +$1336.84
+[2026-01-10 19:12:53] [info] SHORT Position geoeffnet @ $104528.19
+[2026-01-10 19:12:53] [success] SHORT Position geschlossen @ $104420.00 | P/L: +$108.19
+[2026-01-10 19:12:53] [info] LONG Position geoeffnet @ $104420.00
+[2026-01-10 19:12:54] [warning] LONG Position geschlossen @ $102556.19 | P/L: -$1863.81
+[2026-01-10 19:12:54] [info] SHORT Position geoeffnet @ $102556.19
+[2026-01-10 19:12:54] [success] SHORT Position geschlossen @ $101630.59 | P/L: +$925.60
+[2026-01-10 19:12:54] [info] LONG Position geoeffnet @ $101630.59
+[2026-01-10 19:12:54] [success] LONG Position geschlossen @ $103725.85 | P/L: +$2095.26
+[2026-01-10 19:12:54] [info] SHORT Position geoeffnet @ $103725.85
+[2026-01-10 19:12:54] [warning] SHORT Position geschlossen @ $104268.17 | P/L: -$542.32
+[2026-01-10 19:12:54] [info] LONG Position geoeffnet @ $104268.17
+[2026-01-10 19:12:55] [warning] LONG Position geschlossen @ $103968.24 | P/L: -$299.93
+[2026-01-10 19:12:55] [info] SHORT Position geoeffnet @ $103968.24
+[2026-01-10 19:12:55] [success] SHORT Position geschlossen @ $103692.48 | P/L: +$275.76
+[2026-01-10 19:12:55] [info] LONG Position geoeffnet @ $103692.48
+[2026-01-10 19:12:55] [warning] LONG Position geschlossen @ $102987.20 | P/L: -$705.28
+[2026-01-10 19:12:55] [info] SHORT Position geoeffnet @ $102987.20
+[2026-01-10 19:12:55] [warning] SHORT Position geschlossen @ $103372.04 | P/L: -$384.84
+[2026-01-10 19:12:55] [info] LONG Position geoeffnet @ $103372.04
+[2026-01-10 19:12:56] [success] LONG Position geschlossen @ $104836.67 | P/L: +$1464.63
+[2026-01-10 19:12:56] [info] SHORT Position geoeffnet @ $104836.67
+[2026-01-10 19:12:56] [success] SHORT Position geschlossen @ $104053.05 | P/L: +$783.62
+[2026-01-10 19:12:56] [info] LONG Position geoeffnet @ $104053.05
+[2026-01-10 19:12:56] [success] LONG Position geschlossen @ $105333.68 | P/L: +$1280.63
+[2026-01-10 19:12:56] [info] SHORT Position geoeffnet @ $105333.68
+[2026-01-10 19:12:56] [success] SHORT Position geschlossen @ $105212.49 | P/L: +$121.19
+[2026-01-10 19:12:56] [info] LONG Position geoeffnet @ $105212.49
+[2026-01-10 19:12:57] [success] LONG Position geschlossen @ $106965.05 | P/L: +$1752.56
+[2026-01-10 19:12:57] [info] SHORT Position geoeffnet @ $106965.05
+[2026-01-10 19:12:57] [warning] SHORT Position geschlossen @ $108238.09 | P/L: -$1273.04
+[2026-01-10 19:12:57] [info] LONG Position geoeffnet @ $108238.09
+[2026-01-10 19:12:57] [success] LONG Position geschlossen @ $109413.03 | P/L: +$1174.94
+[2026-01-10 19:12:57] [info] SHORT Position geoeffnet @ $109413.03
+[2026-01-10 19:12:57] [success] SHORT Position geschlossen @ $108794.09 | P/L: +$618.94
+[2026-01-10 19:12:57] [info] LONG Position geoeffnet @ $108794.09
+[2026-01-10 19:12:58] [success] LONG Position geschlossen @ $108920.03 | P/L: +$125.94
+[2026-01-10 19:12:58] [info] SHORT Position geoeffnet @ $108920.03
+[2026-01-10 19:12:58] [success] SHORT Position geschlossen @ $108863.63 | P/L: +$56.40
+[2026-01-10 19:12:58] [info] LONG Position geoeffnet @ $108863.63
+[2026-01-10 19:12:58] [warning] LONG Position geschlossen @ $107413.34 | P/L: -$1450.29
+[2026-01-10 19:12:58] [info] SHORT Position geoeffnet @ $107413.34
+[2026-01-10 19:12:59] [warning] SHORT Position geschlossen @ $110232.46 | P/L: -$2819.12
+[2026-01-10 19:12:59] [info] LONG Position geoeffnet @ $110232.46
+[2026-01-10 19:12:59] [warning] LONG Position geschlossen @ $109890.62 | P/L: -$341.84
+[2026-01-10 19:12:59] [info] SHORT Position geoeffnet @ $109890.62
+[2026-01-10 19:12:59] [success] SHORT Position geschlossen @ $109551.69 | P/L: +$338.93
+[2026-01-10 19:12:59] [info] LONG Position geoeffnet @ $109551.69
+[2026-01-10 19:13:00] [warning] LONG Position geschlossen @ $106303.60 | P/L: -$3248.09
+[2026-01-10 19:13:00] [info] SHORT Position geoeffnet @ $106303.60
+[2026-01-10 19:13:01] [success] SHORT Position geschlossen @ $104490.57 | P/L: +$1813.03
+[2026-01-10 19:13:01] [info] LONG Position geoeffnet @ $104490.57
+[2026-01-10 19:13:02] [success] LONG Position geschlossen @ $106013.15 | P/L: +$1522.58
+[2026-01-10 19:13:02] [info] SHORT Position geoeffnet @ $106013.15
+[2026-01-10 19:13:02] [success] SHORT Position geschlossen @ $105738.69 | P/L: +$274.46
+[2026-01-10 19:13:02] [info] LONG Position geoeffnet @ $105738.69
+[2026-01-10 19:13:02] [warning] LONG Position geschlossen @ $104951.54 | P/L: -$787.15
+[2026-01-10 19:13:02] [info] SHORT Position geoeffnet @ $104951.54
+[2026-01-10 19:13:02] [success] SHORT Position geschlossen @ $104913.52 | P/L: +$38.02
+[2026-01-10 19:13:02] [info] LONG Position geoeffnet @ $104913.52
+[2026-01-10 19:13:02] [warning] LONG Position geschlossen @ $103262.53 | P/L: -$1650.99
+[2026-01-10 19:13:02] [info] SHORT Position geoeffnet @ $103262.53
+[2026-01-10 19:13:02] [success] SHORT Position geschlossen @ $101914.77 | P/L: +$1347.76
+[2026-01-10 19:13:02] [info] LONG Position geoeffnet @ $101914.77
+[2026-01-10 19:13:03] [success] LONG Position geschlossen @ $104497.69 | P/L: +$2582.92
+[2026-01-10 19:13:03] [info] SHORT Position geoeffnet @ $104497.69
+[2026-01-10 19:13:03] [warning] SHORT Position geschlossen @ $105764.64 | P/L: -$1266.95
+[2026-01-10 19:13:03] [info] LONG Position geoeffnet @ $105764.64
+[2026-01-10 19:13:03] [success] LONG Position geschlossen @ $106317.70 | P/L: +$553.06
+[2026-01-10 19:13:03] [info] SHORT Position geoeffnet @ $106317.70
+[2026-01-10 19:13:03] [success] SHORT Position geschlossen @ $106147.66 | P/L: +$170.04
+[2026-01-10 19:13:03] [info] LONG Position geoeffnet @ $106147.66
+[2026-01-10 19:13:04] [success] LONG Position geschlossen @ $108706.74 | P/L: +$2559.08
+[2026-01-10 19:13:04] [info] SHORT Position geoeffnet @ $108706.74
+[2026-01-10 19:13:04] [warning] SHORT Position geschlossen @ $109960.00 | P/L: -$1253.26
+[2026-01-10 19:13:04] [info] LONG Position geoeffnet @ $109960.00
+[2026-01-10 19:13:04] [warning] LONG Position geschlossen @ $109439.38 | P/L: -$520.62
+[2026-01-10 19:13:04] [info] SHORT Position geoeffnet @ $109439.38
+[2026-01-10 19:13:05] [success] SHORT Position geschlossen @ $108742.37 | P/L: +$697.01
+[2026-01-10 19:13:05] [info] LONG Position geoeffnet @ $108742.37
+[2026-01-10 19:13:05] [warning] LONG Position geschlossen @ $105110.00 | P/L: -$3632.37
+[2026-01-10 19:13:05] [info] SHORT Position geoeffnet @ $105110.00
+[2026-01-10 19:13:06] [warning] SHORT Position geschlossen @ $105315.54 | P/L: -$205.54
+[2026-01-10 19:13:06] [info] LONG Position geoeffnet @ $105315.54
+[2026-01-10 19:13:06] [warning] LONG Position geschlossen @ $104807.75 | P/L: -$507.79
+[2026-01-10 19:13:06] [info] SHORT Position geoeffnet @ $104807.75
+[2026-01-10 19:13:06] [warning] SHORT Position geschlossen @ $105594.01 | P/L: -$786.26
+[2026-01-10 19:13:06] [info] LONG Position geoeffnet @ $105594.01
+[2026-01-10 19:13:06] [success] LONG Position geschlossen @ $107700.01 | P/L: +$2106.00
+[2026-01-10 19:13:06] [info] SHORT Position geoeffnet @ $107700.01
+[2026-01-10 19:13:07] [success] SHORT Position geschlossen @ $104842.78 | P/L: +$2857.23
+[2026-01-10 19:13:07] [info] LONG Position geoeffnet @ $104842.78
+[2026-01-10 19:13:07] [warning] LONG Position geschlossen @ $103623.39 | P/L: -$1219.39
+[2026-01-10 19:13:07] [info] SHORT Position geoeffnet @ $103623.39
+[2026-01-10 19:13:07] [warning] SHORT Position geschlossen @ $105085.50 | P/L: -$1462.11
+[2026-01-10 19:13:07] [info] LONG Position geoeffnet @ $105085.50
+[2026-01-10 19:13:07] [warning] LONG Position geschlossen @ $104392.53 | P/L: -$692.97
+[2026-01-10 19:13:07] [info] SHORT Position geoeffnet @ $104392.53
+[2026-01-10 19:13:07] [success] SHORT Position geschlossen @ $104332.45 | P/L: +$60.08
+[2026-01-10 19:13:07] [info] LONG Position geoeffnet @ $104332.45
+[2026-01-10 19:13:07] [warning] LONG Position geschlossen @ $103165.45 | P/L: -$1167.00
+[2026-01-10 19:13:07] [info] SHORT Position geoeffnet @ $103165.45
+[2026-01-10 19:13:07] [warning] SHORT Position geschlossen @ $103693.50 | P/L: -$528.05
+[2026-01-10 19:13:07] [info] LONG Position geoeffnet @ $103693.50
+[2026-01-10 19:13:08] [warning] LONG Position geschlossen @ $102645.22 | P/L: -$1048.28
+[2026-01-10 19:13:08] [info] SHORT Position geoeffnet @ $102645.22
+[2026-01-10 19:13:08] [success] SHORT Position geschlossen @ $98882.84 | P/L: +$3762.38
+[2026-01-10 19:13:08] [info] LONG Position geoeffnet @ $98882.84
+[2026-01-10 19:13:08] [success] LONG Position geschlossen @ $102484.02 | P/L: +$3601.18
+[2026-01-10 19:13:08] [info] SHORT Position geoeffnet @ $102484.02
+[2026-01-10 19:13:08] [warning] SHORT Position geschlossen @ $103739.99 | P/L: -$1255.97
+[2026-01-10 19:13:08] [info] LONG Position geoeffnet @ $103739.99
+[2026-01-10 19:13:09] [success] LONG Position geschlossen @ $105533.73 | P/L: +$1793.74
+[2026-01-10 19:13:09] [info] SHORT Position geoeffnet @ $105533.73
+[2026-01-10 19:13:09] [warning] SHORT Position geschlossen @ $106087.30 | P/L: -$553.57
+[2026-01-10 19:13:09] [info] LONG Position geoeffnet @ $106087.30
+[2026-01-10 19:13:09] [success] LONG Position geschlossen @ $107406.63 | P/L: +$1319.33
+[2026-01-10 19:13:09] [info] SHORT Position geoeffnet @ $107406.63
+[2026-01-10 19:13:09] [warning] SHORT Position geschlossen @ $107781.20 | P/L: -$374.57
+[2026-01-10 19:13:09] [info] LONG Position geoeffnet @ $107781.20
+[2026-01-10 19:13:09] [warning] LONG Position geschlossen @ $107532.98 | P/L: -$248.22
+[2026-01-10 19:13:09] [info] SHORT Position geoeffnet @ $107532.98
+[2026-01-10 19:13:09] [success] SHORT Position geschlossen @ $107029.60 | P/L: +$503.38
+[2026-01-10 19:13:09] [info] LONG Position geoeffnet @ $107029.60
+[2026-01-10 19:13:10] [warning] LONG Position geschlossen @ $106704.60 | P/L: -$325.00
+[2026-01-10 19:13:10] [info] SHORT Position geoeffnet @ $106704.60
+[2026-01-10 19:13:10] [warning] Backtest gestoppt
+[2026-01-10 19:13:14] [info] Turbo-Modus deaktiviert - Chart-Updates aktiv
+[2026-01-10 19:15:46] [info] Turbo-Modus aktiviert - Chart-Updates deaktiviert
+[2026-01-10 19:15:50] [info] Backtest gestartet
+[2026-01-10 19:15:50] [warning] SHORT Position geschlossen @ $107225.74 | P/L: -$521.14
+[2026-01-10 19:15:50] [info] LONG Position geoeffnet @ $107225.74
+[2026-01-10 19:15:51] [success] LONG Position geschlossen @ $107544.44 | P/L: +$318.70
+[2026-01-10 19:15:51] [info] SHORT Position geoeffnet @ $107544.44
+[2026-01-10 19:15:51] [success] SHORT Position geschlossen @ $107406.81 | P/L: +$137.63
+[2026-01-10 19:15:51] [info] LONG Position geoeffnet @ $107406.81
+[2026-01-10 19:15:51] [success] LONG Position geschlossen @ $107462.94 | P/L: +$56.13
+[2026-01-10 19:15:51] [info] SHORT Position geoeffnet @ $107462.94
+[2026-01-10 19:15:51] [warning] SHORT Position geschlossen @ $107745.97 | P/L: -$283.03
+[2026-01-10 19:15:51] [info] LONG Position geoeffnet @ $107745.97
+[2026-01-10 19:15:52] [warning] LONG Position geschlossen @ $106253.79 | P/L: -$1492.18
+[2026-01-10 19:15:52] [info] SHORT Position geoeffnet @ $106253.79
+[2026-01-10 19:15:52] [warning] SHORT Position geschlossen @ $109538.88 | P/L: -$3285.09
+[2026-01-10 19:15:52] [info] LONG Position geoeffnet @ $109538.88
+[2026-01-10 19:15:53] [warning] LONG Position geschlossen @ $109288.46 | P/L: -$250.42
+[2026-01-10 19:15:53] [info] SHORT Position geoeffnet @ $109288.46
+[2026-01-10 19:15:53] [warning] SHORT Position geschlossen @ $109678.75 | P/L: -$390.29
+[2026-01-10 19:15:53] [info] LONG Position geoeffnet @ $109678.75
+[2026-01-10 19:15:53] [warning] LONG Position geschlossen @ $107875.37 | P/L: -$1803.38
+[2026-01-10 19:15:53] [info] SHORT Position geoeffnet @ $107875.37
+[2026-01-10 19:15:54] [warning] SHORT Position geschlossen @ $108538.46 | P/L: -$663.09
+[2026-01-10 19:15:54] [info] LONG Position geoeffnet @ $108538.46
+[2026-01-10 19:15:55] [warning] LONG Position geschlossen @ $107976.91 | P/L: -$561.55
+[2026-01-10 19:15:55] [info] SHORT Position geoeffnet @ $107976.91
+[2026-01-10 19:15:55] [warning] SHORT Position geschlossen @ $109147.56 | P/L: -$1170.65
+[2026-01-10 19:15:55] [info] LONG Position geoeffnet @ $109147.56
+[2026-01-10 19:15:56] [success] LONG Position geschlossen @ $109536.49 | P/L: +$388.93
+[2026-01-10 19:15:56] [info] SHORT Position geoeffnet @ $109536.49
+[2026-01-10 19:15:56] [warning] SHORT Position geschlossen @ $111382.17 | P/L: -$1845.68
+[2026-01-10 19:15:56] [info] LONG Position geoeffnet @ $111382.17
+[2026-01-10 19:15:56] [success] LONG Position geschlossen @ $113301.81 | P/L: +$1919.64
+[2026-01-10 19:15:56] [info] SHORT Position geoeffnet @ $113301.81
+[2026-01-10 19:15:57] [warning] SHORT Position geschlossen @ $113493.16 | P/L: -$191.35
+[2026-01-10 19:15:57] [info] LONG Position geoeffnet @ $113493.16
+[2026-01-10 19:15:57] [success] LONG Position geschlossen @ $117393.39 | P/L: +$3900.23
+[2026-01-10 19:15:57] [info] SHORT Position geoeffnet @ $117393.39
+[2026-01-10 19:15:57] [warning] SHORT Position geschlossen @ $117640.00 | P/L: -$246.61
+[2026-01-10 19:15:57] [info] LONG Position geoeffnet @ $117640.00
+[2026-01-10 19:15:57] [warning] LONG Position geschlossen @ $117191.08 | P/L: -$448.92
+[2026-01-10 19:15:57] [info] SHORT Position geoeffnet @ $117191.08
+[2026-01-10 19:15:57] [warning] SHORT Position geschlossen @ $117504.00 | P/L: -$312.92
+[2026-01-10 19:15:57] [info] LONG Position geoeffnet @ $117504.00
+[2026-01-10 19:15:58] [success] LONG Position geschlossen @ $118699.60 | P/L: +$1195.60
+[2026-01-10 19:15:58] [info] SHORT Position geoeffnet @ $118699.60
+[2026-01-10 19:15:58] [warning] SHORT Position geschlossen @ $118961.08 | P/L: -$261.48
+[2026-01-10 19:15:58] [info] LONG Position geoeffnet @ $118961.08
+[2026-01-10 19:15:58] [info] Turbo-Modus deaktiviert - Chart-Updates aktiv
+[2026-01-10 19:16:01] [success] LONG Position geschlossen @ $119644.94 | P/L: +$683.86
+[2026-01-10 19:16:01] [info] SHORT Position geoeffnet @ $119644.94
+[2026-01-10 19:16:01] [warning] SHORT Position geschlossen @ $120167.07 | P/L: -$522.13
+[2026-01-10 19:16:01] [info] LONG Position geoeffnet @ $120167.07
+[2026-01-10 19:16:04] [warning] LONG Position geschlossen @ $116719.55 | P/L: -$3447.52
+[2026-01-10 19:16:04] [info] SHORT Position geoeffnet @ $116719.55
+[2026-01-10 19:16:06] [success] SHORT Position geschlossen @ $116419.02 | P/L: +$300.53
+[2026-01-10 19:16:06] [info] LONG Position geoeffnet @ $116419.02
+[2026-01-10 19:16:09] [success] LONG Position geschlossen @ $119512.20 | P/L: +$3093.18
+[2026-01-10 19:16:09] [info] SHORT Position geoeffnet @ $119512.20
+[2026-01-10 19:16:09] [success] SHORT Position geschlossen @ $119230.16 | P/L: +$282.04
+[2026-01-10 19:16:09] [info] LONG Position geoeffnet @ $119230.16
+[2026-01-10 19:16:17] [warning] LONG Position geschlossen @ $117553.42 | P/L: -$1676.74
+[2026-01-10 19:16:17] [info] SHORT Position geoeffnet @ $117553.42
+[2026-01-10 19:16:22] [warning] SHORT Position geschlossen @ $117720.01 | P/L: -$166.59
+[2026-01-10 19:16:22] [info] LONG Position geoeffnet @ $117720.01
+[2026-01-10 19:16:26] [success] LONG Position geschlossen @ $118361.79 | P/L: +$641.78
+[2026-01-10 19:16:26] [info] SHORT Position geoeffnet @ $118361.79
+[2026-01-10 19:16:39] [success] SHORT Position geschlossen @ $117900.00 | P/L: +$461.79
+[2026-01-10 19:16:39] [info] LONG Position geoeffnet @ $117900.00
+[2026-01-10 19:16:46] [warning] LONG Position geschlossen @ $116042.50 | P/L: -$1857.50
+[2026-01-10 19:16:46] [info] SHORT Position geoeffnet @ $116042.50
+[2026-01-10 19:16:48] [warning] SHORT Position geschlossen @ $116688.60 | P/L: -$646.10
+[2026-01-10 19:16:48] [info] LONG Position geoeffnet @ $116688.60
+[2026-01-10 19:16:51] [success] LONG Position geschlossen @ $118039.98 | P/L: +$1351.38
+[2026-01-10 19:16:51] [info] SHORT Position geoeffnet @ $118039.98
+[2026-01-10 19:16:51] [info] Turbo-Modus aktiviert - Chart-Updates deaktiviert
+[2026-01-10 19:16:51] [success] SHORT Position geschlossen @ $117956.32 | P/L: +$83.66
+[2026-01-10 19:16:51] [info] LONG Position geoeffnet @ $117956.32
+[2026-01-10 19:16:51] [success] LONG Position geschlossen @ $119196.69 | P/L: +$1240.37
+[2026-01-10 19:16:51] [info] SHORT Position geoeffnet @ $119196.69
+[2026-01-10 19:16:52] [success] SHORT Position geschlossen @ $117776.56 | P/L: +$1420.13
+[2026-01-10 19:16:52] [info] LONG Position geoeffnet @ $117776.56
+[2026-01-10 19:16:52] [warning] LONG Position geschlossen @ $117773.69 | P/L: -$2.87
+[2026-01-10 19:16:52] [info] SHORT Position geoeffnet @ $117773.69
+[2026-01-10 19:16:52] [success] SHORT Position geschlossen @ $117606.72 | P/L: +$166.97
+[2026-01-10 19:16:52] [info] LONG Position geoeffnet @ $117606.72
+[2026-01-10 19:16:53] [success] LONG Position geschlossen @ $117802.10 | P/L: +$195.38
+[2026-01-10 19:16:53] [info] SHORT Position geoeffnet @ $117802.10
+[2026-01-10 19:16:53] [success] SHORT Position geschlossen @ $116523.14 | P/L: +$1278.96
+[2026-01-10 19:16:53] [info] LONG Position geoeffnet @ $116523.14
+[2026-01-10 19:16:53] [success] LONG Position geschlossen @ $116916.73 | P/L: +$393.59
+[2026-01-10 19:16:53] [info] SHORT Position geoeffnet @ $116916.73
+[2026-01-10 19:16:54] [success] SHORT Position geschlossen @ $114313.19 | P/L: +$2603.54
+[2026-01-10 19:16:54] [info] LONG Position geoeffnet @ $114313.19
+[2026-01-10 19:16:55] [success] LONG Position geschlossen @ $114957.64 | P/L: +$644.45
+[2026-01-10 19:16:55] [info] SHORT Position geoeffnet @ $114957.64
+[2026-01-10 19:16:56] [warning] SHORT Position geschlossen @ $116561.05 | P/L: -$1603.41
+[2026-01-10 19:16:56] [info] LONG Position geoeffnet @ $116561.05
+[2026-01-10 19:16:56] [warning] LONG Position geschlossen @ $116193.63 | P/L: -$367.42
+[2026-01-10 19:16:56] [info] SHORT Position geoeffnet @ $116193.63
+[2026-01-10 19:16:56] [warning] SHORT Position geschlossen @ $116497.99 | P/L: -$304.36
+[2026-01-10 19:16:56] [info] LONG Position geoeffnet @ $116497.99
+[2026-01-10 19:16:57] [success] LONG Position geschlossen @ $116648.51 | P/L: +$150.52
+[2026-01-10 19:16:57] [info] SHORT Position geoeffnet @ $116648.51
+[2026-01-10 19:16:57] [success] SHORT Position geschlossen @ $116535.69 | P/L: +$112.82
+[2026-01-10 19:16:57] [info] LONG Position geoeffnet @ $116535.69
+[2026-01-10 19:16:58] [success] LONG Position geschlossen @ $117586.92 | P/L: +$1051.23
+[2026-01-10 19:16:58] [info] SHORT Position geoeffnet @ $117586.92
+[2026-01-10 19:16:59] [warning] SHORT Position geschlossen @ $117672.12 | P/L: -$85.20
+[2026-01-10 19:16:59] [info] LONG Position geoeffnet @ $117672.12
+[2026-01-10 19:16:59] [success] LONG Position geschlossen @ $117834.56 | P/L: +$162.44
+[2026-01-10 19:16:59] [info] SHORT Position geoeffnet @ $117834.56
+[2026-01-10 19:16:59] [success] SHORT Position geschlossen @ $116428.99 | P/L: +$1405.57
+[2026-01-10 19:16:59] [info] LONG Position geoeffnet @ $116428.99
+[2026-01-10 19:17:00] [warning] LONG Position geschlossen @ $113520.11 | P/L: -$2908.88
+[2026-01-10 19:17:00] [info] SHORT Position geoeffnet @ $113520.11
+[2026-01-10 19:17:00] [warning] SHORT Position geschlossen @ $113525.91 | P/L: -$5.80
+[2026-01-10 19:17:00] [info] LONG Position geoeffnet @ $113525.91
+[2026-01-10 19:17:00] [success] LONG Position geschlossen @ $113839.99 | P/L: +$314.08
+[2026-01-10 19:17:00] [info] SHORT Position geoeffnet @ $113839.99
+[2026-01-10 19:17:00] [warning] SHORT Position geschlossen @ $114197.53 | P/L: -$357.54
+[2026-01-10 19:17:00] [info] LONG Position geoeffnet @ $114197.53
+[2026-01-10 19:17:00] [warning] LONG Position geschlossen @ $112379.58 | P/L: -$1817.95
+[2026-01-10 19:17:00] [info] SHORT Position geoeffnet @ $112379.58
+[2026-01-10 19:17:00] [success] SHORT Position geschlossen @ $112193.71 | P/L: +$185.87
+[2026-01-10 19:17:00] [info] LONG Position geoeffnet @ $112193.71
+[2026-01-10 19:17:01] [info] Turbo-Modus deaktiviert - Chart-Updates aktiv
+[2026-01-10 19:17:04] [info] Turbo-Modus aktiviert - Chart-Updates deaktiviert
+[2026-01-10 19:17:04] [success] LONG Position geschlossen @ $115087.97 | P/L: +$2894.26
+[2026-01-10 19:17:04] [info] SHORT Position geoeffnet @ $115087.97
+[2026-01-10 19:17:04] [warning] SHORT Position geschlossen @ $115325.81 | P/L: -$237.84
+[2026-01-10 19:17:04] [info] LONG Position geoeffnet @ $115325.81
+[2026-01-10 19:17:05] [warning] LONG Position geschlossen @ $114626.97 | P/L: -$698.84
+[2026-01-10 19:17:05] [info] SHORT Position geoeffnet @ $114626.97
+[2026-01-10 19:17:05] [success] SHORT Position geschlossen @ $113451.02 | P/L: +$1175.95
+[2026-01-10 19:17:05] [info] LONG Position geoeffnet @ $113451.02
+[2026-01-10 19:17:05] [warning] LONG Position geschlossen @ $109561.96 | P/L: -$3889.06
+[2026-01-10 19:17:05] [info] SHORT Position geoeffnet @ $109561.96
+[2026-01-10 19:17:05] [warning] SHORT Position geschlossen @ $110111.98 | P/L: -$550.02
+[2026-01-10 19:17:05] [info] LONG Position geoeffnet @ $110111.98
+[2026-01-10 19:17:06] [warning] LONG Position geschlossen @ $109988.07 | P/L: -$123.91
+[2026-01-10 19:17:06] [info] SHORT Position geoeffnet @ $109988.07
+[2026-01-10 19:17:06] [warning] SHORT Position geschlossen @ $111321.58 | P/L: -$1333.51
+[2026-01-10 19:17:06] [info] LONG Position geoeffnet @ $111321.58
+[2026-01-10 19:17:06] [success] LONG Position geschlossen @ $111409.54 | P/L: +$87.96
+[2026-01-10 19:17:06] [info] SHORT Position geoeffnet @ $111409.54
+[2026-01-10 19:17:06] [warning] SHORT Position geschlossen @ $112025.07 | P/L: -$615.53
+[2026-01-10 19:17:06] [info] LONG Position geoeffnet @ $112025.07
+[2026-01-10 19:17:07] [warning] LONG Position geschlossen @ $108466.01 | P/L: -$3559.06
+[2026-01-10 19:17:07] [info] SHORT Position geoeffnet @ $108466.01
+[2026-01-10 19:17:07] [success] SHORT Position geschlossen @ $108145.40 | P/L: +$320.61
+[2026-01-10 19:17:07] [info] LONG Position geoeffnet @ $108145.40
+[2026-01-10 19:17:07] [success] LONG Position geschlossen @ $108784.71 | P/L: +$639.31
+[2026-01-10 19:17:07] [info] SHORT Position geoeffnet @ $108784.71
+[2026-01-10 19:17:07] [warning] SHORT Position geschlossen @ $108930.00 | P/L: -$145.29
+[2026-01-10 19:17:07] [info] LONG Position geoeffnet @ $108930.00
+[2026-01-10 19:17:08] [success] LONG Position geschlossen @ $110785.85 | P/L: +$1855.85
+[2026-01-10 19:17:08] [info] SHORT Position geoeffnet @ $110785.85
+[2026-01-10 19:17:08] [success] SHORT Position geschlossen @ $110646.47 | P/L: +$139.38
+[2026-01-10 19:17:08] [info] LONG Position geoeffnet @ $110646.47
+[2026-01-10 19:17:09] [warning] LONG Position geschlossen @ $109438.34 | P/L: -$1208.13
+[2026-01-10 19:17:09] [info] SHORT Position geoeffnet @ $109438.34
+[2026-01-10 19:17:09] [warning] SHORT Position geschlossen @ $109977.00 | P/L: -$538.66
+[2026-01-10 19:17:09] [info] LONG Position geoeffnet @ $109977.00
+[2026-01-10 19:17:09] [success] LONG Position geschlossen @ $110815.40 | P/L: +$838.40
+[2026-01-10 19:17:09] [info] SHORT Position geoeffnet @ $110815.40
+[2026-01-10 19:17:09] [warning] SHORT Position geschlossen @ $111198.78 | P/L: -$383.38
+[2026-01-10 19:17:09] [info] LONG Position geoeffnet @ $111198.78
+[2026-01-10 19:17:10] [warning] LONG Position geschlossen @ $110157.41 | P/L: -$1041.37
+[2026-01-10 19:17:10] [info] SHORT Position geoeffnet @ $110157.41
+[2026-01-10 19:17:10] [warning] SHORT Position geschlossen @ $110167.00 | P/L: -$9.59
+[2026-01-10 19:17:10] [info] LONG Position geoeffnet @ $110167.00
+[2026-01-10 19:17:10] [success] LONG Position geschlossen @ $111053.76 | P/L: +$886.76
+[2026-01-10 19:17:10] [info] SHORT Position geoeffnet @ $111053.76
+[2026-01-10 19:17:10] [success] SHORT Position geschlossen @ $111050.14 | P/L: +$3.62
+[2026-01-10 19:17:10] [info] LONG Position geoeffnet @ $111050.14
+[2026-01-10 19:17:10] [success] LONG Position geschlossen @ $112477.01 | P/L: +$1426.87
+[2026-01-10 19:17:10] [info] SHORT Position geoeffnet @ $112477.01
+[2026-01-10 19:17:10] [success] SHORT Position geschlossen @ $112097.31 | P/L: +$379.70
+[2026-01-10 19:17:10] [info] LONG Position geoeffnet @ $112097.31
+[2026-01-10 19:17:11] [warning] LONG Position geschlossen @ $111131.92 | P/L: -$965.39
+[2026-01-10 19:17:11] [info] SHORT Position geoeffnet @ $111131.92
+[2026-01-10 19:17:11] [warning] SHORT Position geschlossen @ $113842.53 | P/L: -$2710.61
+[2026-01-10 19:17:11] [info] LONG Position geoeffnet @ $113842.53
+[2026-01-10 19:17:12] [success] LONG Position geschlossen @ $116027.46 | P/L: +$2184.93
+[2026-01-10 19:17:12] [info] SHORT Position geoeffnet @ $116027.46
+[2026-01-10 19:17:12] [success] SHORT Position geschlossen @ $115797.12 | P/L: +$230.34
+[2026-01-10 19:17:12] [info] LONG Position geoeffnet @ $115797.12
+[2026-01-10 19:17:14] [success] LONG Position geschlossen @ $116418.86 | P/L: +$621.74
+[2026-01-10 19:17:14] [info] SHORT Position geoeffnet @ $116418.86
+[2026-01-10 19:17:14] [success] SHORT Position geschlossen @ $115621.47 | P/L: +$797.39
+[2026-01-10 19:17:14] [info] LONG Position geoeffnet @ $115621.47
+[2026-01-10 19:17:15] [warning] LONG Position geschlossen @ $115407.49 | P/L: -$213.98
+[2026-01-10 19:17:15] [info] SHORT Position geoeffnet @ $115407.49
+[2026-01-10 19:17:15] [warning] SHORT Position geschlossen @ $115465.39 | P/L: -$57.90
+[2026-01-10 19:17:15] [info] LONG Position geoeffnet @ $115465.39
+[2026-01-10 19:17:15] [success] LONG Position geschlossen @ $115702.00 | P/L: +$236.61
+[2026-01-10 19:17:15] [info] SHORT Position geoeffnet @ $115702.00
+[2026-01-10 19:17:15] [warning] SHORT Position geschlossen @ $115776.06 | P/L: -$74.06
+[2026-01-10 19:17:15] [info] LONG Position geoeffnet @ $115776.06
+[2026-01-10 19:17:16] [warning] LONG Position geschlossen @ $115480.05 | P/L: -$296.01
+[2026-01-10 19:17:16] [info] SHORT Position geoeffnet @ $115480.05
+[2026-01-10 19:17:16] [success] SHORT Position geschlossen @ $112643.25 | P/L: +$2836.80
+[2026-01-10 19:17:16] [info] LONG Position geoeffnet @ $112643.25
+[2026-01-10 19:17:16] [success] LONG Position geschlossen @ $112650.99 | P/L: +$7.74
+[2026-01-10 19:17:16] [info] SHORT Position geoeffnet @ $112650.99
+[2026-01-10 19:17:16] [success] SHORT Position geschlossen @ $112395.32 | P/L: +$255.67
+[2026-01-10 19:17:16] [info] LONG Position geoeffnet @ $112395.32
+[2026-01-10 19:17:16] [warning] LONG Position geschlossen @ $112156.66 | P/L: -$238.66
+[2026-01-10 19:17:16] [info] SHORT Position geoeffnet @ $112156.66
+[2026-01-10 19:17:17] [warning] SHORT Position geschlossen @ $113420.01 | P/L: -$1263.35
+[2026-01-10 19:17:17] [info] LONG Position geoeffnet @ $113420.01
+[2026-01-10 19:17:17] [warning] LONG Position geschlossen @ $111735.66 | P/L: -$1684.35
+[2026-01-10 19:17:17] [info] SHORT Position geoeffnet @ $111735.66
+[2026-01-10 19:17:17] [success] SHORT Position geschlossen @ $111727.21 | P/L: +$8.45
+[2026-01-10 19:17:17] [info] LONG Position geoeffnet @ $111727.21
+[2026-01-10 19:17:17] [warning] LONG Position geschlossen @ $108833.63 | P/L: -$2893.58
+[2026-01-10 19:17:17] [info] SHORT Position geoeffnet @ $108833.63
+[2026-01-10 19:17:17] [warning] SHORT Position geschlossen @ $109580.01 | P/L: -$746.38
+[2026-01-10 19:17:17] [info] LONG Position geoeffnet @ $109580.01
+[2026-01-10 19:17:18] [warning] LONG Position geschlossen @ $109288.44 | P/L: -$291.57
+[2026-01-10 19:17:18] [info] SHORT Position geoeffnet @ $109288.44
+[2026-01-10 19:17:18] [warning] SHORT Position geschlossen @ $109469.07 | P/L: -$180.63
+[2026-01-10 19:17:18] [info] LONG Position geoeffnet @ $109469.07
+[2026-01-10 19:17:19] [success] LONG Position geschlossen @ $114043.91 | P/L: +$4574.84
+[2026-01-10 19:17:19] [info] SHORT Position geoeffnet @ $114043.91
+[2026-01-10 19:17:19] [success] SHORT Position geschlossen @ $113714.56 | P/L: +$329.35
+[2026-01-10 19:17:19] [info] LONG Position geoeffnet @ $113714.56
+[2026-01-10 19:17:20] [success] LONG Position geschlossen @ $119910.78 | P/L: +$6196.22
+[2026-01-10 19:17:20] [info] SHORT Position geoeffnet @ $119910.78
+[2026-01-10 19:17:20] [success] SHORT Position geschlossen @ $119731.40 | P/L: +$179.38
+[2026-01-10 19:17:20] [info] LONG Position geoeffnet @ $119731.40
+[2026-01-10 19:17:20] [success] LONG Position geschlossen @ $121719.99 | P/L: +$1988.59
+[2026-01-10 19:17:20] [info] SHORT Position geoeffnet @ $121719.99
+[2026-01-10 19:17:20] [success] SHORT Position geschlossen @ $121574.66 | P/L: +$145.33
+[2026-01-10 19:17:20] [info] LONG Position geoeffnet @ $121574.66
+[2026-01-10 19:17:21] [success] LONG Position geschlossen @ $125455.24 | P/L: +$3880.58
+[2026-01-10 19:17:21] [info] SHORT Position geoeffnet @ $125455.24
+[2026-01-10 19:17:21] [success] SHORT Position geschlossen @ $125284.00 | P/L: +$171.24
+[2026-01-10 19:17:21] [info] LONG Position geoeffnet @ $125284.00
+[2026-01-10 19:17:21] [warning] LONG Position geschlossen @ $121130.02 | P/L: -$4153.98
+[2026-01-10 19:17:21] [info] SHORT Position geoeffnet @ $121130.02
+[2026-01-10 19:17:21] [warning] SHORT Position geschlossen @ $121637.17 | P/L: -$507.15
+[2026-01-10 19:17:21] [info] LONG Position geoeffnet @ $121637.17
+[2026-01-10 19:17:22] [warning] LONG Position geschlossen @ $119819.77 | P/L: -$1817.40
+[2026-01-10 19:17:22] [info] SHORT Position geoeffnet @ $119819.77
+[2026-01-10 19:17:23] [success] SHORT Position geschlossen @ $112005.57 | P/L: +$7814.20
+[2026-01-10 19:17:23] [info] LONG Position geoeffnet @ $112005.57
+[2026-01-10 19:17:23] [warning] LONG Position geschlossen @ $110244.98 | P/L: -$1760.59
+[2026-01-10 19:17:23] [info] SHORT Position geoeffnet @ $110244.98
+[2026-01-10 19:17:23] [warning] SHORT Position geschlossen @ $110644.40 | P/L: -$399.42
+[2026-01-10 19:17:23] [info] LONG Position geoeffnet @ $110644.40
+[2026-01-10 19:17:24] [success] LONG Position geschlossen @ $111444.76 | P/L: +$800.36
+[2026-01-10 19:17:24] [info] SHORT Position geoeffnet @ $111444.76
+[2026-01-10 19:17:25] [success] SHORT Position geschlossen @ $106454.72 | P/L: +$4990.04
+[2026-01-10 19:17:25] [info] LONG Position geoeffnet @ $106454.72
+[2026-01-10 19:17:25] [success] LONG Position geschlossen @ $106664.01 | P/L: +$209.29
+[2026-01-10 19:17:25] [info] SHORT Position geoeffnet @ $106664.01
+[2026-01-10 19:17:25] [warning] SHORT Position geschlossen @ $107080.14 | P/L: -$416.13
+[2026-01-10 19:17:25] [info] LONG Position geoeffnet @ $107080.14
+[2026-01-10 19:17:26] [success] LONG Position geschlossen @ $110683.19 | P/L: +$3603.05
+[2026-01-10 19:17:26] [info] SHORT Position geoeffnet @ $110683.19
+[2026-01-10 19:17:26] [warning] SHORT Position geschlossen @ $110803.22 | P/L: -$120.03
+[2026-01-10 19:17:26] [info] LONG Position geoeffnet @ $110803.22
+[2026-01-10 19:17:28] [warning] LONG Position geschlossen @ $110235.22 | P/L: -$568.00
+[2026-01-10 19:17:28] [info] SHORT Position geoeffnet @ $110235.22
+[2026-01-10 19:17:28] [warning] SHORT Position geschlossen @ $110615.07 | P/L: -$379.85
+[2026-01-10 19:17:28] [info] LONG Position geoeffnet @ $110615.07
+[2026-01-10 19:17:28] [success] LONG Position geschlossen @ $111372.25 | P/L: +$757.18
+[2026-01-10 19:17:28] [info] SHORT Position geoeffnet @ $111372.25
+[2026-01-10 19:17:28] [warning] SHORT Position geschlossen @ $111623.45 | P/L: -$251.20
+[2026-01-10 19:17:28] [info] LONG Position geoeffnet @ $111623.45
+[2026-01-10 19:17:28] [success] LONG Position geschlossen @ $113575.15 | P/L: +$1951.70
+[2026-01-10 19:17:28] [info] SHORT Position geoeffnet @ $113575.15
+[2026-01-10 19:17:29] [warning] SHORT Position geschlossen @ $115706.06 | P/L: -$2130.91
+[2026-01-10 19:17:29] [info] LONG Position geoeffnet @ $115706.06
+[2026-01-10 19:17:29] [warning] LONG Position geschlossen @ $115290.00 | P/L: -$416.06
+[2026-01-10 19:17:29] [info] SHORT Position geoeffnet @ $115290.00
+[2026-01-10 19:17:29] [success] SHORT Position geschlossen @ $113689.99 | P/L: +$1600.01
+[2026-01-10 19:17:29] [info] LONG Position geoeffnet @ $113689.99
+[2026-01-10 19:17:29] [warning] LONG Position geschlossen @ $112808.05 | P/L: -$881.94
+[2026-01-10 19:17:29] [info] SHORT Position geoeffnet @ $112808.05
+[2026-01-10 19:17:29] [success] SHORT Position geschlossen @ $110806.38 | P/L: +$2001.67
+[2026-01-10 19:17:29] [info] LONG Position geoeffnet @ $110806.38
+[2026-01-10 19:17:29] [warning] LONG Position geschlossen @ $110640.00 | P/L: -$166.38
+[2026-01-10 19:17:29] [info] SHORT Position geoeffnet @ $110640.00
+[2026-01-10 19:17:29] [warning] SHORT Position geschlossen @ $111617.26 | P/L: -$977.26
+[2026-01-10 19:17:29] [info] LONG Position geoeffnet @ $111617.26
+[2026-01-10 19:17:30] [warning] LONG Position geschlossen @ $109828.78 | P/L: -$1788.48
+[2026-01-10 19:17:30] [info] SHORT Position geoeffnet @ $109828.78
+[2026-01-10 19:17:30] [success] SHORT Position geschlossen @ $109493.85 | P/L: +$334.93
+[2026-01-10 19:17:30] [info] LONG Position geoeffnet @ $109493.85
+[2026-01-10 19:17:30] [success] LONG Position geschlossen @ $110406.20 | P/L: +$912.35
+[2026-01-10 19:17:30] [info] SHORT Position geoeffnet @ $110406.20
+[2026-01-10 19:17:30] [success] SHORT Position geschlossen @ $109862.85 | P/L: +$543.35
+[2026-01-10 19:17:30] [info] LONG Position geoeffnet @ $109862.85
+[2026-01-10 19:17:31] [success] LONG Position geschlossen @ $110190.40 | P/L: +$327.55
+[2026-01-10 19:17:31] [info] SHORT Position geoeffnet @ $110190.40
+[2026-01-10 19:17:31] [warning] SHORT Position geschlossen @ $110331.00 | P/L: -$140.60
+[2026-01-10 19:17:31] [info] LONG Position geoeffnet @ $110331.00
+[2026-01-10 19:17:31] [warning] LONG Position geschlossen @ $107481.19 | P/L: -$2849.81
+[2026-01-10 19:17:31] [info] SHORT Position geoeffnet @ $107481.19
+[2026-01-10 19:17:32] [success] SHORT Position geschlossen @ $104347.40 | P/L: +$3133.79
+[2026-01-10 19:17:32] [info] LONG Position geoeffnet @ $104347.40
+[2026-01-10 19:17:32] [warning] LONG Position geschlossen @ $103318.75 | P/L: -$1028.65
+[2026-01-10 19:17:32] [info] SHORT Position geoeffnet @ $103318.75
+[2026-01-10 19:17:32] [success] SHORT Position geschlossen @ $103185.48 | P/L: +$133.27
+[2026-01-10 19:17:32] [info] LONG Position geoeffnet @ $103185.48
+[2026-01-10 19:17:32] [warning] LONG Position geschlossen @ $101722.13 | P/L: -$1463.35
+[2026-01-10 19:17:32] [info] SHORT Position geoeffnet @ $101722.13
+[2026-01-10 19:17:32] [success] SHORT Position geschlossen @ $101388.81 | P/L: +$333.32
+[2026-01-10 19:17:32] [info] LONG Position geoeffnet @ $101388.81
+[2026-01-10 19:17:32] [warning] LONG Position geschlossen @ $101117.17 | P/L: -$271.64
+[2026-01-10 19:17:32] [info] SHORT Position geoeffnet @ $101117.17
+[2026-01-10 19:17:32] [warning] SHORT Position geschlossen @ $101415.05 | P/L: -$297.88
+[2026-01-10 19:17:32] [info] LONG Position geoeffnet @ $101415.05
+[2026-01-10 19:17:32] [success] LONG Position geschlossen @ $102397.12 | P/L: +$982.07
+[2026-01-10 19:17:32] [info] SHORT Position geoeffnet @ $102397.12
+[2026-01-10 19:17:32] [warning] SHORT Position geschlossen @ $102609.46 | P/L: -$212.34
+[2026-01-10 19:17:32] [info] LONG Position geoeffnet @ $102609.46
+[2026-01-10 19:17:33] [warning] LONG Position geschlossen @ $101989.65 | P/L: -$619.81
+[2026-01-10 19:17:33] [info] SHORT Position geoeffnet @ $101989.65
+[2026-01-10 19:17:33] [warning] SHORT Position geschlossen @ $104528.82 | P/L: -$2539.17
+[2026-01-10 19:17:33] [info] LONG Position geoeffnet @ $104528.82
+[2026-01-10 19:17:34] [success] LONG Position geschlossen @ $105242.05 | P/L: +$713.23
+[2026-01-10 19:17:34] [info] SHORT Position geoeffnet @ $105242.05
+[2026-01-10 19:17:34] [warning] SHORT Position geschlossen @ $105478.00 | P/L: -$235.95
+[2026-01-10 19:17:34] [info] LONG Position geoeffnet @ $105478.00
+[2026-01-10 19:17:34] [warning] LONG Position geschlossen @ $103338.99 | P/L: -$2139.01
+[2026-01-10 19:17:34] [info] SHORT Position geoeffnet @ $103338.99
+[2026-01-10 19:17:34] [success] SHORT Position geschlossen @ $103126.39 | P/L: +$212.60
+[2026-01-10 19:17:34] [info] LONG Position geoeffnet @ $103126.39
+[2026-01-10 19:17:34] [warning] LONG Position geschlossen @ $101542.17 | P/L: -$1584.22
+[2026-01-10 19:17:34] [info] SHORT Position geoeffnet @ $101542.17
+[2026-01-10 19:17:35] [success] SHORT Position geschlossen @ $101539.01 | P/L: +$3.16
+[2026-01-10 19:17:35] [info] LONG Position geoeffnet @ $101539.01
+[2026-01-10 19:17:35] [warning] LONG Position geschlossen @ $98591.78 | P/L: -$2947.23
+[2026-01-10 19:17:35] [info] SHORT Position geoeffnet @ $98591.78
+[2026-01-10 19:17:35] [warning] SHORT Position geschlossen @ $98817.36 | P/L: -$225.58
+[2026-01-10 19:17:35] [info] LONG Position geoeffnet @ $98817.36
+[2026-01-10 19:17:35] [warning] LONG Position geschlossen @ $95842.56 | P/L: -$2974.80
+[2026-01-10 19:17:35] [info] SHORT Position geoeffnet @ $95842.56
+[2026-01-10 19:17:36] [warning] SHORT Position geschlossen @ $96238.50 | P/L: -$395.94
+[2026-01-10 19:17:36] [info] LONG Position geoeffnet @ $96238.50
+[2026-01-10 19:17:36] [warning] LONG Position geschlossen @ $96052.99 | P/L: -$185.51
+[2026-01-10 19:17:36] [info] SHORT Position geoeffnet @ $96052.99
+[2026-01-10 19:17:36] [success] SHORT Position geschlossen @ $94090.00 | P/L: +$1962.99
+[2026-01-10 19:17:36] [info] LONG Position geoeffnet @ $94090.00
+[2026-01-10 19:17:36] [warning] LONG Position geschlossen @ $92767.49 | P/L: -$1322.51
+[2026-01-10 19:17:36] [info] SHORT Position geoeffnet @ $92767.49
+[2026-01-10 19:17:38] [success] SHORT Position geschlossen @ $87282.60 | P/L: +$5484.89
+[2026-01-10 19:17:38] [info] LONG Position geoeffnet @ $87282.60
+[2026-01-10 19:17:38] [warning] LONG Position geschlossen @ $84577.11 | P/L: -$2705.49
+[2026-01-10 19:17:38] [info] SHORT Position geoeffnet @ $84577.11
+[2026-01-10 19:17:38] [warning] SHORT Position geschlossen @ $85182.14 | P/L: -$605.03
+[2026-01-10 19:17:38] [info] LONG Position geoeffnet @ $85182.14
+[2026-01-10 19:17:39] [success] LONG Position geschlossen @ $86746.51 | P/L: +$1564.37
+[2026-01-10 19:17:39] [info] SHORT Position geoeffnet @ $86746.51
+[2026-01-10 19:17:39] [warning] SHORT Position geschlossen @ $87325.01 | P/L: -$578.50
+[2026-01-10 19:17:39] [info] LONG Position geoeffnet @ $87325.01
+[2026-01-10 19:17:39] [warning] LONG Position geschlossen @ $86882.85 | P/L: -$442.16
+[2026-01-10 19:17:39] [info] SHORT Position geoeffnet @ $86882.85
+[2026-01-10 19:17:39] [warning] SHORT Position geschlossen @ $87032.37 | P/L: -$149.52
+[2026-01-10 19:17:39] [info] LONG Position geoeffnet @ $87032.37
+[2026-01-10 19:17:41] [success] LONG Position geschlossen @ $90936.23 | P/L: +$3903.86
+[2026-01-10 19:17:41] [info] SHORT Position geoeffnet @ $90936.23
+[2026-01-10 19:17:41] [warning] SHORT Position geschlossen @ $91157.44 | P/L: -$221.21
+[2026-01-10 19:17:41] [info] LONG Position geoeffnet @ $91157.44
+[2026-01-10 19:17:41] [warning] LONG Position geschlossen @ $91004.03 | P/L: -$153.41
+[2026-01-10 19:17:41] [info] SHORT Position geoeffnet @ $91004.03
+[2026-01-10 19:17:41] [warning] SHORT Position geschlossen @ $91460.79 | P/L: -$456.76
+[2026-01-10 19:17:41] [info] LONG Position geoeffnet @ $91460.79
+[2026-01-10 19:17:42] [warning] LONG Position geschlossen @ $84571.80 | P/L: -$6888.99
+[2026-01-10 19:17:42] [info] SHORT Position geoeffnet @ $84571.80
+[2026-01-10 19:17:42] [warning] SHORT Position geschlossen @ $85024.50 | P/L: -$452.70
+[2026-01-10 19:17:42] [info] LONG Position geoeffnet @ $85024.50
+[2026-01-10 19:17:44] [success] LONG Position geschlossen @ $88936.04 | P/L: +$3911.54
+[2026-01-10 19:17:44] [info] SHORT Position geoeffnet @ $88936.04
+[2026-01-10 19:17:45] [warning] SHORT Position geschlossen @ $89646.71 | P/L: -$710.67
+[2026-01-10 19:17:45] [info] LONG Position geoeffnet @ $89646.71
+[2026-01-10 19:17:45] [success] LONG Position geschlossen @ $91363.78 | P/L: +$1717.07
+[2026-01-10 19:17:45] [info] SHORT Position geoeffnet @ $91363.78
+[2026-01-10 19:17:45] [warning] SHORT Position geschlossen @ $91439.04 | P/L: -$75.26
+[2026-01-10 19:17:45] [info] LONG Position geoeffnet @ $91439.04
+[2026-01-10 19:17:46] [warning] LONG Position geschlossen @ $89921.68 | P/L: -$1517.36
+[2026-01-10 19:17:46] [info] SHORT Position geoeffnet @ $89921.68
+[2026-01-10 19:17:46] [warning] SHORT Position geschlossen @ $90799.92 | P/L: -$878.24
+[2026-01-10 19:17:46] [info] LONG Position geoeffnet @ $90799.92
+[2026-01-10 19:17:46] [success] LONG Position geschlossen @ $93800.83 | P/L: +$3000.91
+[2026-01-10 19:17:46] [info] SHORT Position geoeffnet @ $93800.83
+[2026-01-10 19:17:46] [success] SHORT Position geschlossen @ $93116.76 | P/L: +$684.07
+[2026-01-10 19:17:46] [info] LONG Position geoeffnet @ $93116.76
+[2026-01-10 19:17:46] [warning] LONG Position geschlossen @ $92396.23 | P/L: -$720.53
+[2026-01-10 19:17:46] [info] SHORT Position geoeffnet @ $92396.23
+[2026-01-10 19:17:46] [warning] SHORT Position geschlossen @ $92957.67 | P/L: -$561.44
+[2026-01-10 19:17:46] [info] LONG Position geoeffnet @ $92957.67
+[2026-01-10 19:17:47] [warning] LONG Position geschlossen @ $90710.50 | P/L: -$2247.17
+[2026-01-10 19:17:47] [info] SHORT Position geoeffnet @ $90710.50
+[2026-01-10 19:17:47] [warning] SHORT Position geschlossen @ $92858.39 | P/L: -$2147.89
+[2026-01-10 19:17:47] [info] LONG Position geoeffnet @ $92858.39
+[2026-01-10 19:17:47] [warning] LONG Position geschlossen @ $90198.22 | P/L: -$2660.17
+[2026-01-10 19:17:47] [info] SHORT Position geoeffnet @ $90198.22
+[2026-01-10 19:17:47] [success] SHORT Position geschlossen @ $90193.94 | P/L: +$4.28
+[2026-01-10 19:17:47] [info] LONG Position geoeffnet @ $90193.94
+[2026-01-10 19:17:48] [warning] LONG Position geschlossen @ $90178.16 | P/L: -$15.78
+[2026-01-10 19:17:48] [info] SHORT Position geoeffnet @ $90178.16
+[2026-01-10 19:17:48] [success] SHORT Position geschlossen @ $90175.97 | P/L: +$2.19
+[2026-01-10 19:17:48] [info] LONG Position geoeffnet @ $90175.97
+[2026-01-10 19:17:48] [warning] LONG Position geschlossen @ $88810.67 | P/L: -$1365.30
+[2026-01-10 19:17:48] [info] SHORT Position geoeffnet @ $88810.67
+[2026-01-10 19:17:48] [success] SHORT Position geschlossen @ $88644.88 | P/L: +$165.79
+[2026-01-10 19:17:48] [info] LONG Position geoeffnet @ $88644.88
+[2026-01-10 19:17:48] [warning] LONG Position geschlossen @ $86185.39 | P/L: -$2459.49
+[2026-01-10 19:17:48] [info] SHORT Position geoeffnet @ $86185.39
+[2026-01-10 19:17:48] [success] SHORT Position geschlossen @ $85787.04 | P/L: +$398.35
+[2026-01-10 19:17:48] [info] LONG Position geoeffnet @ $85787.04
+[2026-01-10 19:17:49] [success] LONG Position geschlossen @ $87781.35 | P/L: +$1994.31
+[2026-01-10 19:17:49] [info] SHORT Position geoeffnet @ $87781.35
+[2026-01-10 19:17:50] [warning] SHORT Position geschlossen @ $87839.40 | P/L: -$58.05
+[2026-01-10 19:17:50] [info] LONG Position geoeffnet @ $87839.40
+[2026-01-10 19:17:50] [success] LONG Position geschlossen @ $88313.21 | P/L: +$473.81
+[2026-01-10 19:17:50] [info] SHORT Position geoeffnet @ $88313.21
+[2026-01-10 19:17:50] [success] SHORT Position geschlossen @ $88208.73 | P/L: +$104.48
+[2026-01-10 19:17:50] [info] LONG Position geoeffnet @ $88208.73
+[2026-01-10 19:17:50] [success] LONG Position geschlossen @ $88445.09 | P/L: +$236.36
+[2026-01-10 19:17:50] [info] SHORT Position geoeffnet @ $88445.09
+[2026-01-10 19:17:50] [success] SHORT Position geschlossen @ $88230.96 | P/L: +$214.13
+[2026-01-10 19:17:50] [info] LONG Position geoeffnet @ $88230.96
+[2026-01-10 19:17:51] [warning] LONG Position geschlossen @ $88052.43 | P/L: -$178.53
+[2026-01-10 19:17:51] [info] SHORT Position geoeffnet @ $88052.43
+[2026-01-10 19:17:52] [success] SHORT Position geschlossen @ $87322.77 | P/L: +$729.66
+[2026-01-10 19:17:52] [info] LONG Position geoeffnet @ $87322.77
+[2026-01-10 19:17:52] [success] LONG Position geschlossen @ $87470.65 | P/L: +$147.88
+[2026-01-10 19:17:52] [info] SHORT Position geoeffnet @ $87470.65
+[2026-01-10 19:17:52] [warning] SHORT Position geschlossen @ $87556.20 | P/L: -$85.55
+[2026-01-10 19:17:52] [info] LONG Position geoeffnet @ $87556.20
+[2026-01-10 19:17:52] [success] LONG Position geschlossen @ $88139.08 | P/L: +$582.88
+[2026-01-10 19:17:52] [info] SHORT Position geoeffnet @ $88139.08
+[2026-01-10 19:17:52] [warning] SHORT Position geschlossen @ $88151.18 | P/L: -$12.10
+[2026-01-10 19:17:52] [info] LONG Position geoeffnet @ $88151.18
+[2026-01-10 19:17:52] [warning] LONG Position geschlossen @ $87277.77 | P/L: -$873.41
+[2026-01-10 19:17:52] [info] SHORT Position geoeffnet @ $87277.77
+[2026-01-10 19:17:52] [warning] SHORT Position geschlossen @ $87585.77 | P/L: -$308.00
+[2026-01-10 19:17:52] [info] LONG Position geoeffnet @ $87585.77
+[2026-01-10 19:17:52] [warning] LONG Position geschlossen @ $87500.01 | P/L: -$85.76
+[2026-01-10 19:17:52] [info] SHORT Position geoeffnet @ $87500.01
+[2026-01-10 19:17:53] [warning] SHORT Position geschlossen @ $87849.99 | P/L: -$349.98
+[2026-01-10 19:17:53] [info] LONG Position geoeffnet @ $87849.99
+[2026-01-10 19:17:53] [success] LONG Position geschlossen @ $88304.00 | P/L: +$454.01
+[2026-01-10 19:17:53] [info] SHORT Position geoeffnet @ $88304.00
+[2026-01-10 19:17:54] [success] SHORT Position geschlossen @ $87541.85 | P/L: +$762.15
+[2026-01-10 19:17:54] [info] LONG Position geoeffnet @ $87541.85
+[2026-01-10 19:17:54] [success] LONG Position geschlossen @ $88391.15 | P/L: +$849.30
+[2026-01-10 19:17:54] [info] SHORT Position geoeffnet @ $88391.15
+[2026-01-10 19:17:54] [success] SHORT Position geschlossen @ $88258.12 | P/L: +$133.03
+[2026-01-10 19:17:54] [info] LONG Position geoeffnet @ $88258.12
+[2026-01-10 19:17:54] [success] LONG Position geschlossen @ $89773.10 | P/L: +$1514.98
+[2026-01-10 19:17:54] [info] SHORT Position geoeffnet @ $89773.10
+[2026-01-10 19:17:54] [success] SHORT Position geschlossen @ $89740.00 | P/L: +$33.10
+[2026-01-10 19:17:54] [info] LONG Position geoeffnet @ $89740.00
+[2026-01-10 19:17:55] [success] LONG Position geschlossen @ $90138.87 | P/L: +$398.87
+[2026-01-10 19:17:55] [info] SHORT Position geoeffnet @ $90138.87
+[2026-01-10 19:17:55] [warning] SHORT Position geschlossen @ $90564.31 | P/L: -$425.44
+[2026-01-10 19:17:55] [info] LONG Position geoeffnet @ $90564.31
+[2026-01-10 19:17:56] [success] LONG Position geschlossen @ $91138.07 | P/L: +$573.76
+[2026-01-10 19:17:56] [info] SHORT Position geoeffnet @ $91138.07
+[2026-01-10 19:17:56] [warning] SHORT Position geschlossen @ $91279.99 | P/L: -$141.92
+[2026-01-10 19:17:56] [info] LONG Position geoeffnet @ $91279.99
+[2026-01-10 19:17:56] [success] LONG Position geschlossen @ $92104.50 | P/L: +$824.51
+[2026-01-10 19:17:56] [info] SHORT Position geoeffnet @ $92104.50
+[2026-01-10 19:17:56] [warning] SHORT Position geschlossen @ $92505.32 | P/L: -$400.82
+[2026-01-10 19:17:56] [info] LONG Position geoeffnet @ $92505.32
+[2026-01-10 19:17:57] [warning] LONG Position geschlossen @ $91186.07 | P/L: -$1319.25
+[2026-01-10 19:17:57] [info] SHORT Position geoeffnet @ $91186.07
+[2026-01-10 19:17:57] [success] SHORT Position geschlossen @ $91047.49 | P/L: +$138.58
+[2026-01-10 19:17:57] [info] LONG Position geoeffnet @ $91047.49
+[2026-01-10 19:17:58] [success] LONG Position geschlossen @ $91422.23 | P/L: +$374.74
+[2026-01-10 19:17:58] [info] SHORT Position geoeffnet @ $91422.23
+[2026-01-10 19:17:58] [warning] Backtest gestoppt
+[2026-01-10 19:17:58] [success] Backtest abgeschlossen - Ende der Daten erreicht
+[2026-01-10 19:18:01] [info] === Backtest Zusammenfassung ===
+[2026-01-10 19:18:01] [success] Gesamt P/L: $33158.21 (331.58%)
+[2026-01-10 19:18:01] [info] Trades: 462 (Gewinner: 222, Verlierer: 240)
+[2026-01-10 19:18:01] [success] Ergebnisse gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-51-23\backtest_2026-01-10_19-18-01.mat
+[2026-01-10 19:25:57] [info] Backtester GUI geschlossen
+[2026-01-10 19:26:16] [info] Oeffne Backtester GUI...
+[2026-01-10 19:26:16] [info] === Validierung: Daten-Modell-Kompatibilitaet ===
+[2026-01-10 19:26:16] [debug] model_info Struktur: OK
+[2026-01-10 19:26:16] [debug] Basis-Datenspalten: OK
+[2026-01-10 19:26:16] [debug] Features werden generiert: PriceChange, PriceChangePct
+[2026-01-10 19:26:16] [debug] Modell-Features (6): Close, High, Low, Open, PriceChange, PriceChangePct
+[2026-01-10 19:26:16] [debug] Datenpunkte: 8977 (min. 121 benoetigt)
+[2026-01-10 19:26:16] [debug] Feature-Dimension: 6
+[2026-01-10 19:26:16] [debug] Klassen: HOLD, BUY, SELL
+[2026-01-10 19:26:16] [success] === Validierung erfolgreich ===
+[2026-01-10 19:26:16] [info] Sequenzlaenge: 120 (Lookback: 100, Lookforward: 20)
+[2026-01-10 19:26:16] [info] Backtest-Bereich: 8857 Schritte moeglich
+[2026-01-10 19:26:16] [info] Backtester GUI geoeffnet
+[2026-01-10 19:26:16] [debug] Datenpunkte: 8977, Sequenzlaenge: 120
+[2026-01-10 19:26:16] [success] Backtester GUI geoeffnet
+[2026-01-10 19:26:16] [trace] [TIMING] openBacktester: 426.8 ms
+[2026-01-10 19:26:27] [info] Turbo-Modus aktiviert - Chart-Updates deaktiviert
+[2026-01-10 19:26:28] [info] Backtest gestartet
+[2026-01-10 19:26:28] [debug] Feature "PriceChange" aus Rohdaten generiert
+[2026-01-10 19:26:28] [debug] Feature "PriceChangePct" aus Rohdaten generiert
+[2026-01-10 19:26:28] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:26:28] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:26:28] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:26:28] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:26:28] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:26:30] [info] SHORT Position geoeffnet @ $101738.80
+[2026-01-10 19:26:31] [success] SHORT Position geschlossen @ $96750.86 | P/L: +$4987.94
+[2026-01-10 19:26:31] [info] LONG Position geoeffnet @ $96750.86
+[2026-01-10 19:26:31] [warning] LONG Position geschlossen @ $94030.82 | P/L: -$2720.04
+[2026-01-10 19:26:31] [info] SHORT Position geoeffnet @ $94030.82
+[2026-01-10 19:26:32] [success] SHORT Position geschlossen @ $93980.00 | P/L: +$50.82
+[2026-01-10 19:26:32] [info] LONG Position geoeffnet @ $93980.00
+[2026-01-10 19:26:32] [success] LONG Position geschlossen @ $94244.02 | P/L: +$264.02
+[2026-01-10 19:26:32] [info] SHORT Position geoeffnet @ $94244.02
+[2026-01-10 19:26:32] [success] SHORT Position geschlossen @ $92693.11 | P/L: +$1550.91
+[2026-01-10 19:26:32] [info] LONG Position geoeffnet @ $92693.11
+[2026-01-10 19:26:32] [success] LONG Position geschlossen @ $93020.11 | P/L: +$327.00
+[2026-01-10 19:26:32] [info] SHORT Position geoeffnet @ $93020.11
+[2026-01-10 19:26:33] [warning] SHORT Position geschlossen @ $94586.11 | P/L: -$1566.00
+[2026-01-10 19:26:33] [info] LONG Position geoeffnet @ $94586.11
+[2026-01-10 19:26:33] [success] LONG Position geschlossen @ $94650.26 | P/L: +$64.15
+[2026-01-10 19:26:33] [info] SHORT Position geoeffnet @ $94650.26
+[2026-01-10 19:26:33] [success] SHORT Position geschlossen @ $92312.18 | P/L: +$2338.08
+[2026-01-10 19:26:33] [info] LONG Position geoeffnet @ $92312.18
+[2026-01-10 19:26:34] [success] LONG Position geschlossen @ $96777.80 | P/L: +$4465.62
+[2026-01-10 19:26:34] [info] SHORT Position geoeffnet @ $96777.80
+[2026-01-10 19:26:34] [success] SHORT Position geschlossen @ $96537.80 | P/L: +$240.00
+[2026-01-10 19:26:34] [info] LONG Position geoeffnet @ $96537.80
+[2026-01-10 19:26:34] [success] LONG Position geschlossen @ $99346.39 | P/L: +$2808.59
+[2026-01-10 19:26:34] [info] SHORT Position geoeffnet @ $99346.39
+[2026-01-10 19:26:34] [warning] SHORT Position geschlossen @ $99838.54 | P/L: -$492.15
+[2026-01-10 19:26:34] [info] LONG Position geoeffnet @ $99838.54
+[2026-01-10 19:26:35] [success] LONG Position geschlossen @ $104125.46 | P/L: +$4286.92
+[2026-01-10 19:26:35] [info] SHORT Position geoeffnet @ $104125.46
+[2026-01-10 19:26:35] [warning] SHORT Position geschlossen @ $105834.93 | P/L: -$1709.47
+[2026-01-10 19:26:35] [info] LONG Position geoeffnet @ $105834.93
+[2026-01-10 19:26:35] [warning] LONG Position geschlossen @ $103826.16 | P/L: -$2008.77
+[2026-01-10 19:26:35] [info] SHORT Position geoeffnet @ $103826.16
+[2026-01-10 19:26:35] [warning] SHORT Position geschlossen @ $104084.74 | P/L: -$258.58
+[2026-01-10 19:26:35] [info] LONG Position geoeffnet @ $104084.74
+[2026-01-10 19:26:36] [warning] LONG Position geschlossen @ $103691.63 | P/L: -$393.11
+[2026-01-10 19:26:36] [info] SHORT Position geoeffnet @ $103691.63
+[2026-01-10 19:26:36] [success] SHORT Position geschlossen @ $103647.16 | P/L: +$44.47
+[2026-01-10 19:26:36] [info] LONG Position geoeffnet @ $103647.16
+[2026-01-10 19:26:36] [success] LONG Position geschlossen @ $103896.01 | P/L: +$248.85
+[2026-01-10 19:26:36] [info] SHORT Position geoeffnet @ $103896.01
+[2026-01-10 19:26:36] [warning] SHORT Position geschlossen @ $104321.10 | P/L: -$425.09
+[2026-01-10 19:26:36] [info] LONG Position geoeffnet @ $104321.10
+[2026-01-10 19:26:37] [success] LONG Position geschlossen @ $105424.39 | P/L: +$1103.29
+[2026-01-10 19:26:37] [info] SHORT Position geoeffnet @ $105424.39
+[2026-01-10 19:26:37] [warning] Backtest gestoppt
+[2026-01-10 19:26:48] [info] Backtester GUI geschlossen

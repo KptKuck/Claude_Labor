@@ -1,0 +1,6 @@
+[2026-01-10 07:37:05] [info] BTCUSD Analyzer gestartet
+[2026-01-10 07:37:05] [info] Log-Datei: C:\Work\MatLab\Cloude_labor\log\btc_analyzer_2026-01-10_07-37-05.txt
+[2026-01-10 07:37:05] [info] Results-Ordner: C:\Work\MatLab\Cloude_labor\Results\2026-01-10_07-37-05
+[2026-01-10 07:37:05] [success] Parameter-Datei erstellt: C:\Work\MatLab\Cloude_labor\Results\2026-01-10_07-37-05\parameters.txt
+[2026-01-10 07:37:36] [info] Öffne Speichern-Dialog für Parameter...
+[2026-01-10 07:37:42] [warning] Parameter-Speichern abgebrochen

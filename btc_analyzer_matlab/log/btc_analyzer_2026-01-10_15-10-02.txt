@@ -1,0 +1,117 @@
+[2026-01-10 15:10:02] [info] BTCUSD Analyzer gestartet
+[2026-01-10 15:10:02] [info] Log-Datei: C:\Work\MatLab\Claude_Labor\log\btc_analyzer_2026-01-10_15-10-02.txt
+[2026-01-10 15:10:02] [info] Results-Ordner: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_15-10-02
+[2026-01-10 15:10:02] [success] Parameter-Datei erstellt: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_15-10-02\parameters.txt
+[2026-01-10 15:10:02] [debug] Lade letzte CSV-Datei: C:\Work\MatLab\Claude_Labor\Daten_csv\BTCUSD_2025-01-01_2026-01-10.csv
+[2026-01-10 15:10:02] [trace] [TIMING] read_btc_data: 19.2 ms
+[2026-01-10 15:10:02] [success] Daten automatisch geladen: 8977 Datensätze (2025-01-01 bis 2026-01-10)
+[2026-01-10 15:10:02] [debug] Dateipfad: C:\Work\MatLab\Claude_Labor\Daten_csv\BTCUSD_2025-01-01_2026-01-10.csv
+[2026-01-10 15:10:02] [debug] Dateigröße: 0.54 MB | Spalten: 10 | Intervall: ~1 Std
+[2026-01-10 15:10:02] [debug] Zeitraum: 374.0 Tage (01.01.2025 00:00 bis 10.01.2026 00:00)
+[2026-01-10 15:10:02] [debug] Preis: Min=74508.00 | Max=126199.63 | Avg=101374.08 | Range=69.4%
+[2026-01-10 15:10:02] [trace] Spalten: DateTime, Date, Time, Open, High, Low, Close, TickVol, Vol, Spread
+[2026-01-10 15:10:02] [trace] --- Erste 10 Datenzeilen ---
+[2026-01-10 15:10:02] [trace]   [1] 01.01.25 00:00 | O:93576.00 H:94509.42 L:93489.03 C:94401.14
+[2026-01-10 15:10:02] [trace]   [2] 01.01.25 01:00 | O:94401.13 H:94408.72 L:93578.77 C:93607.74
+[2026-01-10 15:10:02] [trace]   [3] 01.01.25 02:00 | O:93607.74 H:94105.12 L:93594.56 C:94098.91
+[2026-01-10 15:10:02] [trace]   [4] 01.01.25 03:00 | O:94098.90 H:94098.91 L:93728.22 C:93838.04
+[2026-01-10 15:10:02] [trace]   [5] 01.01.25 04:00 | O:93838.04 H:93838.04 L:93500.00 C:93553.91
+[2026-01-10 15:10:02] [trace]   [6] 01.01.25 05:00 | O:93553.91 H:93937.19 L:93547.40 C:93792.02
+[2026-01-10 15:10:02] [trace]   [7] 01.01.25 06:00 | O:93792.02 H:93792.02 L:93568.38 C:93757.58
+[2026-01-10 15:10:02] [trace]   [8] 01.01.25 07:00 | O:93757.57 H:93800.00 L:93664.08 C:93684.10
+[2026-01-10 15:10:02] [trace]   [9] 01.01.25 08:00 | O:93684.11 H:93756.02 L:93304.00 C:93428.46
+[2026-01-10 15:10:02] [trace]   [10] 01.01.25 09:00 | O:93428.47 H:93486.29 L:92888.00 C:93413.06
+[2026-01-10 15:10:02] [trace] [TIMING] loadLastCSVData: 43.6 ms
+[2026-01-10 15:10:05] [debug] Öffne Trainingsdaten-Vorbereitungs-GUI...
+[2026-01-10 15:10:07] [debug] GUI geöffnet. Nach Abschluss werden Daten übernommen.
+[2026-01-10 15:10:07] [trace] [TIMING] prepareTrainingData: 1.84 s
+[2026-01-10 15:10:09] [debug] Berechne Vorschau...
+[2026-01-10 15:10:09] [trace] [TIMING] find_daily_extrema: 36.7 ms
+[2026-01-10 15:10:10] [trace] [TIMING] HOLD-Sample generation: 69.4 ms
+[2026-01-10 15:10:10] [trace] [TIMING] prepareDataWithParams: 739.4 ms
+[2026-01-10 15:10:12] [trace] [TIMING] updatePreviewChart: 1.83 s
+[2026-01-10 15:10:12] [success] Vorschau: 734 Sequenzen (BUY:367 SELL:367 HOLD:0)
+[2026-01-10 15:10:12] [trace] [TIMING] computePreview: 2.59 s
+[2026-01-10 15:10:13] [debug] Speichere Trainingsdaten in Workspace...
+[2026-01-10 15:10:13] [trace] [TIMING] assignin (Workspace): 0.9 ms
+[2026-01-10 15:10:13] [success] Trainingsdaten generiert: 734 Sequenzen, 6 Features, Seq-Länge: 150
+[2026-01-10 15:10:13] [trace] [TIMING] applyAndClose: 4.5 ms
+[2026-01-10 15:10:17] [success] Trainingsdaten geladen: 734 Sequenzen (BUY:367 SELL:367 HOLD:0)
+[2026-01-10 15:10:17] [trace] [TIMING] loadTrainingDataFromWorkspace: 3.9 ms
+[2026-01-10 15:10:19] [info] Öffne Training GUI...
+[2026-01-10 15:10:19] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 15:10:19] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 15:10:19] [success] Training GUI geöffnet
+[2026-01-10 15:10:19] [trace] [TIMING] openTrainGUI: 130.0 ms
+[2026-01-10 15:10:21] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 15:10:22] [debug] Training GUI gestartet
+[2026-01-10 15:10:28] [warning] Training manuell gestoppt
+[2026-01-10 15:12:47] [debug] Öffne Trainingsdaten-Vorbereitungs-GUI...
+[2026-01-10 15:12:48] [debug] GUI geöffnet. Nach Abschluss werden Daten übernommen.
+[2026-01-10 15:12:48] [trace] [TIMING] prepareTrainingData: 1.77 s
+[2026-01-10 15:13:05] [debug] Berechne Vorschau...
+[2026-01-10 15:13:05] [trace] [TIMING] find_daily_extrema: 37.8 ms
+[2026-01-10 15:13:06] [trace] [TIMING] HOLD-Sample generation: 59.5 ms
+[2026-01-10 15:13:06] [trace] [TIMING] prepareDataWithParams: 704.5 ms
+[2026-01-10 15:13:08] [trace] [TIMING] updatePreviewChart: 1.77 s
+[2026-01-10 15:13:08] [success] Vorschau: 734 Sequenzen (BUY:367 SELL:367 HOLD:0)
+[2026-01-10 15:13:08] [trace] [TIMING] computePreview: 2.49 s
+[2026-01-10 16:07:02] [debug] Öffne Trainingsdaten-Vorbereitungs-GUI...
+[2026-01-10 16:07:04] [debug] GUI geöffnet. Nach Abschluss werden Daten übernommen.
+[2026-01-10 16:07:04] [trace] [TIMING] prepareTrainingData: 1.88 s
+[2026-01-10 16:07:07] [debug] Berechne Vorschau...
+[2026-01-10 16:07:07] [trace] [TIMING] find_daily_extrema: 36.1 ms
+[2026-01-10 16:07:08] [trace] [TIMING] HOLD-Sample generation: 63.2 ms
+[2026-01-10 16:07:08] [trace] [TIMING] prepareDataWithParams: 714.0 ms
+[2026-01-10 16:07:10] [trace] [TIMING] updatePreviewChart: 1.87 s
+[2026-01-10 16:07:10] [success] Vorschau: 734 Sequenzen (BUY:367 SELL:367 HOLD:0)
+[2026-01-10 16:07:10] [trace] [TIMING] computePreview: 2.61 s
+[2026-01-10 16:07:40] [debug] Berechne Vorschau...
+[2026-01-10 16:07:40] [trace] [TIMING] find_daily_extrema: 36.4 ms
+[2026-01-10 16:07:41] [trace] [TIMING] HOLD-Sample generation: 56.3 ms
+[2026-01-10 16:07:41] [trace] [TIMING] prepareDataWithParams: 640.4 ms
+[2026-01-10 16:07:42] [trace] [TIMING] updatePreviewChart: 1.73 s
+[2026-01-10 16:07:42] [success] Vorschau: 736 Sequenzen (BUY:368 SELL:368 HOLD:0)
+[2026-01-10 16:07:42] [trace] [TIMING] computePreview: 2.39 s
+[2026-01-10 16:07:55] [debug] Berechne Vorschau...
+[2026-01-10 16:07:55] [trace] [TIMING] find_daily_extrema: 36.4 ms
+[2026-01-10 16:07:55] [trace] [TIMING] HOLD-Sample generation: 58.3 ms
+[2026-01-10 16:07:55] [trace] [TIMING] prepareDataWithParams: 662.4 ms
+[2026-01-10 16:07:57] [trace] [TIMING] updatePreviewChart: 1.79 s
+[2026-01-10 16:07:57] [success] Vorschau: 736 Sequenzen (BUY:368 SELL:368 HOLD:0)
+[2026-01-10 16:07:57] [trace] [TIMING] computePreview: 2.47 s
+[2026-01-10 16:09:00] [debug] Berechne Vorschau...
+[2026-01-10 16:09:00] [trace] [TIMING] find_daily_extrema: 37.4 ms
+[2026-01-10 16:09:00] [trace] [TIMING] HOLD-Sample generation: 54.2 ms
+[2026-01-10 16:09:00] [trace] [TIMING] prepareDataWithParams: 648.0 ms
+[2026-01-10 16:09:02] [trace] [TIMING] updatePreviewChart: 1.82 s
+[2026-01-10 16:09:02] [success] Vorschau: 726 Sequenzen (BUY:363 SELL:363 HOLD:0)
+[2026-01-10 16:09:02] [trace] [TIMING] computePreview: 2.49 s
+[2026-01-10 16:09:05] [debug] Berechne Vorschau...
+[2026-01-10 16:09:05] [trace] [TIMING] find_daily_extrema: 36.4 ms
+[2026-01-10 16:09:06] [trace] [TIMING] HOLD-Sample generation: 59.9 ms
+[2026-01-10 16:09:06] [trace] [TIMING] prepareDataWithParams: 705.9 ms
+[2026-01-10 16:09:08] [trace] [TIMING] updatePreviewChart: 1.86 s
+[2026-01-10 16:09:08] [success] Vorschau: 726 Sequenzen (BUY:363 SELL:363 HOLD:0)
+[2026-01-10 16:09:08] [trace] [TIMING] computePreview: 2.59 s
+[2026-01-10 16:09:18] [debug] Berechne Vorschau...
+[2026-01-10 16:09:18] [trace] [TIMING] find_daily_extrema: 36.2 ms
+[2026-01-10 16:09:19] [trace] [TIMING] HOLD-Sample generation: 79.3 ms
+[2026-01-10 16:09:19] [trace] [TIMING] prepareDataWithParams: 696.4 ms
+[2026-01-10 16:09:21] [trace] [TIMING] updatePreviewChart: 1.71 s
+[2026-01-10 16:09:21] [success] Vorschau: 726 Sequenzen (BUY:363 SELL:363 HOLD:0)
+[2026-01-10 16:09:21] [trace] [TIMING] computePreview: 2.43 s
+[2026-01-10 16:09:28] [debug] Berechne Vorschau...
+[2026-01-10 16:09:28] [trace] [TIMING] find_daily_extrema: 35.3 ms
+[2026-01-10 16:09:29] [trace] [TIMING] HOLD-Sample generation: 39.2 ms
+[2026-01-10 16:09:29] [trace] [TIMING] prepareDataWithParams: 625.9 ms
+[2026-01-10 16:09:30] [trace] [TIMING] updatePreviewChart: 1.74 s
+[2026-01-10 16:09:30] [success] Vorschau: 726 Sequenzen (BUY:363 SELL:363 HOLD:0)
+[2026-01-10 16:09:30] [trace] [TIMING] computePreview: 2.39 s
+[2026-01-10 16:09:50] [debug] Berechne Vorschau...
+[2026-01-10 16:09:50] [trace] [TIMING] find_daily_extrema: 35.8 ms
+[2026-01-10 16:09:51] [trace] [TIMING] HOLD-Sample generation: 41.1 ms
+[2026-01-10 16:09:51] [trace] [TIMING] prepareDataWithParams: 675.8 ms
+[2026-01-10 16:09:53] [trace] [TIMING] updatePreviewChart: 1.74 s
+[2026-01-10 16:09:53] [success] Vorschau: 726 Sequenzen (BUY:363 SELL:363 HOLD:0)
+[2026-01-10 16:09:53] [trace] [TIMING] computePreview: 2.44 s

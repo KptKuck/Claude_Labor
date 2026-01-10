@@ -64,25 +64,50 @@ btc_analyzer_gui()
 ## Dateistruktur
 
 ```
-btc-analyzer/
-├── btc_analyzer_gui.m              # Hauptgui (Einstiegspunkt)
-├── read_btc_data.m                 # CSV-Daten einlesen
-├── download_btc_data.m             # Binance API Download
-├── find_daily_extrema.m            # Tages-Extrema finden
-├── prepare_training_data.m         # Trainingsdaten vorbereiten
-├── prepare_training_data_gui.m     # Trainingsdaten-Vorbereitungs-GUI
-├── train_bilstm_model.m            # BILSTM Trainingslogik
-├── visualize_training_signals.m    # Visualisierungs-GUI
-├── main.m                          # Beispiel-Analyseskript
-├── run_bilstm_training.m           # Eigenständiges Training-Skript
+Claude_Labor/
+├── .git/
+├── .gitignore
+├── CLAUDE.md                       # Projekt-Einstellungen
 ├── README.md                       # Diese Datei
-├── .gitignore                      # Git Ignore Rules
-└── python1/                        # Python-Varianten (optional)
-    ├── download_btc_data.py
-    ├── prepare_training_data.py
-    ├── train_bilstm_model.py
-    ├── visualize_training_data_gui.py
-    └── requirements.txt
+│
+├── btc_analyzer_matlab/            # MATLAB-Projekt
+│   ├── btc_analyzer_gui.m          # Hauptgui (Einstiegspunkt)
+│   ├── read_btc_data.m             # CSV-Daten einlesen
+│   ├── download_btc_data.m         # Binance API Download
+│   ├── find_daily_extrema.m        # Tages-Extrema finden
+│   ├── prepare_training_data.m     # Trainingsdaten vorbereiten
+│   ├── prepare_training_data_gui.m # Trainingsdaten-Vorbereitungs-GUI
+│   ├── train_bilstm_model.m        # BILSTM Trainingslogik
+│   ├── visualize_training_signals.m # Visualisierungs-GUI
+│   ├── backtest_gui.m              # Backtest-GUI
+│   ├── train_gui.m                 # Training-GUI
+│   ├── visualize_training_data_gui.m # Visualisierungs-GUI
+│   ├── main.m                      # Beispiel-Analyseskript
+│   ├── run_bilstm_training.m       # Eigenständiges Training-Skript
+│   ├── start.m                     # Startskript
+│   ├── last_session.mat            # Letzte Session-Daten
+│   ├── Daten_csv/                  # CSV-Daten (MATLAB)
+│   ├── Network/                    # Trainierte Modelle
+│   ├── Results/                    # Ergebnisse
+│   └── log/                        # Log-Dateien
+│
+├── btcusd_analyzer_python/         # Python-Port (PyQt6 + PyTorch)
+│   ├── src/btcusd_analyzer/
+│   │   ├── main.py
+│   │   ├── core/
+│   │   ├── data/
+│   │   ├── models/
+│   │   ├── gui/
+│   │   └── ...
+│   ├── data/                       # CSV-Daten (Python)
+│   ├── results/                    # Ergebnisse (Python)
+│   ├── logs/                       # Log-Dateien (Python)
+│   ├── models/                     # Trainierte Modelle (Python)
+│   ├── pyproject.toml
+│   └── requirements.txt
+│
+├── python1/                        # Alter Python-Test-Ordner
+└── test1/                          # Test-Ordner
 ```
 
 ## Verwendung
@@ -140,24 +165,24 @@ app_data (Table: DateTime, OHLC)
 
 Log-Dateien werden in `log/` erstellt mit Format: `btc_analyzer_YYYY-MM-DD_HH-MM-SS.txt`
 
-## Ordnerstruktur (wird automatisch erstellt)
+## Datenordner
 
-```
-project/
-├── Daten_csv/                          # Exportierte CSV-Daten
-├── log/                                # Log-Dateien
-├── Network/                            # Trainierte Modelle (.mat)
-└── Results/                            # Ergebnisse und Ausgaben
-    └── YYYY-MM-DD_HH-MM-SS/           # Session-Ordner (ein pro Start)
-        ├── Diagramme/
-        ├── Modelle/
-        └── Daten/
-```
+### MATLAB-Projekt (btc_analyzer_matlab/)
+- `Daten_csv/` - Exportierte CSV-Daten
+- `log/` - Log-Dateien (eine pro Session)
+- `Network/` - Trainierte Modelle (.mat)
+- `Results/` - Ergebnisse und Ausgaben mit Session-Ordnern
 
 **Automatische Session-Ordner:**
-Bei jedem Start der App wird automatisch ein neuer Ordner mit Datum und Uhrzeit erstellt:
-- `Results/2025-01-10_14-30-45/` (beispiel)
-- Alle Ergebnisse dieser Session werden dort gespeichert
+Bei jedem Start der GUI wird automatisch ein neuer Ordner mit Datum und Uhrzeit erstellt:
+- `Results/2025-01-10_14-30-45/` (Beispiel)
+- Alle MATLAB-Ergebnisse werden dort gespeichert
+
+### Python-Projekt (btcusd_analyzer_python/)
+- `data/` - CSV-Daten (getrennt von MATLAB)
+- `logs/` - Log-Dateien
+- `models/` - Trainierte Modelle (.pt für PyTorch)
+- `results/` - Ergebnisse und Ausgaben
 
 ## Tipps & Tricks
 
@@ -187,13 +212,23 @@ Bei jedem Start der App wird automatisch ein neuer Ordner mit Datum und Uhrzeit 
 - Bei GPU-Fehler wird automatisch auf CPU ausgewichen
 - Alle GPU-Informationen werden im Logger angezeigt
 
-## Python-Varianten
+## Python-Port (btcusd_analyzer_python/)
 
-Optional: Verwenden Sie die Python-Implementierungen in `python1/`:
+Ein vollständiger Port des MATLAB-Projekts nach Python mit PyQt6 (GUI) und PyTorch (ML).
+
+### Features
+- **PyQt6 GUI** - Moderne Benutzeroberfläche
+- **PyTorch Training** - 11 verschiedene Netzwerk-Architekturen (LSTM, BiLSTM, GRU, CNN, TCN, Transformer, etc.)
+- **Optuna Hyperparameter-Optimierung** - Automatische Hyperparameter-Suche
+- **Backtesting** - Adapter für VectorBT, Backtrader, Backtesting.py
+- **Live-Trading** - Binance API mit Live/Testnet-Umschaltung
+- **Web-Dashboard** - Flask-basiertes LAN-Status-Dashboard
+
+### Installation
 ```bash
-cd python1
+cd btcusd_analyzer_python
 pip install -r requirements.txt
-python train_bilstm_model.py
+python -m btcusd_analyzer.main
 ```
 
 ## Bekannte Einschränkungen

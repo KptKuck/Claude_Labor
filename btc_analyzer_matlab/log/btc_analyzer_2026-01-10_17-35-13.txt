@@ -1,0 +1,76 @@
+[2026-01-10 17:35:13] [info] BTCUSD Analyzer gestartet
+[2026-01-10 17:35:13] [info] Log-Datei: C:\Work\MatLab\Claude_Labor\log\btc_analyzer_2026-01-10_17-35-13.txt
+[2026-01-10 17:35:13] [info] Results-Ordner: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_17-35-13
+[2026-01-10 17:35:13] [success] Parameter-Datei erstellt: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_17-35-13\parameters.txt
+[2026-01-10 17:35:13] [debug] Lade letzte CSV-Datei: C:\Work\MatLab\Claude_Labor\Daten_csv\BTCUSD_2025-01-01_2026-01-10.csv
+[2026-01-10 17:35:13] [trace] [TIMING] read_btc_data: 18.5 ms
+[2026-01-10 17:35:13] [success] Daten automatisch geladen: 8977 Datensätze (2025-01-01 bis 2026-01-10)
+[2026-01-10 17:35:13] [debug] Dateipfad: C:\Work\MatLab\Claude_Labor\Daten_csv\BTCUSD_2025-01-01_2026-01-10.csv
+[2026-01-10 17:35:13] [debug] Dateigröße: 0.54 MB | Spalten: 10 | Intervall: ~1 Std
+[2026-01-10 17:35:13] [debug] Zeitraum: 374.0 Tage (01.01.2025 00:00 bis 10.01.2026 00:00)
+[2026-01-10 17:35:13] [debug] Preis: Min=74508.00 | Max=126199.63 | Avg=101374.08 | Range=69.4%
+[2026-01-10 17:35:13] [trace] Spalten: DateTime, Date, Time, Open, High, Low, Close, TickVol, Vol, Spread
+[2026-01-10 17:35:13] [trace] --- Erste 10 Datenzeilen ---
+[2026-01-10 17:35:13] [trace]   [1] 01.01.25 00:00 | O:93576.00 H:94509.42 L:93489.03 C:94401.14
+[2026-01-10 17:35:13] [trace]   [2] 01.01.25 01:00 | O:94401.13 H:94408.72 L:93578.77 C:93607.74
+[2026-01-10 17:35:13] [trace]   [3] 01.01.25 02:00 | O:93607.74 H:94105.12 L:93594.56 C:94098.91
+[2026-01-10 17:35:13] [trace]   [4] 01.01.25 03:00 | O:94098.90 H:94098.91 L:93728.22 C:93838.04
+[2026-01-10 17:35:13] [trace]   [5] 01.01.25 04:00 | O:93838.04 H:93838.04 L:93500.00 C:93553.91
+[2026-01-10 17:35:13] [trace]   [6] 01.01.25 05:00 | O:93553.91 H:93937.19 L:93547.40 C:93792.02
+[2026-01-10 17:35:13] [trace]   [7] 01.01.25 06:00 | O:93792.02 H:93792.02 L:93568.38 C:93757.58
+[2026-01-10 17:35:13] [trace]   [8] 01.01.25 07:00 | O:93757.57 H:93800.00 L:93664.08 C:93684.10
+[2026-01-10 17:35:13] [trace]   [9] 01.01.25 08:00 | O:93684.11 H:93756.02 L:93304.00 C:93428.46
+[2026-01-10 17:35:13] [trace]   [10] 01.01.25 09:00 | O:93428.47 H:93486.29 L:92888.00 C:93413.06
+[2026-01-10 17:35:13] [trace] [TIMING] loadLastCSVData: 45.7 ms
+[2026-01-10 17:37:19] [debug] Öffne Trainingsdaten-Vorbereitungs-GUI...
+[2026-01-10 17:37:21] [debug] GUI geöffnet. Nach Abschluss werden Daten übernommen.
+[2026-01-10 17:37:21] [trace] [TIMING] prepareTrainingData: 1.76 s
+[2026-01-10 17:37:25] [debug] Berechne Vorschau...
+[2026-01-10 17:37:25] [trace] [TIMING] find_daily_extrema: 35.1 ms
+[2026-01-10 17:37:26] [trace] [TIMING] HOLD-Sample generation: 63.1 ms
+[2026-01-10 17:37:26] [trace] [TIMING] prepareDataWithParams: 686.8 ms
+[2026-01-10 17:37:28] [trace] [TIMING] updatePreviewChart: 1.78 s
+[2026-01-10 17:37:28] [success] Vorschau: 1468 Sequenzen (BUY:367 SELL:367 HOLD:734)
+[2026-01-10 17:37:28] [trace] [TIMING] computePreview: 2.49 s
+[2026-01-10 17:37:30] [debug] Speichere Trainingsdaten in Workspace...
+[2026-01-10 17:37:30] [trace] [TIMING] assignin (Workspace): 1.7 ms
+[2026-01-10 17:37:30] [success] Trainingsdaten generiert: 1468 Sequenzen, 6 Features, Seq-Länge: 150
+[2026-01-10 17:37:30] [trace] [TIMING] applyAndClose: 5.5 ms
+[2026-01-10 17:37:32] [success] Trainingsdaten geladen: 1468 Sequenzen (BUY:367 SELL:367 HOLD:734)
+[2026-01-10 17:37:32] [trace] [TIMING] loadTrainingDataFromWorkspace: 3.4 ms
+[2026-01-10 17:37:34] [info] Öffne Training GUI...
+[2026-01-10 17:37:34] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 17:37:34] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 17:37:34] [success] Training GUI geöffnet
+[2026-01-10 17:37:34] [trace] [TIMING] openTrainGUI: 133.5 ms
+[2026-01-10 17:37:36] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 17:37:38] [debug] Training GUI gestartet
+[2026-01-10 17:37:49] [warning] Training manuell gestoppt
+[2026-01-10 17:37:49] [success] Modell automatisch gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_17-35-13\BILSTM_ValAcc-50.7_TrAcc-49.8_Ep50_stopped.mat
+[2026-01-10 17:38:32] [debug] Öffne Modellauswahl-Dialog...
+[2026-01-10 17:39:14] [info] Lade Modell: BILSTM_ValAcc-50.7_TrAcc-49.8_Ep50_stopped.mat
+[2026-01-10 17:39:14] [trace] [TIMING] load(model): 32.1 ms
+[2026-01-10 17:39:14] [success] Modell geladen: Klassen=HOLD,BUY,SELL
+[2026-01-10 17:39:14] [trace] [TIMING] loadModel: 41.14 s
+[2026-01-10 17:39:19] [info] Starte Vorhersage...
+[2026-01-10 17:39:19] [error] Vorhersage fehlgeschlagen: The prediction sequences are of feature dimension 4 but the input layer expects sequences of feature dimension 6.
+[2026-01-10 17:39:19] [trace] [TIMING] makePrediction: 46.8 ms
+[2026-01-10 17:39:21] [info] Oeffne Backtester GUI...
+[2026-01-10 17:39:22] [info] Backtester GUI geoeffnet
+[2026-01-10 17:39:22] [debug] Datenpunkte: 8977, Sequenzlaenge: 150
+[2026-01-10 17:39:22] [success] Backtester GUI geoeffnet
+[2026-01-10 17:39:22] [trace] [TIMING] openBacktester: 335.2 ms
+[2026-01-10 17:39:31] [info] Backtest gestartet
+[2026-01-10 17:40:16] [warning] Backtest gestoppt
+[2026-01-10 17:40:21] [info] Backtest gestartet
+[2026-01-10 17:40:23] [warning] Backtest gestoppt
+[2026-01-10 17:44:16] [info] Backtester GUI geschlossen
+[2026-01-10 17:44:21] [info] Oeffne Backtester GUI...
+[2026-01-10 17:44:21] [info] Backtester GUI geoeffnet
+[2026-01-10 17:44:21] [debug] Datenpunkte: 8977, Sequenzlaenge: 150
+[2026-01-10 17:44:21] [success] Backtester GUI geoeffnet
+[2026-01-10 17:44:21] [trace] [TIMING] openBacktester: 209.8 ms
+[2026-01-10 17:44:22] [info] Backtest gestartet
+[2026-01-10 17:44:22] [error] Timer-Fehler: The prediction sequences are of feature dimension 4 but the input layer expects sequences of feature dimension 6.
+[2026-01-10 17:44:22] [warning] Backtest gestoppt
+[2026-01-10 17:44:27] [info] Backtester GUI geschlossen

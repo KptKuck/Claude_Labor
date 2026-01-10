@@ -1,0 +1,10 @@
+[2026-01-10 09:06:52] [info] BTCUSD Analyzer gestartet
+[2026-01-10 09:06:52] [info] Log-Datei: C:\Work\MatLab\Cloude_labor\log\btc_analyzer_2026-01-10_09-06-52.txt
+[2026-01-10 09:06:52] [info] Results-Ordner: C:\Work\MatLab\Cloude_labor\Results\2026-01-10_09-06-52
+[2026-01-10 09:06:52] [success] Parameter-Datei erstellt: C:\Work\MatLab\Cloude_labor\Results\2026-01-10_09-06-52\parameters.txt
+[2026-01-10 09:06:52] [info] Keine vorherige Session gefunden - bitte Daten laden
+[2026-01-10 09:06:59] [info] Öffne Dateiauswahl-Dialog...
+[2026-01-10 09:07:01] [info] Lade Datei: BTCUSD_2024-12-01_2026-01-08.csv
+[2026-01-10 09:07:01] [success] Daten geladen: 9673 Datensätze
+[2026-01-10 09:07:01] [info] Analyse-Buttons aktiviert
+[2026-01-10 09:07:01] [info] Letzte CSV-Datei gemerkt: C:\Work\MatLab\Cloude_labor\Daten_csv\BTCUSD_2024-12-01_2026-01-08.csv

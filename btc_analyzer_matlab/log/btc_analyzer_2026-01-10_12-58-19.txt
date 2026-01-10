@@ -1,0 +1,35 @@
+[2026-01-10 12:58:19] [info] BTCUSD Analyzer gestartet
+[2026-01-10 12:58:19] [info] Log-Datei: C:\Work\MatLab\Claude_Labor\log\btc_analyzer_2026-01-10_12-58-19.txt
+[2026-01-10 12:58:19] [info] Results-Ordner: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_12-58-19
+[2026-01-10 12:58:19] [success] Parameter-Datei erstellt: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_12-58-19\parameters.txt
+[2026-01-10 12:58:19] [success] Daten automatisch geladen: 9673 Datensätze (2024-12-01 bis 2026-01-08)
+[2026-01-10 12:59:39] [info] Log-Level geändert: TRACE
+[2026-01-10 12:59:53] [info] Log-Level geändert: INFO
+[2026-01-10 13:00:00] [info] Log-Level geändert: DEBUG
+[2026-01-10 13:00:03] [info] Log-Level geändert: TRACE
+[2026-01-10 13:05:54] [info] Log-Level geändert: TRACE
+[2026-01-10 13:06:00] [debug] Öffne Trainingsdaten-Vorbereitungs-GUI...
+[2026-01-10 13:06:02] [debug] GUI geöffnet. Nach Abschluss werden Daten übernommen.
+[2026-01-10 13:06:24] [debug] Öffne Trainingsdaten-Visualisierungs-GUI...
+[2026-01-10 13:06:26] [success] Visualisierungs-GUI geöffnet: 792 BUY, 0 SELL, 0 HOLD
+[2026-01-10 13:06:40] [success] Trainingsdaten geladen: 736 Sequenzen (BUY:368 SELL:368 HOLD:0)
+[2026-01-10 13:06:42] [info] Öffne Training GUI...
+[2026-01-10 13:06:42] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 13:06:43] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 13:06:43] [success] Training GUI geöffnet
+[2026-01-10 13:06:45] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 13:07:20] [debug] Training GUI gestartet
+[2026-01-10 13:08:27] [success] Training abgeschlossen: Val Acc=7210.88%
+[2026-01-10 13:08:49] [debug] Netzwerk: ~1.29 Mio. Parameter, geschätzt 0.05 GB GPU-RAM
+[2026-01-10 13:08:49] [debug] Training GUI gestartet
+[2026-01-10 13:10:01] [success] Training abgeschlossen: Val Acc=4761.90%
+[2026-01-10 13:10:50] [debug] Training GUI gestartet
+[2026-01-10 13:11:36] [warning] Training manuell gestoppt
+[2026-01-10 13:12:22] [info] Öffne Training GUI...
+[2026-01-10 13:12:22] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 13:12:22] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 13:12:22] [success] Training GUI geöffnet
+[2026-01-10 13:12:25] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 13:12:28] [debug] Netzwerk: ~1.29 Mio. Parameter, geschätzt 0.05 GB GPU-RAM
+[2026-01-10 13:12:28] [debug] Training GUI gestartet
+[2026-01-10 13:13:41] [success] Training abgeschlossen: Val Acc=5306.12%

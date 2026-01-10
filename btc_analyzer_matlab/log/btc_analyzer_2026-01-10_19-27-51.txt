@@ -1,0 +1,157 @@
+[2026-01-10 19:27:51] [info] BTCUSD Analyzer gestartet
+[2026-01-10 19:27:51] [info] Log-Datei: C:\Work\MatLab\Claude_Labor\log\btc_analyzer_2026-01-10_19-27-51.txt
+[2026-01-10 19:27:51] [info] Results-Ordner: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_19-27-51
+[2026-01-10 19:27:51] [success] Parameter-Datei erstellt: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_19-27-51\parameters.txt
+[2026-01-10 19:27:51] [debug] Lade letzte CSV-Datei: C:\Work\MatLab\Claude_Labor\Daten_csv\BTCUSD_2025-01-01_2026-01-10.csv
+[2026-01-10 19:27:51] [trace] [TIMING] read_btc_data: 210.7 ms
+[2026-01-10 19:27:51] [success] Daten automatisch geladen: 8977 Datensätze (2025-01-01 bis 2026-01-10)
+[2026-01-10 19:27:51] [debug] Dateipfad: C:\Work\MatLab\Claude_Labor\Daten_csv\BTCUSD_2025-01-01_2026-01-10.csv
+[2026-01-10 19:27:51] [debug] Dateigröße: 0.54 MB | Spalten: 10 | Intervall: ~1 Std
+[2026-01-10 19:27:51] [debug] Zeitraum: 374.0 Tage (01.01.2025 00:00 bis 10.01.2026 00:00)
+[2026-01-10 19:27:51] [debug] Preis: Min=74508.00 | Max=126199.63 | Avg=101374.08 | Range=69.4%
+[2026-01-10 19:27:51] [trace] Spalten: DateTime, Date, Time, Open, High, Low, Close, TickVol, Vol, Spread
+[2026-01-10 19:27:51] [trace] --- Erste 10 Datenzeilen ---
+[2026-01-10 19:27:51] [trace]   [1] 01.01.25 00:00 | O:93576.00 H:94509.42 L:93489.03 C:94401.14
+[2026-01-10 19:27:51] [trace]   [2] 01.01.25 01:00 | O:94401.13 H:94408.72 L:93578.77 C:93607.74
+[2026-01-10 19:27:51] [trace]   [3] 01.01.25 02:00 | O:93607.74 H:94105.12 L:93594.56 C:94098.91
+[2026-01-10 19:27:51] [trace]   [4] 01.01.25 03:00 | O:94098.90 H:94098.91 L:93728.22 C:93838.04
+[2026-01-10 19:27:51] [trace]   [5] 01.01.25 04:00 | O:93838.04 H:93838.04 L:93500.00 C:93553.91
+[2026-01-10 19:27:51] [trace]   [6] 01.01.25 05:00 | O:93553.91 H:93937.19 L:93547.40 C:93792.02
+[2026-01-10 19:27:51] [trace]   [7] 01.01.25 06:00 | O:93792.02 H:93792.02 L:93568.38 C:93757.58
+[2026-01-10 19:27:51] [trace]   [8] 01.01.25 07:00 | O:93757.57 H:93800.00 L:93664.08 C:93684.10
+[2026-01-10 19:27:51] [trace]   [9] 01.01.25 08:00 | O:93684.11 H:93756.02 L:93304.00 C:93428.46
+[2026-01-10 19:27:51] [trace]   [10] 01.01.25 09:00 | O:93428.47 H:93486.29 L:92888.00 C:93413.06
+[2026-01-10 19:27:51] [trace] [TIMING] loadLastCSVData: 261.4 ms
+[2026-01-10 19:27:58] [info] Lade letztes Modell: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-51-23\BILSTM_ValAcc-53.8_TrAcc-67.1_Ep50_completed.mat
+[2026-01-10 19:27:58] [info] Lade Modell: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-51-23\BILSTM_ValAcc-53.8_TrAcc-67.1_Ep50_completed.mat
+[2026-01-10 19:27:59] [trace] [TIMING] load(model): 313.6 ms
+[2026-01-10 19:27:59] [trace] Modellpfad gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-51-23\BILSTM_ValAcc-53.8_TrAcc-67.1_Ep50_completed.mat
+[2026-01-10 19:27:59] [success] Modell geladen: Klassen=HOLD,BUY,SELL
+[2026-01-10 19:27:59] [trace] [TIMING] loadLastModel: 348.7 ms
+[2026-01-10 19:28:01] [info] Oeffne Backtester GUI...
+[2026-01-10 19:28:01] [info] === Validierung: Daten-Modell-Kompatibilitaet ===
+[2026-01-10 19:28:01] [debug] model_info Struktur: OK
+[2026-01-10 19:28:01] [debug] Basis-Datenspalten: OK
+[2026-01-10 19:28:01] [debug] Features werden generiert: PriceChange, PriceChangePct
+[2026-01-10 19:28:01] [debug] Modell-Features (6): Close, High, Low, Open, PriceChange, PriceChangePct
+[2026-01-10 19:28:01] [debug] Datenpunkte: 8977 (min. 111 benoetigt)
+[2026-01-10 19:28:01] [debug] Feature-Dimension: 6
+[2026-01-10 19:28:01] [debug] Klassen: HOLD, BUY, SELL
+[2026-01-10 19:28:01] [success] === Validierung erfolgreich ===
+[2026-01-10 19:28:01] [info] Sequenzlaenge: 110 (Lookback: 100, Lookforward: 10)
+[2026-01-10 19:28:01] [info] Backtest-Bereich: 8867 Schritte moeglich
+[2026-01-10 19:28:02] [info] Backtester GUI geoeffnet
+[2026-01-10 19:28:02] [debug] Datenpunkte: 8977, Sequenzlaenge: 110
+[2026-01-10 19:28:02] [success] Backtester GUI geoeffnet
+[2026-01-10 19:28:02] [trace] [TIMING] openBacktester: 158.4 ms
+[2026-01-10 19:28:04] [info] Turbo-Modus aktiviert - Chart-Updates deaktiviert
+[2026-01-10 19:28:05] [info] Backtest gestartet
+[2026-01-10 19:28:05] [debug] Feature "PriceChange" aus Rohdaten generiert
+[2026-01-10 19:28:05] [debug] Feature "PriceChangePct" aus Rohdaten generiert
+[2026-01-10 19:28:05] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:28:05] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:28:05] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:28:05] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:28:05] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:28:05] [info] LONG Position geoeffnet @ $99600.00
+[2026-01-10 19:28:05] [warning] LONG Position geschlossen @ $99512.21 | P/L: -$87.79
+[2026-01-10 19:28:05] [info] SHORT Position geoeffnet @ $99512.21
+[2026-01-10 19:28:05] [success] SHORT Position geschlossen @ $99318.70 | P/L: +$193.51
+[2026-01-10 19:28:05] [info] LONG Position geoeffnet @ $99318.70
+[2026-01-10 19:28:06] [success] LONG Position geschlossen @ $101708.08 | P/L: +$2389.38
+[2026-01-10 19:28:06] [info] SHORT Position geoeffnet @ $101708.08
+[2026-01-10 19:28:06] [success] SHORT Position geschlossen @ $101664.81 | P/L: +$43.27
+[2026-01-10 19:28:06] [info] LONG Position geoeffnet @ $101664.81
+[2026-01-10 19:28:06] [warning] LONG Position geschlossen @ $96525.20 | P/L: -$5139.61
+[2026-01-10 19:28:06] [info] SHORT Position geoeffnet @ $96525.20
+[2026-01-10 19:28:07] [success] SHORT Position geschlossen @ $94793.08 | P/L: +$1732.12
+[2026-01-10 19:28:07] [info] LONG Position geoeffnet @ $94793.08
+[2026-01-10 19:28:07] [warning] LONG Position geschlossen @ $94206.95 | P/L: -$586.13
+[2026-01-10 19:28:07] [info] SHORT Position geoeffnet @ $94206.95
+[2026-01-10 19:28:08] [warning] SHORT Position geschlossen @ $94861.40 | P/L: -$654.45
+[2026-01-10 19:28:08] [info] LONG Position geoeffnet @ $94861.40
+[2026-01-10 19:28:08] [success] LONG Position geschlossen @ $95488.50 | P/L: +$627.10
+[2026-01-10 19:28:08] [info] SHORT Position geoeffnet @ $95488.50
+[2026-01-10 19:28:08] [warning] SHORT Position geschlossen @ $96697.08 | P/L: -$1208.58
+[2026-01-10 19:28:08] [info] LONG Position geoeffnet @ $96697.08
+[2026-01-10 19:28:09] [success] LONG Position geschlossen @ $96824.06 | P/L: +$126.98
+[2026-01-10 19:28:09] [info] SHORT Position geoeffnet @ $96824.06
+[2026-01-10 19:28:09] [warning] SHORT Position geschlossen @ $97029.97 | P/L: -$205.91
+[2026-01-10 19:28:09] [info] LONG Position geoeffnet @ $97029.97
+[2026-01-10 19:28:09] [success] LONG Position geschlossen @ $97301.35 | P/L: +$271.38
+[2026-01-10 19:28:09] [info] SHORT Position geoeffnet @ $97301.35
+[2026-01-10 19:28:09] [success] SHORT Position geschlossen @ $97202.26 | P/L: +$99.09
+[2026-01-10 19:28:09] [info] LONG Position geoeffnet @ $97202.26
+[2026-01-10 19:28:09] [success] LONG Position geschlossen @ $99637.77 | P/L: +$2435.51
+[2026-01-10 19:28:09] [info] SHORT Position geoeffnet @ $99637.77
+[2026-01-10 19:28:09] [success] SHORT Position geschlossen @ $98955.80 | P/L: +$681.97
+[2026-01-10 19:28:09] [info] LONG Position geoeffnet @ $98955.80
+[2026-01-10 19:28:09] [success] LONG Position geschlossen @ $101481.29 | P/L: +$2525.49
+[2026-01-10 19:28:09] [info] SHORT Position geoeffnet @ $101481.29
+[2026-01-10 19:28:10] [warning] Backtest gestoppt
+[2026-01-10 19:30:27] [info] Backtester GUI geschlossen
+[2026-01-10 19:30:29] [info] Oeffne Backtester GUI...
+[2026-01-10 19:30:29] [info] === Validierung: Daten-Modell-Kompatibilitaet ===
+[2026-01-10 19:30:29] [debug] model_info Struktur: OK
+[2026-01-10 19:30:29] [debug] Basis-Datenspalten: OK
+[2026-01-10 19:30:29] [debug] Features werden generiert: PriceChange, PriceChangePct
+[2026-01-10 19:30:29] [debug] Modell-Features (6): Close, High, Low, Open, PriceChange, PriceChangePct
+[2026-01-10 19:30:29] [debug] Datenpunkte: 8977 (min. 111 benoetigt)
+[2026-01-10 19:30:29] [debug] Feature-Dimension: 6
+[2026-01-10 19:30:29] [debug] Klassen: HOLD, BUY, SELL
+[2026-01-10 19:30:29] [success] === Validierung erfolgreich ===
+[2026-01-10 19:30:29] [info] Sequenzlaenge: 110 (Lookback: 100, Lookforward: 10)
+[2026-01-10 19:30:29] [info] Backtest-Bereich: 8867 Schritte moeglich
+[2026-01-10 19:30:29] [info] Backtester GUI geoeffnet
+[2026-01-10 19:30:29] [debug] Datenpunkte: 8977, Sequenzlaenge: 110
+[2026-01-10 19:30:29] [success] Backtester GUI geoeffnet
+[2026-01-10 19:30:29] [trace] [TIMING] openBacktester: 163.6 ms
+[2026-01-10 19:30:33] [info] Turbo-Modus aktiviert - Chart-Updates deaktiviert
+[2026-01-10 19:30:34] [info] Backtest gestartet
+[2026-01-10 19:30:34] [debug] Feature "PriceChange" aus Rohdaten generiert
+[2026-01-10 19:30:34] [debug] Feature "PriceChangePct" aus Rohdaten generiert
+[2026-01-10 19:30:34] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:30:34] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:30:34] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:30:34] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:30:34] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:30:34] [info] LONG Position geoeffnet @ $99600.00
+[2026-01-10 19:30:34] [warning] LONG Position geschlossen @ $99512.21 | P/L: -$87.79
+[2026-01-10 19:30:34] [info] SHORT Position geoeffnet @ $99512.21
+[2026-01-10 19:30:34] [success] SHORT Position geschlossen @ $99318.70 | P/L: +$193.51
+[2026-01-10 19:30:34] [info] LONG Position geoeffnet @ $99318.70
+[2026-01-10 19:30:34] [success] LONG Position geschlossen @ $101708.08 | P/L: +$2389.38
+[2026-01-10 19:30:34] [info] SHORT Position geoeffnet @ $101708.08
+[2026-01-10 19:30:34] [success] SHORT Position geschlossen @ $101664.81 | P/L: +$43.27
+[2026-01-10 19:30:34] [info] LONG Position geoeffnet @ $101664.81
+[2026-01-10 19:30:35] [warning] LONG Position geschlossen @ $96525.20 | P/L: -$5139.61
+[2026-01-10 19:30:35] [info] SHORT Position geoeffnet @ $96525.20
+[2026-01-10 19:30:35] [success] SHORT Position geschlossen @ $94793.08 | P/L: +$1732.12
+[2026-01-10 19:30:35] [info] LONG Position geoeffnet @ $94793.08
+[2026-01-10 19:30:36] [warning] LONG Position geschlossen @ $94206.95 | P/L: -$586.13
+[2026-01-10 19:30:36] [info] SHORT Position geoeffnet @ $94206.95
+[2026-01-10 19:30:37] [warning] SHORT Position geschlossen @ $94861.40 | P/L: -$654.45
+[2026-01-10 19:30:37] [info] LONG Position geoeffnet @ $94861.40
+[2026-01-10 19:30:37] [success] LONG Position geschlossen @ $95488.50 | P/L: +$627.10
+[2026-01-10 19:30:37] [info] SHORT Position geoeffnet @ $95488.50
+[2026-01-10 19:30:37] [warning] SHORT Position geschlossen @ $96697.08 | P/L: -$1208.58
+[2026-01-10 19:30:37] [info] LONG Position geoeffnet @ $96697.08
+[2026-01-10 19:30:37] [success] LONG Position geschlossen @ $96824.06 | P/L: +$126.98
+[2026-01-10 19:30:37] [info] SHORT Position geoeffnet @ $96824.06
+[2026-01-10 19:30:37] [warning] SHORT Position geschlossen @ $97029.97 | P/L: -$205.91
+[2026-01-10 19:30:37] [info] LONG Position geoeffnet @ $97029.97
+[2026-01-10 19:30:37] [success] LONG Position geschlossen @ $97301.35 | P/L: +$271.38
+[2026-01-10 19:30:37] [info] SHORT Position geoeffnet @ $97301.35
+[2026-01-10 19:30:37] [success] SHORT Position geschlossen @ $97202.26 | P/L: +$99.09
+[2026-01-10 19:30:37] [info] LONG Position geoeffnet @ $97202.26
+[2026-01-10 19:30:37] [success] LONG Position geschlossen @ $99637.77 | P/L: +$2435.51
+[2026-01-10 19:30:37] [info] SHORT Position geoeffnet @ $99637.77
+[2026-01-10 19:30:37] [success] SHORT Position geschlossen @ $98955.80 | P/L: +$681.97
+[2026-01-10 19:30:37] [info] LONG Position geoeffnet @ $98955.80
+[2026-01-10 19:30:38] [success] LONG Position geschlossen @ $101481.29 | P/L: +$2525.49
+[2026-01-10 19:30:38] [info] SHORT Position geoeffnet @ $101481.29
+[2026-01-10 19:30:38] [warning] Backtest gestoppt
+[2026-01-10 19:30:38] [success] Ergebnisse gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_19-27-51\backtest_2026-01-10_19-30-38.mat
+[2026-01-10 19:30:39] [success] GUI Screenshot gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_19-27-51\backtest_gui_2026-01-10_19-30-38.png
+[2026-01-10 19:30:40] [success] Equity Chart gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_19-27-51\backtest_equity_2026-01-10_19-30-38.png
+[2026-01-10 19:31:49] [info] Backtester GUI geschlossen

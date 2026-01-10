@@ -1,0 +1,16 @@
+[2026-01-08 05:49:15] [info] BTCUSD Analyzer gestartet
+[2026-01-08 05:49:15] [info] Log-Datei: C:\Work\MatLab\Cloude_labor\log\btc_analyzer_2026-01-08_05-49-15.txt
+[2026-01-08 05:49:17] [info] Öffne Dateiauswahl-Dialog...
+[2026-01-08 05:49:20] [info] Lade Datei: BTCUSD_2024-12-01_2026-01-08.csv
+[2026-01-08 05:49:20] [success] Daten geladen: 9673 Datensätze
+[2026-01-08 05:49:20] [info] Analyse-Buttons aktiviert
+[2026-01-08 05:49:23] [info] Öffne Trainingsdaten-Vorbereitungs-GUI...
+[2026-01-08 05:49:25] [info] GUI geöffnet. Nach Abschluss werden Daten übernommen.
+[2026-01-08 05:51:50] [error] Fehler: Keine Trainingsdaten verfügbar
+[2026-01-08 05:51:54] [info] Öffne Trainingsdaten-Vorbereitungs-GUI...
+[2026-01-08 05:51:56] [info] GUI geöffnet. Nach Abschluss werden Daten übernommen.
+[2026-01-08 05:53:28] [success] Trainingsdaten geladen: 740 Sequenzen (BUY:370 SELL:370 HOLD:0)
+[2026-01-08 05:53:31] [info] Öffne Trainingsdaten-Visualisierungs-GUI...
+[2026-01-08 05:53:33] [success] Visualisierungs-GUI geöffnet: 740 BUY, 0 SELL, 0 HOLD
+[2026-01-08 05:54:15] [info] Öffne Trainingsdaten-Vorbereitungs-GUI...
+[2026-01-08 05:54:17] [info] GUI geöffnet. Nach Abschluss werden Daten übernommen.

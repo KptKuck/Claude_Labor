@@ -1,0 +1,6 @@
+[2026-01-10 13:25:15] [info] BTCUSD Analyzer gestartet
+[2026-01-10 13:25:15] [info] Log-Datei: C:\Work\MatLab\Claude_Labor\log\btc_analyzer_2026-01-10_13-25-15.txt
+[2026-01-10 13:25:15] [info] Results-Ordner: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_13-25-15
+[2026-01-10 13:25:15] [success] Parameter-Datei erstellt: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_13-25-15\parameters.txt
+[2026-01-10 13:25:15] [success] Daten automatisch geladen: 8977 Datensätze (2025-01-01 bis 2026-01-10)
+[2026-01-10 13:25:19] [info] Log-Level geändert: TRACE

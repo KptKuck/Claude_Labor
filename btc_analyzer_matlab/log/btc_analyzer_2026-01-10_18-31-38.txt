@@ -1,0 +1,155 @@
+[2026-01-10 18:31:38] [info] BTCUSD Analyzer gestartet
+[2026-01-10 18:31:38] [info] Log-Datei: C:\Work\MatLab\Claude_Labor\log\btc_analyzer_2026-01-10_18-31-38.txt
+[2026-01-10 18:31:38] [info] Results-Ordner: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-31-38
+[2026-01-10 18:31:38] [success] Parameter-Datei erstellt: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-31-38\parameters.txt
+[2026-01-10 18:31:38] [debug] Lade letzte CSV-Datei: C:\Work\MatLab\Claude_Labor\Daten_csv\BTCUSD_2025-01-01_2026-01-10.csv
+[2026-01-10 18:31:38] [trace] [TIMING] read_btc_data: 18.8 ms
+[2026-01-10 18:31:38] [success] Daten automatisch geladen: 8977 Datensätze (2025-01-01 bis 2026-01-10)
+[2026-01-10 18:31:38] [debug] Dateipfad: C:\Work\MatLab\Claude_Labor\Daten_csv\BTCUSD_2025-01-01_2026-01-10.csv
+[2026-01-10 18:31:38] [debug] Dateigröße: 0.54 MB | Spalten: 10 | Intervall: ~1 Std
+[2026-01-10 18:31:38] [debug] Zeitraum: 374.0 Tage (01.01.2025 00:00 bis 10.01.2026 00:00)
+[2026-01-10 18:31:38] [debug] Preis: Min=74508.00 | Max=126199.63 | Avg=101374.08 | Range=69.4%
+[2026-01-10 18:31:38] [trace] Spalten: DateTime, Date, Time, Open, High, Low, Close, TickVol, Vol, Spread
+[2026-01-10 18:31:38] [trace] --- Erste 10 Datenzeilen ---
+[2026-01-10 18:31:38] [trace]   [1] 01.01.25 00:00 | O:93576.00 H:94509.42 L:93489.03 C:94401.14
+[2026-01-10 18:31:38] [trace]   [2] 01.01.25 01:00 | O:94401.13 H:94408.72 L:93578.77 C:93607.74
+[2026-01-10 18:31:38] [trace]   [3] 01.01.25 02:00 | O:93607.74 H:94105.12 L:93594.56 C:94098.91
+[2026-01-10 18:31:38] [trace]   [4] 01.01.25 03:00 | O:94098.90 H:94098.91 L:93728.22 C:93838.04
+[2026-01-10 18:31:38] [trace]   [5] 01.01.25 04:00 | O:93838.04 H:93838.04 L:93500.00 C:93553.91
+[2026-01-10 18:31:38] [trace]   [6] 01.01.25 05:00 | O:93553.91 H:93937.19 L:93547.40 C:93792.02
+[2026-01-10 18:31:38] [trace]   [7] 01.01.25 06:00 | O:93792.02 H:93792.02 L:93568.38 C:93757.58
+[2026-01-10 18:31:38] [trace]   [8] 01.01.25 07:00 | O:93757.57 H:93800.00 L:93664.08 C:93684.10
+[2026-01-10 18:31:38] [trace]   [9] 01.01.25 08:00 | O:93684.11 H:93756.02 L:93304.00 C:93428.46
+[2026-01-10 18:31:38] [trace]   [10] 01.01.25 09:00 | O:93428.47 H:93486.29 L:92888.00 C:93413.06
+[2026-01-10 18:31:38] [trace] [TIMING] loadLastCSVData: 48.5 ms
+[2026-01-10 18:31:42] [debug] Öffne Trainingsdaten-Vorbereitungs-GUI...
+[2026-01-10 18:31:44] [debug] GUI geöffnet. Nach Abschluss werden Daten übernommen.
+[2026-01-10 18:31:44] [trace] [TIMING] prepareTrainingData: 1.92 s
+[2026-01-10 18:31:49] [debug] Berechne Vorschau...
+[2026-01-10 18:31:49] [trace] [TIMING] find_daily_extrema: 39.4 ms
+[2026-01-10 18:31:49] [trace] [TIMING] HOLD-Sample generation: 73.7 ms
+[2026-01-10 18:31:49] [trace] [TIMING] prepareDataWithParams: 708.4 ms
+[2026-01-10 18:31:51] [trace] [TIMING] updatePreviewChart: 1.80 s
+[2026-01-10 18:31:51] [success] Vorschau: 1371 Sequenzen (BUY:367 SELL:367 HOLD:637)
+[2026-01-10 18:31:51] [trace] [TIMING] computePreview: 2.53 s
+[2026-01-10 18:31:56] [debug] Berechne Vorschau...
+[2026-01-10 18:31:56] [trace] [TIMING] find_daily_extrema: 35.7 ms
+[2026-01-10 18:31:57] [trace] [TIMING] HOLD-Sample generation: 52.3 ms
+[2026-01-10 18:31:57] [trace] [TIMING] prepareDataWithParams: 652.9 ms
+[2026-01-10 18:31:59] [trace] [TIMING] updatePreviewChart: 1.77 s
+[2026-01-10 18:31:59] [success] Vorschau: 1276 Sequenzen (BUY:367 SELL:367 HOLD:542)
+[2026-01-10 18:31:59] [trace] [TIMING] computePreview: 2.45 s
+[2026-01-10 18:32:05] [debug] Berechne Vorschau...
+[2026-01-10 18:32:05] [trace] [TIMING] find_daily_extrema: 35.0 ms
+[2026-01-10 18:32:05] [trace] [TIMING] HOLD-Sample generation: 43.6 ms
+[2026-01-10 18:32:05] [trace] [TIMING] prepareDataWithParams: 614.6 ms
+[2026-01-10 18:32:07] [trace] [TIMING] updatePreviewChart: 1.81 s
+[2026-01-10 18:32:07] [success] Vorschau: 1014 Sequenzen (BUY:367 SELL:367 HOLD:280)
+[2026-01-10 18:32:07] [trace] [TIMING] computePreview: 2.45 s
+[2026-01-10 18:32:10] [debug] Speichere Trainingsdaten in Workspace...
+[2026-01-10 18:32:10] [trace] [TIMING] assignin (Workspace): 2.9 ms
+[2026-01-10 18:32:10] [success] Trainingsdaten generiert: 1014 Sequenzen, 6 Features, Seq-Länge: 150
+[2026-01-10 18:32:10] [trace] [TIMING] applyAndClose: 7.9 ms
+[2026-01-10 18:32:14] [success] Trainingsdaten geladen: 1014 Sequenzen (BUY:367 SELL:367 HOLD:280)
+[2026-01-10 18:32:14] [trace] [TIMING] loadTrainingDataFromWorkspace: 3.9 ms
+[2026-01-10 18:32:18] [info] Öffne Training GUI...
+[2026-01-10 18:32:18] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 18:32:18] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 18:32:18] [success] Training GUI geöffnet
+[2026-01-10 18:32:18] [trace] [TIMING] openTrainGUI: 192.1 ms
+[2026-01-10 18:32:21] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 18:32:27] [debug] Training GUI gestartet
+[2026-01-10 18:34:12] [success] Training abgeschlossen: Val Acc=47.78%
+[2026-01-10 18:34:12] [success] Modell automatisch gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-31-38\BILSTM_ValAcc-47.8_TrAcc-60.0_Ep50_completed.mat
+[2026-01-10 18:37:49] [info] Lade letztes Modell: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_17-35-13\BILSTM_ValAcc-50.7_TrAcc-49.8_Ep50_stopped.mat
+[2026-01-10 18:37:49] [info] Lade Modell: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_17-35-13\BILSTM_ValAcc-50.7_TrAcc-49.8_Ep50_stopped.mat
+[2026-01-10 18:37:49] [trace] [TIMING] load(model): 11.6 ms
+[2026-01-10 18:37:49] [trace] Modellpfad gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_17-35-13\BILSTM_ValAcc-50.7_TrAcc-49.8_Ep50_stopped.mat
+[2026-01-10 18:37:49] [success] Modell geladen: Klassen=HOLD,BUY,SELL
+[2026-01-10 18:37:49] [trace] [TIMING] loadLastModel: 26.8 ms
+[2026-01-10 18:38:05] [info] Oeffne Backtester GUI...
+[2026-01-10 18:38:05] [info] === Validierung: Daten-Modell-Kompatibilitaet ===
+[2026-01-10 18:38:05] [debug] model_info Struktur: OK
+[2026-01-10 18:38:05] [debug] Basis-Datenspalten: OK
+[2026-01-10 18:38:05] [debug] Features werden generiert: PriceChange, PriceChangePct
+[2026-01-10 18:38:05] [debug] Modell-Features (6): Close, High, Low, Open, PriceChange, PriceChangePct
+[2026-01-10 18:38:05] [debug] Datenpunkte: 8977 (min. 151 benoetigt)
+[2026-01-10 18:38:05] [debug] Feature-Dimension: 6
+[2026-01-10 18:38:05] [debug] Klassen: HOLD, BUY, SELL
+[2026-01-10 18:38:05] [success] === Validierung erfolgreich ===
+[2026-01-10 18:38:05] [info] Sequenzlaenge: 150 (Lookback: 50, Lookforward: 100)
+[2026-01-10 18:38:05] [info] Backtest-Bereich: 8827 Schritte moeglich
+[2026-01-10 18:38:05] [info] Backtester GUI geoeffnet
+[2026-01-10 18:38:05] [debug] Datenpunkte: 8977, Sequenzlaenge: 150
+[2026-01-10 18:38:05] [success] Backtester GUI geoeffnet
+[2026-01-10 18:38:05] [trace] [TIMING] openBacktester: 172.2 ms
+[2026-01-10 18:38:06] [info] Backtest gestartet
+[2026-01-10 18:38:06] [debug] Feature "PriceChange" aus Rohdaten generiert
+[2026-01-10 18:38:06] [debug] Feature "PriceChangePct" aus Rohdaten generiert
+[2026-01-10 18:38:06] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 18:38:07] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 18:38:07] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 18:38:07] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 18:38:07] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 18:38:25] [warning] Backtest gestoppt
+[2026-01-10 18:38:27] [info] Backtester GUI geschlossen
+[2026-01-10 18:38:29] [info] Öffne Training GUI...
+[2026-01-10 18:38:29] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 18:38:29] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 18:38:29] [success] Training GUI geöffnet
+[2026-01-10 18:38:29] [trace] [TIMING] openTrainGUI: 106.0 ms
+[2026-01-10 18:38:34] [debug] Netzwerk: ~32.07 Mio. Parameter, geschätzt 0.89 GB GPU-RAM
+[2026-01-10 18:38:35] [debug] Netzwerk: ~56.08 Mio. Parameter, geschätzt 1.52 GB GPU-RAM
+[2026-01-10 18:38:38] [debug] Netzwerk: ~56.08 Mio. Parameter, geschätzt 1.52 GB GPU-RAM
+[2026-01-10 18:38:42] [debug] Training GUI gestartet
+[2026-01-10 18:42:59] [success] Training abgeschlossen: Val Acc=32.02%
+[2026-01-10 18:43:01] [success] Modell automatisch gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-31-38\BILSTM_ValAcc-32.0_TrAcc-38.0_Ep50_completed.mat
+[2026-01-10 18:43:37] [debug] Netzwerk: ~14.04 Mio. Parameter, geschätzt 0.42 GB GPU-RAM
+[2026-01-10 18:43:43] [info] Netzwerk zurückgesetzt
+[2026-01-10 18:43:44] [debug] Training GUI gestartet
+[2026-01-10 18:44:29] [success] Training abgeschlossen: Val Acc=34.98%
+[2026-01-10 18:44:30] [success] Modell automatisch gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-31-38\BILSTM_ValAcc-35.0_TrAcc-36.5_Ep100_completed.mat
+[2026-01-10 18:44:38] [debug] Öffne Trainingsdaten-Vorbereitungs-GUI...
+[2026-01-10 18:44:39] [debug] GUI geöffnet. Nach Abschluss werden Daten übernommen.
+[2026-01-10 18:44:39] [trace] [TIMING] prepareTrainingData: 1.84 s
+[2026-01-10 18:44:52] [debug] Berechne Vorschau...
+[2026-01-10 18:44:52] [trace] [TIMING] find_daily_extrema: 36.3 ms
+[2026-01-10 18:44:53] [trace] [TIMING] HOLD-Sample generation: 64.8 ms
+[2026-01-10 18:44:53] [trace] [TIMING] prepareDataWithParams: 707.0 ms
+[2026-01-10 18:44:55] [trace] [TIMING] updatePreviewChart: 1.79 s
+[2026-01-10 18:44:55] [success] Vorschau: 1476 Sequenzen (BUY:369 SELL:369 HOLD:738)
+[2026-01-10 18:44:55] [trace] [TIMING] computePreview: 2.52 s
+[2026-01-10 18:45:11] [debug] Berechne Vorschau...
+[2026-01-10 18:45:11] [trace] [TIMING] find_daily_extrema: 35.0 ms
+[2026-01-10 18:45:12] [trace] [TIMING] HOLD-Sample generation: 66.1 ms
+[2026-01-10 18:45:12] [trace] [TIMING] prepareDataWithParams: 728.8 ms
+[2026-01-10 18:45:14] [trace] [TIMING] updatePreviewChart: 1.90 s
+[2026-01-10 18:45:14] [success] Vorschau: 1476 Sequenzen (BUY:369 SELL:369 HOLD:738)
+[2026-01-10 18:45:14] [trace] [TIMING] computePreview: 2.65 s
+[2026-01-10 18:45:18] [debug] Speichere Trainingsdaten in Workspace...
+[2026-01-10 18:45:18] [trace] [TIMING] assignin (Workspace): 0.8 ms
+[2026-01-10 18:45:18] [success] Trainingsdaten generiert: 1476 Sequenzen, 6 Features, Seq-Länge: 120
+[2026-01-10 18:45:18] [trace] [TIMING] applyAndClose: 4.4 ms
+[2026-01-10 18:45:19] [info] Lade letztes Modell: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_17-35-13\BILSTM_ValAcc-50.7_TrAcc-49.8_Ep50_stopped.mat
+[2026-01-10 18:45:19] [info] Lade Modell: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_17-35-13\BILSTM_ValAcc-50.7_TrAcc-49.8_Ep50_stopped.mat
+[2026-01-10 18:45:19] [trace] [TIMING] load(model): 11.5 ms
+[2026-01-10 18:45:19] [trace] Modellpfad gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_17-35-13\BILSTM_ValAcc-50.7_TrAcc-49.8_Ep50_stopped.mat
+[2026-01-10 18:45:19] [success] Modell geladen: Klassen=HOLD,BUY,SELL
+[2026-01-10 18:45:19] [trace] [TIMING] loadLastModel: 24.3 ms
+[2026-01-10 18:45:30] [success] Trainingsdaten geladen: 1476 Sequenzen (BUY:369 SELL:369 HOLD:738)
+[2026-01-10 18:45:30] [trace] [TIMING] loadTrainingDataFromWorkspace: 4.9 ms
+[2026-01-10 18:45:33] [info] Öffne Training GUI...
+[2026-01-10 18:45:33] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 18:45:33] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 18:45:33] [success] Training GUI geöffnet
+[2026-01-10 18:45:33] [trace] [TIMING] openTrainGUI: 113.5 ms
+[2026-01-10 18:45:37] [debug] Netzwerk: ~0.33 Mio. Parameter, geschätzt 0.02 GB GPU-RAM
+[2026-01-10 18:45:40] [debug] Training GUI gestartet
+[2026-01-10 18:47:54] [success] Training abgeschlossen: Val Acc=55.59%
+[2026-01-10 18:47:55] [success] Modell automatisch gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-31-38\BILSTM_ValAcc-55.6_TrAcc-73.3_Ep50_completed.mat
+[2026-01-10 18:48:00] [info] Lade letztes Modell: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_17-35-13\BILSTM_ValAcc-50.7_TrAcc-49.8_Ep50_stopped.mat
+[2026-01-10 18:48:00] [info] Lade Modell: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_17-35-13\BILSTM_ValAcc-50.7_TrAcc-49.8_Ep50_stopped.mat
+[2026-01-10 18:48:00] [trace] [TIMING] load(model): 9.9 ms
+[2026-01-10 18:48:00] [trace] Modellpfad gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_17-35-13\BILSTM_ValAcc-50.7_TrAcc-49.8_Ep50_stopped.mat
+[2026-01-10 18:48:00] [success] Modell geladen: Klassen=HOLD,BUY,SELL
+[2026-01-10 18:48:00] [trace] [TIMING] loadLastModel: 20.5 ms

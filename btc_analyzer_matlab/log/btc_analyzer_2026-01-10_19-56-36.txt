@@ -1,0 +1,63 @@
+[2026-01-10 19:56:36] [info] BTCUSD Analyzer gestartet
+[2026-01-10 19:56:36] [info] Log-Datei: C:\Work\MatLab\Claude_Labor\log\btc_analyzer_2026-01-10_19-56-36.txt
+[2026-01-10 19:56:36] [info] Results-Ordner: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_19-56-36
+[2026-01-10 19:56:36] [success] Parameter-Datei erstellt: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_19-56-36\parameters.txt
+[2026-01-10 19:56:36] [debug] Lade letzte CSV-Datei: C:\Work\MatLab\Claude_Labor\Daten_csv\BTCUSD_2025-01-01_2026-01-10.csv
+[2026-01-10 19:56:36] [trace] [TIMING] read_btc_data: 195.2 ms
+[2026-01-10 19:56:36] [success] Daten automatisch geladen: 8977 Datensätze (2025-01-01 bis 2026-01-10)
+[2026-01-10 19:56:36] [debug] Dateipfad: C:\Work\MatLab\Claude_Labor\Daten_csv\BTCUSD_2025-01-01_2026-01-10.csv
+[2026-01-10 19:56:36] [debug] Dateigröße: 0.54 MB | Spalten: 10 | Intervall: ~1 Std
+[2026-01-10 19:56:36] [debug] Zeitraum: 374.0 Tage (01.01.2025 00:00 bis 10.01.2026 00:00)
+[2026-01-10 19:56:36] [debug] Preis: Min=74508.00 | Max=126199.63 | Avg=101374.08 | Range=69.4%
+[2026-01-10 19:56:36] [trace] Spalten: DateTime, Date, Time, Open, High, Low, Close, TickVol, Vol, Spread
+[2026-01-10 19:56:36] [trace] --- Erste 10 Datenzeilen ---
+[2026-01-10 19:56:36] [trace]   [1] 01.01.25 00:00 | O:93576.00 H:94509.42 L:93489.03 C:94401.14
+[2026-01-10 19:56:36] [trace]   [2] 01.01.25 01:00 | O:94401.13 H:94408.72 L:93578.77 C:93607.74
+[2026-01-10 19:56:36] [trace]   [3] 01.01.25 02:00 | O:93607.74 H:94105.12 L:93594.56 C:94098.91
+[2026-01-10 19:56:36] [trace]   [4] 01.01.25 03:00 | O:94098.90 H:94098.91 L:93728.22 C:93838.04
+[2026-01-10 19:56:36] [trace]   [5] 01.01.25 04:00 | O:93838.04 H:93838.04 L:93500.00 C:93553.91
+[2026-01-10 19:56:36] [trace]   [6] 01.01.25 05:00 | O:93553.91 H:93937.19 L:93547.40 C:93792.02
+[2026-01-10 19:56:36] [trace]   [7] 01.01.25 06:00 | O:93792.02 H:93792.02 L:93568.38 C:93757.58
+[2026-01-10 19:56:36] [trace]   [8] 01.01.25 07:00 | O:93757.57 H:93800.00 L:93664.08 C:93684.10
+[2026-01-10 19:56:36] [trace]   [9] 01.01.25 08:00 | O:93684.11 H:93756.02 L:93304.00 C:93428.46
+[2026-01-10 19:56:36] [trace]   [10] 01.01.25 09:00 | O:93428.47 H:93486.29 L:92888.00 C:93413.06
+[2026-01-10 19:56:36] [trace] [TIMING] loadLastCSVData: 238.8 ms
+[2026-01-10 19:56:44] [info] Lade letztes Modell: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-51-23\BILSTM_ValAcc-53.8_TrAcc-67.1_Ep50_completed.mat
+[2026-01-10 19:56:44] [info] Lade Modell: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-51-23\BILSTM_ValAcc-53.8_TrAcc-67.1_Ep50_completed.mat
+[2026-01-10 19:56:45] [trace] [TIMING] load(model): 308.2 ms
+[2026-01-10 19:56:45] [trace] Modellpfad gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_18-51-23\BILSTM_ValAcc-53.8_TrAcc-67.1_Ep50_completed.mat
+[2026-01-10 19:56:45] [success] Modell geladen: Klassen=HOLD,BUY,SELL
+[2026-01-10 19:56:45] [trace] [TIMING] loadLastModel: 339.9 ms
+[2026-01-10 19:56:49] [info] Oeffne Backtester GUI...
+[2026-01-10 19:56:49] [info] === Validierung: Daten-Modell-Kompatibilitaet ===
+[2026-01-10 19:56:49] [debug] model_info Struktur: OK
+[2026-01-10 19:56:49] [debug] Basis-Datenspalten: OK
+[2026-01-10 19:56:49] [debug] Features werden generiert: PriceChange, PriceChangePct
+[2026-01-10 19:56:49] [debug] Modell-Features (6): Close, High, Low, Open, PriceChange, PriceChangePct
+[2026-01-10 19:56:49] [debug] Datenpunkte: 8977 (min. 111 benoetigt)
+[2026-01-10 19:56:49] [debug] Feature-Dimension: 6
+[2026-01-10 19:56:49] [debug] Klassen: HOLD, BUY, SELL
+[2026-01-10 19:56:49] [success] === Validierung erfolgreich ===
+[2026-01-10 19:56:49] [info] Sequenzlaenge: 110 (Lookback: 100, Lookforward: 10)
+[2026-01-10 19:56:49] [info] Backtest-Bereich: 8867 Schritte moeglich
+[2026-01-10 19:56:49] [info] Backtester GUI geoeffnet
+[2026-01-10 19:56:49] [debug] Datenpunkte: 8977, Sequenzlaenge: 110
+[2026-01-10 19:56:49] [success] Backtester GUI geoeffnet
+[2026-01-10 19:56:49] [trace] [TIMING] openBacktester: 239.7 ms
+[2026-01-10 19:56:55] [info] Turbo-Modus aktiviert - Chart-Updates deaktiviert
+[2026-01-10 19:56:59] [info] Backtest gestartet
+[2026-01-10 19:56:59] [debug] Feature "PriceChange" aus Rohdaten generiert
+[2026-01-10 19:56:59] [debug] Feature "PriceChangePct" aus Rohdaten generiert
+[2026-01-10 19:56:59] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:56:59] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:56:59] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:56:59] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:56:59] [trace] DEBUG Prediction: raw=1, class=categorical, str=0
+[2026-01-10 19:57:03] [warning] Backtest gestoppt
+[2026-01-10 19:57:03] [success] Ergebnisse gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_19-56-36\backtest_2026-01-10_19-57-03.mat
+[2026-01-10 19:57:03] [success] Trades CSV gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_19-56-36\trades_2026-01-10_19-57-03.csv
+[2026-01-10 19:57:03] [success] Trades Excel gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_19-56-36\trades_2026-01-10_19-57-03.xlsx
+[2026-01-10 19:57:04] [success] GUI Screenshot gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_19-56-36\backtest_gui_2026-01-10_19-57-03.png
+[2026-01-10 19:57:04] [success] Equity Chart gespeichert: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_19-56-36\backtest_equity_2026-01-10_19-57-03.png
+[2026-01-10 19:57:04] [info] Ordner geoeffnet: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_19-56-36
+[2026-01-10 20:02:14] [info] Backtester GUI geschlossen
