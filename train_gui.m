@@ -80,10 +80,11 @@ function train_gui(training_data, results_folder, log_callback)
     rightGrid.RowSpacing = 8;
 
     % Status Header
-    status_header = uigridlayout(rightGrid, [1, 2]);
+    status_header = uigridlayout(rightGrid, [1, 4]);
     status_header.RowHeight = {'1x'};
-    status_header.ColumnWidth = {'1x', 'fit'};
+    status_header.ColumnWidth = {'1x', 'fit', 'fit', 'fit'};
     status_header.Padding = [0 0 0 0];
+    status_header.ColumnSpacing = 10;
 
     progress_label = uilabel(status_header, 'Text', 'Bereit', ...
                              'FontSize', 11, 'FontWeight', 'bold', ...
@@ -91,6 +92,12 @@ function train_gui(training_data, results_folder, log_callback)
 
     epoch_label = uilabel(status_header, 'Text', '', ...
                           'FontSize', 10, 'HorizontalAlignment', 'right');
+
+    % Netzwerk-Status Anzeige
+    uilabel(status_header, 'Text', 'Netz:', 'FontSize', 10, 'FontWeight', 'bold');
+    network_status_label = uilabel(status_header, 'Text', 'Untrainiert', ...
+                                   'FontSize', 10, 'FontWeight', 'bold', ...
+                                   'FontColor', [0.6, 0.6, 0.6]);
 
     % Log Text Area
     status_area = uitextarea(rightGrid, 'Value', {''}, ...
@@ -100,30 +107,38 @@ function train_gui(training_data, results_folder, log_callback)
     status_area.Layout.Row = 2;
 
     % Buttons in rechter Spalte
-    right_btn_grid = uigridlayout(rightGrid, [1, 3]);
+    right_btn_grid = uigridlayout(rightGrid, [1, 4]);
     right_btn_grid.RowHeight = {'1x'};
-    right_btn_grid.ColumnWidth = {'1x', '1x', '1x'};
+    right_btn_grid.ColumnWidth = {'1x', '1x', '1x', '1x'};
     right_btn_grid.Padding = [0 0 0 0];
-    right_btn_grid.ColumnSpacing = 10;
+    right_btn_grid.ColumnSpacing = 8;
 
     start_btn = uibutton(right_btn_grid, 'Text', 'Training starten', ...
                          'ButtonPushedFcn', @(btn,event) startTraining(), ...
                          'BackgroundColor', [0.2, 0.7, 0.3], ...
                          'FontColor', 'white', ...
-                         'FontSize', 12, 'FontWeight', 'bold');
+                         'FontSize', 11, 'FontWeight', 'bold');
 
     stop_btn = uibutton(right_btn_grid, 'Text', 'Stoppen', ...
                         'ButtonPushedFcn', @(btn,event) stopTraining(), ...
                         'BackgroundColor', [0.8, 0.3, 0.2], ...
                         'FontColor', 'white', ...
-                        'FontSize', 12, 'FontWeight', 'bold', ...
+                        'FontSize', 11, 'FontWeight', 'bold', ...
                         'Enable', 'off');
+
+    reset_btn = uibutton(right_btn_grid, 'Text', 'Reset', ...
+                         'ButtonPushedFcn', @(btn,event) resetNetwork(), ...
+                         'BackgroundColor', [0.9, 0.7, 0.2], ...
+                         'FontColor', 'white', ...
+                         'FontSize', 11, 'FontWeight', 'bold', ...
+                         'Enable', 'off', ...
+                         'Tooltip', 'Netzwerk in untrainierten Zustand zurücksetzen');
 
     close_btn = uibutton(right_btn_grid, 'Text', 'Schließen', ...
                          'ButtonPushedFcn', @(btn,event) closeRequest(), ...
                          'BackgroundColor', [0.5, 0.5, 0.5], ...
                          'FontColor', 'white', ...
-                         'FontSize', 12, 'FontWeight', 'bold');
+                         'FontSize', 11, 'FontWeight', 'bold');
 
     % ============================================================
     % GRUPPE 1: Trainingsdaten Info (erweitert)
@@ -633,6 +648,9 @@ function train_gui(training_data, results_folder, log_callback)
             trained_model = net;
             training_results = results;
 
+            % Netzwerk-Status aktualisieren
+            updateNetworkStatus();
+
             % Prüfe ob Training manuell gestoppt wurde
             if TRAINING_STOP_REQUESTED
                 addStatus('=== Training manuell gestoppt ===');
@@ -694,6 +712,49 @@ function train_gui(training_data, results_folder, log_callback)
         addStatus('Stopp angefordert - warte auf aktuelle Iteration...');
         progress_label.Text = 'Stoppe...';
         stop_btn.Enable = 'off';
+    end
+
+    function resetNetwork()
+        % Bestätigung einholen
+        answer = uiconfirm(fig, 'Trainiertes Netzwerk wirklich zurücksetzen?', ...
+                          'Bestätigung', 'Options', {'Ja', 'Abbrechen'}, ...
+                          'DefaultOption', 2, 'CancelOption', 2);
+        if strcmp(answer, 'Abbrechen')
+            return;
+        end
+
+        % Netzwerk zurücksetzen
+        trained_model = [];
+        training_results = [];
+
+        % Workspace-Variablen löschen
+        if evalin('base', 'exist(''trained_net'', ''var'')')
+            evalin('base', 'clear trained_net');
+        end
+        if evalin('base', 'exist(''training_results'', ''var'')')
+            evalin('base', 'clear training_results');
+        end
+
+        % UI aktualisieren
+        updateNetworkStatus();
+        progress_label.Text = 'Bereit';
+        epoch_label.Text = '';
+
+        addStatus('Netzwerk zurückgesetzt');
+        log_callback('Netzwerk zurückgesetzt', 'info');
+    end
+
+    function updateNetworkStatus()
+        % Aktualisiert die Netzwerk-Statusanzeige
+        if ~isempty(trained_model)
+            network_status_label.Text = 'Trainiert';
+            network_status_label.FontColor = [0.3, 0.8, 0.3];
+            reset_btn.Enable = 'on';
+        else
+            network_status_label.Text = 'Untrainiert';
+            network_status_label.FontColor = [0.6, 0.6, 0.6];
+            reset_btn.Enable = 'off';
+        end
     end
 
     function closeRequest(~, ~)
