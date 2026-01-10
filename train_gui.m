@@ -23,8 +23,11 @@ function train_gui(training_data, results_folder, log_callback)
     training_results = [];
     use_gpu = false;
     is_training = false;
-    stop_requested = false;
     gpu_monitor_timer = [];
+
+    % Globale Stop-Variable (für Zugriff aus OutputFcn)
+    global TRAINING_STOP_REQUESTED;
+    TRAINING_STOP_REQUESTED = false;
 
     % Berechne Trainingsdaten-Größe
     data_info = calculateDataInfo(training_data);
@@ -575,7 +578,7 @@ function train_gui(training_data, results_folder, log_callback)
         end
 
         is_training = true;
-        stop_requested = false;
+        TRAINING_STOP_REQUESTED = false;
 
         % UI Update
         start_btn.Enable = 'off';
@@ -616,7 +619,7 @@ function train_gui(training_data, results_folder, log_callback)
                 addStatus('Verwende CPU für Training');
             end
 
-            % Training starten
+            % Training starten (Stop wird über globale Variable gesteuert)
             [net, results] = train_bilstm_model(training_data.X, training_data.Y, ...
                                                 training_data.info, ...
                                                 'epochs', params.epochs, ...
@@ -630,26 +633,46 @@ function train_gui(training_data, results_folder, log_callback)
             trained_model = net;
             training_results = results;
 
-            % Erfolg
-            addStatus('=== Training abgeschlossen ===');
-            addStatus(sprintf('Train Accuracy: %.2f%%', results.train_accuracy * 100));
-            addStatus(sprintf('Validation Accuracy: %.2f%%', results.val_accuracy * 100));
-            addStatus(sprintf('Trainingszeit: %.1f Minuten', results.training_time / 60));
+            % Prüfe ob Training manuell gestoppt wurde
+            if TRAINING_STOP_REQUESTED
+                addStatus('=== Training manuell gestoppt ===');
+                addStatus(sprintf('Train Accuracy: %.2f%%', results.train_accuracy * 100));
+                addStatus(sprintf('Validation Accuracy: %.2f%%', results.val_accuracy * 100));
+                addStatus(sprintf('Trainingszeit: %.1f Minuten', results.training_time / 60));
 
-            progress_label.Text = sprintf('Fertig! Val Acc: %.1f%%', results.val_accuracy * 100);
-            epoch_label.Text = sprintf('%d Epochen', params.epochs);
+                progress_label.Text = 'Gestoppt';
+                log_callback('Training manuell gestoppt', 'warning');
 
-            log_callback(sprintf('Training abgeschlossen: Val Acc=%.2f%%', ...
-                        results.val_accuracy * 100), 'success');
+                % Modell trotzdem speichern
+                assignin('base', 'trained_net', net);
+                assignin('base', 'training_results', results);
+                addStatus('Modell im Workspace gespeichert (trained_net, training_results)');
 
-            % Modell im Workspace speichern
-            assignin('base', 'trained_net', net);
-            assignin('base', 'training_results', results);
-            addStatus('Modell im Workspace gespeichert (trained_net, training_results)');
+                uialert(fig, sprintf('Training gestoppt.\n\nTrain Acc: %.2f%%\nVal Acc: %.2f%%\nZeit: %.1f Min', ...
+                        results.train_accuracy * 100, results.val_accuracy * 100, results.training_time / 60), ...
+                        'Gestoppt', 'Icon', 'warning');
+            else
+                % Erfolg
+                addStatus('=== Training abgeschlossen ===');
+                addStatus(sprintf('Train Accuracy: %.2f%%', results.train_accuracy * 100));
+                addStatus(sprintf('Validation Accuracy: %.2f%%', results.val_accuracy * 100));
+                addStatus(sprintf('Trainingszeit: %.1f Minuten', results.training_time / 60));
 
-            uialert(fig, sprintf('Training erfolgreich!\n\nTrain Acc: %.2f%%\nVal Acc: %.2f%%\nZeit: %.1f Min', ...
-                    results.train_accuracy * 100, results.val_accuracy * 100, results.training_time / 60), ...
-                    'Erfolg', 'Icon', 'success');
+                progress_label.Text = sprintf('Fertig! Val Acc: %.1f%%', results.val_accuracy * 100);
+                epoch_label.Text = sprintf('%d Epochen', params.epochs);
+
+                log_callback(sprintf('Training abgeschlossen: Val Acc=%.2f%%', ...
+                            results.val_accuracy * 100), 'success');
+
+                % Modell im Workspace speichern
+                assignin('base', 'trained_net', net);
+                assignin('base', 'training_results', results);
+                addStatus('Modell im Workspace gespeichert (trained_net, training_results)');
+
+                uialert(fig, sprintf('Training erfolgreich!\n\nTrain Acc: %.2f%%\nVal Acc: %.2f%%\nZeit: %.1f Min', ...
+                        results.train_accuracy * 100, results.val_accuracy * 100, results.training_time / 60), ...
+                        'Erfolg', 'Icon', 'success');
+            end
 
         catch ME
             addStatus(sprintf('FEHLER: %s', ME.message));
@@ -667,9 +690,10 @@ function train_gui(training_data, results_folder, log_callback)
     end
 
     function stopTraining()
-        stop_requested = true;
-        addStatus('Stopp angefordert...');
-        % Hinweis: Das tatsächliche Stoppen muss in train_bilstm_model implementiert werden
+        TRAINING_STOP_REQUESTED = true;
+        addStatus('Stopp angefordert - warte auf aktuelle Iteration...');
+        progress_label.Text = 'Stoppe...';
+        stop_btn.Enable = 'off';
     end
 
     function closeRequest(~, ~)

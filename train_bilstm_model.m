@@ -31,6 +31,7 @@ function [net, training_results] = train_bilstm_model(X_train, Y_train, training
     addParameter(p, 'num_hidden_units', 100, @isnumeric);
     addParameter(p, 'learning_rate', 0.001, @isnumeric);
     addParameter(p, 'save_folder', '', @ischar);
+    addParameter(p, 'stop_fcn', [], @(x) isempty(x) || isa(x, 'function_handle'));
     parse(p, varargin{:});
 
     max_epochs = p.Results.epochs;
@@ -40,6 +41,7 @@ function [net, training_results] = train_bilstm_model(X_train, Y_train, training
     num_hidden_units = p.Results.num_hidden_units;
     learning_rate = p.Results.learning_rate;
     save_folder = p.Results.save_folder;
+    stop_fcn = p.Results.stop_fcn;
 
     fprintf('=== BILSTM Netzwerk Training ===\n\n');
 
@@ -119,7 +121,8 @@ function [net, training_results] = train_bilstm_model(X_train, Y_train, training
         'LearnRateDropFactor', 0.5, ...
         'LearnRateDropPeriod', 20, ...
         'GradientThreshold', 1, ...
-        'ExecutionEnvironment', execution_env);
+        'ExecutionEnvironment', execution_env, ...
+        'OutputFcn', @(info) trainingOutputFcn(info, save_folder, stop_fcn));
 
     fprintf('  Optimizer: Adam\n');
     fprintf('  Max Epochs: %d\n', max_epochs);
@@ -145,11 +148,6 @@ function [net, training_results] = train_bilstm_model(X_train, Y_train, training
     training_fig_saved = false;
     last_training_fig = [];
 
-    if ~isempty(save_folder)
-        % OutputFcn: Speichert Fenster-Handle bei jeder Iteration und am Ende
-        options.OutputFcn = @(info) captureAndSaveTrainingPlot(info, save_folder);
-    end
-
     tic;
     net = trainNetwork(X_tr, Y_tr, layers, options);
     training_time = toc;
@@ -158,9 +156,19 @@ function [net, training_results] = train_bilstm_model(X_train, Y_train, training
     fprintf('Trainingszeit: %.2f Sekunden (%.2f Minuten)\n', ...
             training_time, training_time/60);
 
-    % Nested function: Speichert das Fenster bei "done" oder "stop"
-    function stop = captureAndSaveTrainingPlot(info, folder)
+    % Nested function: Speichert Fenster und prüft Stop-Anforderung
+    function stop = trainingOutputFcn(info, folder, ~)
         stop = false;
+
+        % GUI Events verarbeiten (ermöglicht Stop-Button Klicks)
+        drawnow limitrate;
+
+        % Stop-Check: Prüfe globale Stop-Variable
+        global TRAINING_STOP_REQUESTED;
+        if ~isempty(TRAINING_STOP_REQUESTED) && TRAINING_STOP_REQUESTED
+            stop = true;
+            fprintf('\n*** Training durch Benutzer gestoppt ***\n');
+        end
 
         % Bei jeder Iteration: Fenster-Handle aktualisieren
         if info.State == "iteration"
@@ -170,8 +178,8 @@ function [net, training_results] = train_bilstm_model(X_train, Y_train, training
             end
         end
 
-        % Bei "done" oder wenn Training fertig ist: Speichern
-        if (info.State == "done" || info.State == "stop") && ~training_fig_saved
+        % Bei "done" oder "stop": Training-Plot speichern
+        if (info.State == "done" || info.State == "stop") && ~training_fig_saved && ~isempty(folder)
             try
                 drawnow;  % Sicherstellen, dass alles gerendert ist
 
