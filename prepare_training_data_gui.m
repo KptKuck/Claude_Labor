@@ -72,9 +72,9 @@ function prepare_training_data_gui(data, log_func)
                    'Position', [fig_x, fig_y, fig_width, fig_height], ...
                    'Color', [0.15, 0.15, 0.15]);
 
-    % Haupt-Grid Layout: [Parameter Panel | Vorschau Panel]
-    mainGrid = uigridlayout(fig, [1, 2]);
-    mainGrid.ColumnWidth = {400, '1x'};
+    % Haupt-Grid Layout: [Parameter Panel | Chart Panel | Statistik Panel]
+    mainGrid = uigridlayout(fig, [1, 3]);
+    mainGrid.ColumnWidth = {380, '1x', 320};
     mainGrid.Padding = [10 10 10 10];
     mainGrid.ColumnSpacing = 10;
 
@@ -87,10 +87,10 @@ function prepare_training_data_gui(data, log_func)
     paramPanel.Layout.Row = 1;
     paramPanel.Layout.Column = 1;
 
-    paramGrid = uigridlayout(paramPanel, [12, 1]);
-    paramGrid.RowHeight = {30, 145, 85, 115, 75, 120, 10, 40, 40, 10, 50, 10};  % Feste Höhen
+    paramGrid = uigridlayout(paramPanel, [9, 1]);
+    paramGrid.RowHeight = {30, 'fit', 'fit', 'fit', 'fit', 'fit', 15, 45, 45};
     paramGrid.ColumnWidth = {'1x'};
-    paramGrid.RowSpacing = 8;
+    paramGrid.RowSpacing = 10;
     paramGrid.Padding = [10 10 10 10];
 
     % Titel
@@ -253,7 +253,6 @@ function prepare_training_data_gui(data, log_func)
                             'ForegroundColor', [1, 0.7, 0.3], ...
                             'BackgroundColor', [0.2, 0.2, 0.2]);
     feature_group.Layout.Row = 3;
-    feature_group.Layout.Column = 1;
 
     feature_grid = uigridlayout(feature_group, [3, 2]);
     feature_grid.RowHeight = {28, 28, 28};
@@ -288,7 +287,6 @@ function prepare_training_data_gui(data, log_func)
                          'ForegroundColor', [0.9, 0.5, 0.9], ...
                          'BackgroundColor', [0.2, 0.2, 0.2]);
     hold_group.Layout.Row = 4;
-    hold_group.Layout.Column = 1;
 
     hold_grid = uigridlayout(hold_group, [3, 3]);
     hold_grid.RowHeight = {28, 32, 32};
@@ -331,7 +329,6 @@ function prepare_training_data_gui(data, log_func)
                          'ForegroundColor', [0.5, 0.9, 0.7], ...
                          'BackgroundColor', [0.2, 0.2, 0.2]);
     norm_group.Layout.Row = 5;
-    norm_group.Layout.Column = 1;
 
     norm_grid = uigridlayout(norm_group, [2, 2]);
     norm_grid.RowHeight = {32, 32};
@@ -359,7 +356,6 @@ function prepare_training_data_gui(data, log_func)
                          'ForegroundColor', [0.7, 0.7, 0.7], ...
                          'BackgroundColor', [0.2, 0.2, 0.2]);
     data_group.Layout.Row = 6;
-    data_group.Layout.Column = 1;
 
     data_grid = uigridlayout(data_group, [4, 2]);
     data_grid.RowHeight = {26, 26, 26, 26};
@@ -385,6 +381,15 @@ function prepare_training_data_gui(data, log_func)
     extrema_count_label = uilabel(data_grid, 'Text', 'Berechne...', 'FontSize', 12, ...
                                    'FontColor', [0.5, 0.9, 0.5]);
 
+    % Spacer (Row 7 ist leer für Abstand)
+
+    % Status-Label
+    status_label = uilabel(paramGrid, 'Text', 'Bitte Parameter einstellen und Vorschau berechnen.', ...
+                           'FontSize', 11, 'FontColor', [0.7, 0.7, 0.7], ...
+                           'HorizontalAlignment', 'center', ...
+                           'WordWrap', 'on');
+    status_label.Layout.Row = 7;
+
     % Buttons
     preview_btn = uibutton(paramGrid, 'Text', 'Vorschau berechnen', ...
                            'ButtonPushedFcn', @(btn,e) computePreview(), ...
@@ -401,40 +406,15 @@ function prepare_training_data_gui(data, log_func)
                          'Enable', 'off');
     apply_btn.Layout.Row = 9;
 
-    % Status-Label
-    status_label = uilabel(paramGrid, 'Text', 'Bitte Parameter einstellen und Vorschau berechnen.', ...
-                           'FontSize', 12, 'FontColor', [0.7, 0.7, 0.7], ...
-                           'HorizontalAlignment', 'center', ...
-                           'WordWrap', 'on');
-    status_label.Layout.Row = 11;
-
     %% ============================================================
-    %% RECHTE SEITE: Vorschau Panel
+    %% MITTE: Chart Panel
     %% ============================================================
-    previewPanel = uipanel(mainGrid, 'Title', '', ...
-                           'BackgroundColor', [0.18, 0.18, 0.18]);
-    previewPanel.Layout.Row = 1;
-    previewPanel.Layout.Column = 2;
-
-    previewGrid = uigridlayout(previewPanel, [3, 1]);
-    previewGrid.RowHeight = {35, '2x', '1x'};
-    previewGrid.ColumnWidth = {'1x'};
-    previewGrid.RowSpacing = 10;
-    previewGrid.Padding = [10 10 10 10];
-
-    % Titel
-    preview_title = uilabel(previewGrid, 'Text', 'Vorschau & Statistiken', ...
-                            'FontSize', 16, 'FontWeight', 'bold', ...
-                            'FontColor', 'white', ...
-                            'HorizontalAlignment', 'center');
-    preview_title.Layout.Row = 1;
-
-    % Chart Panel
-    chartPanel = uipanel(previewGrid, 'Title', 'Preischart mit Signalen', ...
+    chartPanel = uipanel(mainGrid, 'Title', 'Preischart mit Signalen', ...
                          'FontSize', 13, 'FontWeight', 'bold', ...
                          'ForegroundColor', [0.3, 0.7, 1], ...
-                         'BackgroundColor', [0.2, 0.2, 0.2]);
-    chartPanel.Layout.Row = 2;
+                         'BackgroundColor', [0.18, 0.18, 0.18]);
+    chartPanel.Layout.Row = 1;
+    chartPanel.Layout.Column = 2;
 
     chartGrid = uigridlayout(chartPanel, [1, 1]);
     chartGrid.Padding = [5 5 5 5];
@@ -443,36 +423,93 @@ function prepare_training_data_gui(data, log_func)
     ax_preview.Color = [0.1, 0.1, 0.1];
     ax_preview.XColor = 'white';
     ax_preview.YColor = 'white';
-    ax_preview.FontSize = 11;
+    ax_preview.FontSize = 10;
     grid(ax_preview, 'on');
     ax_preview.GridColor = [0.3, 0.3, 0.3];
-    xlabel(ax_preview, 'Zeit', 'Color', 'white', 'FontSize', 12);
-    ylabel(ax_preview, 'Preis (USD)', 'Color', 'white', 'FontSize', 12);
+    xlabel(ax_preview, 'Zeit', 'Color', 'white', 'FontSize', 11);
+    ylabel(ax_preview, 'Preis (USD)', 'Color', 'white', 'FontSize', 11);
     hold(ax_preview, 'on');
 
-    % Statistik Panel
-    statsPanel = uipanel(previewGrid, 'Title', 'Ergebnis-Statistiken', ...
+    %% ============================================================
+    %% RECHTE SEITE: Statistik Panel mit Tabelle
+    %% ============================================================
+    statsPanel = uipanel(mainGrid, 'Title', 'Ergebnis-Statistiken', ...
                          'FontSize', 13, 'FontWeight', 'bold', ...
                          'ForegroundColor', [1, 0.7, 0.3], ...
-                         'BackgroundColor', [0.2, 0.2, 0.2]);
-    statsPanel.Layout.Row = 3;
+                         'BackgroundColor', [0.18, 0.18, 0.18]);
+    statsPanel.Layout.Row = 1;
+    statsPanel.Layout.Column = 3;
 
-    statsGrid = uigridlayout(statsPanel, [2, 4]);
-    statsGrid.RowHeight = {'1x', '1x'};
-    statsGrid.ColumnWidth = {'1x', '1x', '1x', '1x'};
-    statsGrid.RowSpacing = 5;
+    statsGrid = uigridlayout(statsPanel, [2, 1]);
+    statsGrid.RowHeight = {'1x', 'fit'};
+    statsGrid.ColumnWidth = {'1x'};
+    statsGrid.RowSpacing = 10;
     statsGrid.Padding = [10 10 10 10];
 
-    % Statistik-Karten
-    [buy_card, buy_value_label] = createStatCard(statsGrid, 1, 1, 'BUY Signale', '0', [0.2, 0.6, 0.2]);
-    [sell_card, sell_value_label] = createStatCard(statsGrid, 1, 2, 'SELL Signale', '0', [0.7, 0.2, 0.2]);
-    [hold_card, hold_value_label] = createStatCard(statsGrid, 1, 3, 'HOLD Samples', '0', [0.5, 0.5, 0.5]);
-    [total_card, total_value_label] = createStatCard(statsGrid, 1, 4, 'Gesamt', '0', [0.3, 0.5, 0.8]);
+    % Statistik-Tabelle
+    stats_table = uitable(statsGrid, ...
+                          'ColumnName', {'Parameter', 'Wert'}, ...
+                          'ColumnWidth', {140, 120}, ...
+                          'RowName', {}, ...
+                          'FontSize', 11, ...
+                          'BackgroundColor', [0.2, 0.2, 0.2; 0.25, 0.25, 0.25], ...
+                          'ForegroundColor', 'white');
+    stats_table.Layout.Row = 1;
 
-    [seq_card, seq_value_label] = createStatCard(statsGrid, 2, 1, 'Sequenzlänge', '0', [0.6, 0.4, 0.2]);
-    [feat_card, feat_value_label] = createStatCard(statsGrid, 2, 2, 'Features', '0', [0.4, 0.2, 0.6]);
-    [input_card, input_value_label] = createStatCard(statsGrid, 2, 3, 'Input Shape', '-', [0.2, 0.5, 0.5]);
-    [balance_card, balance_value_label] = createStatCard(statsGrid, 2, 4, 'Balance', '-', [0.5, 0.3, 0.6]);
+    % Initiale Tabellendaten
+    stats_table.Data = {
+        'BUY Signale', '0';
+        'SELL Signale', '0';
+        'HOLD Samples', '0';
+        'Gesamt', '0';
+        '---', '---';
+        'Sequenzlänge', '0';
+        'Features', '0';
+        'Input Shape', '-';
+        'Balance', '-';
+        '---', '---';
+        'Lookback', sprintf('%d', params.lookback);
+        'Lookforward', sprintf('%d', params.lookforward);
+        'Normalisierung', params.normalize_method
+    };
+
+    % Legende unter der Tabelle
+    legend_panel = uipanel(statsGrid, 'Title', 'Legende', ...
+                           'FontSize', 11, 'FontWeight', 'bold', ...
+                           'ForegroundColor', [0.7, 0.7, 0.7], ...
+                           'BackgroundColor', [0.2, 0.2, 0.2]);
+    legend_panel.Layout.Row = 2;
+
+    legend_grid = uigridlayout(legend_panel, [3, 2]);
+    legend_grid.RowHeight = {20, 20, 20};
+    legend_grid.ColumnWidth = {25, '1x'};
+    legend_grid.Padding = [8 5 8 5];
+    legend_grid.RowSpacing = 2;
+    legend_grid.ColumnSpacing = 5;
+
+    % BUY Legende (grün)
+    buy_marker = uilabel(legend_grid, 'Text', '^', ...
+                         'FontSize', 16, 'FontWeight', 'bold', ...
+                         'FontColor', [0.2, 0.8, 0.2], ...
+                         'HorizontalAlignment', 'center');
+    uilabel(legend_grid, 'Text', 'BUY (Tief)', ...
+            'FontSize', 11, 'FontColor', 'white');
+
+    % SELL Legende (rot)
+    sell_marker = uilabel(legend_grid, 'Text', 'v', ...
+                          'FontSize', 16, 'FontWeight', 'bold', ...
+                          'FontColor', [0.9, 0.2, 0.2], ...
+                          'HorizontalAlignment', 'center');
+    uilabel(legend_grid, 'Text', 'SELL (Hoch)', ...
+            'FontSize', 11, 'FontColor', 'white');
+
+    % Ungültig Legende (leer)
+    invalid_marker = uilabel(legend_grid, 'Text', 'o', ...
+                             'FontSize', 14, ...
+                             'FontColor', [0.5, 0.5, 0.5], ...
+                             'HorizontalAlignment', 'center');
+    uilabel(legend_grid, 'Text', 'Ungültig (Randbereich)', ...
+            'FontSize', 11, 'FontColor', [0.6, 0.6, 0.6]);
 
     %% Initialisierung
     updateSeqInfo();
@@ -607,27 +644,35 @@ function prepare_training_data_gui(data, log_func)
             [result_X, result_Y, result_info] = prepareDataWithParams();
             toc_log(t_prepare, 'prepareDataWithParams');
 
-            % Statistiken aktualisieren
-            buy_value_label.Text = sprintf('%d', result_info.num_buy);
-            sell_value_label.Text = sprintf('%d', result_info.num_sell);
-            hold_value_label.Text = sprintf('%d', result_info.num_hold);
-            total_value_label.Text = sprintf('%d', result_info.total_sequences);
-
-            seq_value_label.Text = sprintf('%d', result_info.sequence_length);
-            feat_value_label.Text = sprintf('%d', result_info.num_features);
-
-            % Input Shape berechnen
+            % Input Shape und Balance berechnen
+            input_shape_str = '-';
+            balance_str = '-';
             if ~isempty(result_X)
                 input_shape = size(result_X{1});
-                input_value_label.Text = sprintf('%dx%d', input_shape(1), input_shape(2));
+                input_shape_str = sprintf('%dx%d', input_shape(1), input_shape(2));
             end
-
-            % Balance berechnen
             total_signals = result_info.num_buy + result_info.num_sell;
             if total_signals > 0
                 balance_ratio = result_info.num_hold / total_signals;
-                balance_value_label.Text = sprintf('%.2f:1', balance_ratio);
+                balance_str = sprintf('%.2f:1', balance_ratio);
             end
+
+            % Statistik-Tabelle aktualisieren
+            stats_table.Data = {
+                'BUY Signale', sprintf('%d', result_info.num_buy);
+                'SELL Signale', sprintf('%d', result_info.num_sell);
+                'HOLD Samples', sprintf('%d', result_info.num_hold);
+                'Gesamt', sprintf('%d', result_info.total_sequences);
+                '---', '---';
+                'Sequenzlänge', sprintf('%d', result_info.sequence_length);
+                'Features', sprintf('%d', result_info.num_features);
+                'Input Shape', input_shape_str;
+                'Balance', balance_str;
+                '---', '---';
+                'Lookback', sprintf('%d', params.lookback);
+                'Lookforward', sprintf('%d', params.lookforward);
+                'Normalisierung', params.normalize_method
+            };
 
             % Chart aktualisieren
             t_chart = tic_if_enabled();
@@ -637,7 +682,7 @@ function prepare_training_data_gui(data, log_func)
             preview_computed = true;
             apply_btn.Enable = 'on';
 
-            status_label.Text = sprintf('Vorschau berechnet: %d Sequenzen erstellt.', result_info.total_sequences);
+            status_label.Text = sprintf('Vorschau: %d Sequenzen', result_info.total_sequences);
             status_label.FontColor = [0.5, 1, 0.5];
             logMsg(sprintf('Vorschau: %d Sequenzen (BUY:%d SELL:%d HOLD:%d)', ...
                    result_info.total_sequences, result_info.num_buy, result_info.num_sell, result_info.num_hold), 'success');
@@ -873,32 +918,10 @@ function prepare_training_data_gui(data, log_func)
             end
         end
 
-        title(ax_preview, sprintf('Signale: %d BUY (grün), %d SELL (rot) | Gefüllt = gültig', ...
-              result_info.num_buy, result_info.num_sell), 'Color', 'white');
+        title(ax_preview, sprintf('Signale: %d BUY, %d SELL | Gefüllt = gültig', ...
+              result_info.num_buy, result_info.num_sell), 'Color', 'white', 'FontSize', 11);
 
         hold(ax_preview, 'off');
-    end
-
-    function [card, value_label] = createStatCard(parent, row, col, title_text, value_text, color)
-        card = uipanel(parent, 'BackgroundColor', color, 'BorderType', 'none');
-        card.Layout.Row = row;
-        card.Layout.Column = col;
-
-        card_grid = uigridlayout(card, [2, 1]);
-        card_grid.RowHeight = {'1x', '1x'};
-        card_grid.Padding = [5 5 5 5];
-        card_grid.RowSpacing = 0;
-
-        value_label = uilabel(card_grid, 'Text', value_text, ...
-                              'FontSize', 20, 'FontWeight', 'bold', ...
-                              'FontColor', 'white', ...
-                              'HorizontalAlignment', 'center');
-        value_label.Layout.Row = 1;
-
-        title_lbl = uilabel(card_grid, 'Text', title_text, ...
-                            'FontSize', 11, 'FontColor', [0.9, 0.9, 0.9], ...
-                            'HorizontalAlignment', 'center');
-        title_lbl.Layout.Row = 2;
     end
 
     function applyAndClose()
