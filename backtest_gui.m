@@ -22,6 +22,12 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
         log_callback = @(msg, level) fprintf('[%s] %s\n', upper(level), msg);
     end
 
+    % === VALIDIERUNG: Pruefe Kompatibilitaet von Daten und Modell ===
+    [is_valid, validation_msg] = validateDataModelCompatibility(app_data, model_info, log_callback);
+    if ~is_valid
+        error('Backtester:ValidationFailed', validation_msg);
+    end
+
     % Parameter aus model_info extrahieren
     lookback = model_info.lookback_size;
     lookforward = model_info.lookforward_size;
@@ -1028,6 +1034,130 @@ function backtest_gui(app_data, trained_model, model_info, results_folder, log_c
             data.PriceChangePct = (price_diff ./ prev_close) * 100;
             log_callback('Feature "PriceChangePct" aus Rohdaten generiert', 'debug');
         end
+    end
+
+    function [is_valid, msg] = validateDataModelCompatibility(data, model_info, log_func)
+        % VALIDATEDATAMODELCOMPATIBILITY Prueft ob Daten und Modell kompatibel sind
+        %
+        %   Prueft:
+        %       1. Erforderliche model_info Felder vorhanden
+        %       2. Alle benoetigten Features verfuegbar oder generierbar
+        %       3. Genuegend Datenpunkte fuer Sequenzlaenge
+        %       4. Erforderliche Basisspalten in Daten vorhanden
+        %
+        %   Output:
+        %       is_valid - true wenn kompatibel, false sonst
+        %       msg - Fehlermeldung oder Erfolgsmeldung
+
+        is_valid = false;
+        msg = '';
+
+        log_func('=== Validierung: Daten-Modell-Kompatibilitaet ===', 'info');
+
+        % --- 1. model_info Felder pruefen ---
+        required_fields = {'lookback_size', 'lookforward_size', 'feature_names', 'sequence_length', 'num_features', 'classes'};
+        missing_fields = {};
+
+        for i = 1:length(required_fields)
+            if ~isfield(model_info, required_fields{i})
+                missing_fields{end+1} = required_fields{i};
+            end
+        end
+
+        if ~isempty(missing_fields)
+            msg = sprintf('model_info fehlen Felder: %s', strjoin(missing_fields, ', '));
+            log_func(msg, 'error');
+            return;
+        end
+        log_func('model_info Struktur: OK', 'debug');
+
+        % --- 2. Basisspalten in Daten pruefen ---
+        required_columns = {'DateTime', 'Open', 'High', 'Low', 'Close'};
+        missing_columns = {};
+
+        for i = 1:length(required_columns)
+            if ~ismember(required_columns{i}, data.Properties.VariableNames)
+                missing_columns{end+1} = required_columns{i};
+            end
+        end
+
+        if ~isempty(missing_columns)
+            msg = sprintf('Daten fehlen Spalten: %s', strjoin(missing_columns, ', '));
+            log_func(msg, 'error');
+            return;
+        end
+        log_func('Basis-Datenspalten: OK', 'debug');
+
+        % --- 3. Features pruefen (verfuegbar oder generierbar) ---
+        generierbare_features = {'PriceChange', 'PriceChangePct'};
+        fehlende_features = {};
+        generierbare = {};
+
+        for i = 1:length(model_info.feature_names)
+            feature = model_info.feature_names{i};
+            if ismember(feature, data.Properties.VariableNames)
+                % Feature direkt verfuegbar
+                continue;
+            elseif ismember(feature, generierbare_features)
+                % Feature kann generiert werden
+                generierbare{end+1} = feature;
+            else
+                % Feature weder verfuegbar noch generierbar
+                fehlende_features{end+1} = feature;
+            end
+        end
+
+        if ~isempty(fehlende_features)
+            msg = sprintf('Features nicht verfuegbar und nicht generierbar: %s\nUnterstuetzte generierbare Features: %s', ...
+                         strjoin(fehlende_features, ', '), strjoin(generierbare_features, ', '));
+            log_func(msg, 'error');
+            return;
+        end
+
+        if ~isempty(generierbare)
+            log_func(sprintf('Features werden generiert: %s', strjoin(generierbare, ', ')), 'debug');
+        end
+        log_func(sprintf('Modell-Features (%d): %s', length(model_info.feature_names), strjoin(model_info.feature_names, ', ')), 'debug');
+
+        % --- 4. Datenmenge pruefen ---
+        sequence_length = model_info.lookback_size + model_info.lookforward_size;
+        num_datapoints = height(data);
+        min_required = sequence_length + 1;
+
+        if num_datapoints < min_required
+            msg = sprintf('Zu wenig Datenpunkte: %d vorhanden, mindestens %d benoetigt (Sequenzlaenge: %d)', ...
+                         num_datapoints, min_required, sequence_length);
+            log_func(msg, 'error');
+            return;
+        end
+        log_func(sprintf('Datenpunkte: %d (min. %d benoetigt)', num_datapoints, min_required), 'debug');
+
+        % --- 5. Feature-Dimension pruefen ---
+        if model_info.num_features ~= length(model_info.feature_names)
+            msg = sprintf('Inkonsistenz: num_features=%d, aber %d feature_names definiert', ...
+                         model_info.num_features, length(model_info.feature_names));
+            log_func(msg, 'error');
+            return;
+        end
+        log_func(sprintf('Feature-Dimension: %d', model_info.num_features), 'debug');
+
+        % --- 6. Klassen pruefen ---
+        if isempty(model_info.classes)
+            msg = 'Keine Klassen in model_info definiert';
+            log_func(msg, 'error');
+            return;
+        end
+        log_func(sprintf('Klassen: %s', strjoin(model_info.classes, ', ')), 'debug');
+
+        % --- Alles OK ---
+        is_valid = true;
+        msg = 'Validierung erfolgreich';
+        log_func('=== Validierung erfolgreich ===', 'success');
+
+        % Zusammenfassung
+        log_func(sprintf('Sequenzlaenge: %d (Lookback: %d, Lookforward: %d)', ...
+                sequence_length, model_info.lookback_size, model_info.lookforward_size), 'info');
+        log_func(sprintf('Backtest-Bereich: %d Schritte moeglich', num_datapoints - sequence_length), 'info');
     end
 
 end
