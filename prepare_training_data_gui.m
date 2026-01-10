@@ -41,6 +41,7 @@ function prepare_training_data_gui(data, log_func)
     params.include_hold = true;
     params.hold_ratio = 1.0;  % Verhältnis HOLD zu (BUY+SELL)
     params.min_distance_factor = 0.3;  % Mindestabstand zu naechstem Extremum (als Faktor der Sequenzlaenge)
+    params.auto_gen = true;  % Automatische HOLD-Generierung (ignoriert min_distance_factor)
     params.random_seed = 42;
     params.normalize_method = 'zscore';  % 'zscore', 'minmax', 'none'
 
@@ -288,8 +289,8 @@ function prepare_training_data_gui(data, log_func)
                          'BackgroundColor', [0.2, 0.2, 0.2]);
     hold_group.Layout.Row = 4;
 
-    hold_grid = uigridlayout(hold_group, [3, 3]);
-    hold_grid.RowHeight = {28, 32, 32};
+    hold_grid = uigridlayout(hold_group, [4, 3]);
+    hold_grid.RowHeight = {28, 28, 32, 32};
     hold_grid.ColumnWidth = {160, '1x', 55};
     hold_grid.RowSpacing = 5;
     hold_grid.Padding = [8 8 8 8];
@@ -297,7 +298,14 @@ function prepare_training_data_gui(data, log_func)
     cb_include_hold = uicheckbox(hold_grid, 'Text', 'HOLD-Samples erstellen', ...
                                  'Value', true, 'FontSize', 12, 'FontColor', 'white', ...
                                  'ValueChangedFcn', @(cb,e) updateHoldEnabled(cb.Value));
-    cb_include_hold.Layout.Column = [1, 3];
+    cb_include_hold.Layout.Column = [1, 2];
+
+    cb_auto_gen = uicheckbox(hold_grid, 'Text', 'Auto', ...
+                             'Value', params.auto_gen, 'FontSize', 12, ...
+                             'FontColor', [0.5, 1, 0.5], 'FontWeight', 'bold', ...
+                             'Tooltip', 'Automatische Generierung (garantiert gewuenschtes Verhaeltnis)', ...
+                             'ValueChangedFcn', @(cb,e) updateAutoGen(cb.Value));
+    cb_auto_gen.Layout.Column = 3;
 
     uilabel(hold_grid, 'Text', 'Verhältnis zu Signalen:', 'FontSize', 12, ...
             'FontColor', 'white');
@@ -310,14 +318,15 @@ function prepare_training_data_gui(data, log_func)
                                'HorizontalAlignment', 'right');
     hold_ratio_label.Layout.Column = 3;
 
-    uilabel(hold_grid, 'Text', 'Min. Abstand Faktor:', 'FontSize', 12, ...
-            'FontColor', 'white');
+    distance_label_title = uilabel(hold_grid, 'Text', 'Min. Abstand Faktor:', 'FontSize', 12, ...
+            'FontColor', [0.6, 0.6, 0.6]);
     distance_slider = uislider(hold_grid, 'Limits', [0.1, 0.5], ...
                                'Value', params.min_distance_factor, ...
-                               'ValueChangedFcn', @(s,e) updateDistanceFactor(s.Value));
+                               'ValueChangedFcn', @(s,e) updateDistanceFactor(s.Value), ...
+                               'Enable', ~params.auto_gen);
     distance_slider.Layout.Column = 2;
     distance_label = uilabel(hold_grid, 'Text', sprintf('%.1f', params.min_distance_factor), ...
-                             'FontSize', 12, 'FontColor', 'white', ...
+                             'FontSize', 12, 'FontColor', [0.6, 0.6, 0.6], ...
                              'HorizontalAlignment', 'right');
     distance_label.Layout.Column = 3;
 
@@ -568,7 +577,26 @@ function prepare_training_data_gui(data, log_func)
     function updateHoldEnabled(value)
         params.include_hold = value;
         hold_ratio_slider.Enable = value;
-        distance_slider.Enable = value;
+        cb_auto_gen.Enable = value;
+        % Distance slider nur aktiv wenn HOLD aktiv UND Auto-Gen aus
+        distance_slider.Enable = value && ~params.auto_gen;
+        preview_computed = false;
+        apply_btn.Enable = 'off';
+    end
+
+    function updateAutoGen(value)
+        params.auto_gen = value;
+        % Distance slider deaktivieren wenn Auto-Gen aktiv
+        distance_slider.Enable = ~value && params.include_hold;
+        if value
+            distance_label_title.FontColor = [0.4, 0.4, 0.4];
+            distance_label.FontColor = [0.4, 0.4, 0.4];
+            cb_auto_gen.FontColor = [0.5, 1, 0.5];
+        else
+            distance_label_title.FontColor = [0.6, 0.6, 0.6];
+            distance_label.FontColor = [0.6, 0.6, 0.6];
+            cb_auto_gen.FontColor = [0.7, 0.7, 0.7];
+        end
         preview_computed = false;
         apply_btn.Enable = 'off';
     end
@@ -804,7 +832,7 @@ function prepare_training_data_gui(data, log_func)
             t_hold = tic_if_enabled();
             num_hold_target = round((num_buy + num_sell) * params.hold_ratio);
 
-            % Sammle Extrema-Indizes
+            % Sammle Extrema-Indizes (nur fuer manuellen Modus benoetigt)
             extrema_indices = [];
             for i = 1:length(high_points)
                 key = char(high_points(i).DateTime);
@@ -820,57 +848,110 @@ function prepare_training_data_gui(data, log_func)
             end
 
             rng(params.random_seed);
-            min_distance_original = round(sequence_length * params.min_distance_factor);
-            min_distance = min_distance_original;
-            max_attempts_per_round = num_hold_target * 50;
-            attempts = 0;
-            total_attempts = 0;
 
-            % Debug-Info
-            fprintf('HOLD-Debug: num_hold_target=%d, num_extrema=%d, min_distance=%d\n', ...
-                    num_hold_target, length(extrema_indices), min_distance);
-            fprintf('HOLD-Debug: total_points=%d, valid_range=[%d, %d]\n', ...
-                    total_points, lookback_size + 1, total_points - lookforward_size);
+            if params.auto_gen
+                % === AUTO-GEN MODUS ===
+                % Garantiert die gewuenschte Anzahl HOLD-Samples
+                % Waehlt zufaellige Positionen ohne Distanz-Einschraenkung
+                fprintf('HOLD-AutoGen: Generiere %d HOLD-Samples automatisch\n', num_hold_target);
 
-            % Mehrere Versuche mit abnehmender Distanz
-            while num_hold < num_hold_target && min_distance >= 1
+                valid_range_start = lookback_size + 1;
+                valid_range_end = total_points - lookforward_size;
+                valid_range_size = valid_range_end - valid_range_start + 1;
+
+                if valid_range_size < num_hold_target
+                    warning('Nicht genug gueltige Positionen fuer %d HOLD-Samples (nur %d verfuegbar)', ...
+                            num_hold_target, valid_range_size);
+                    num_hold_target = valid_range_size;
+                end
+
+                % Erzeuge alle gueltigen Indizes und mische sie
+                all_valid_indices = valid_range_start:valid_range_end;
+
+                % Entferne Extrema-Indizes aus den gueltigen Positionen (optional: bessere Samples)
+                non_extrema_indices = setdiff(all_valid_indices, extrema_indices);
+
+                if length(non_extrema_indices) >= num_hold_target
+                    % Genuegend Non-Extrema Positionen verfuegbar
+                    selected_indices = non_extrema_indices(randperm(length(non_extrema_indices), num_hold_target));
+                    fprintf('HOLD-AutoGen: Verwende %d Non-Extrema Positionen\n', num_hold_target);
+                else
+                    % Fallback: Verwende alle gueltigen Positionen
+                    selected_indices = all_valid_indices(randperm(length(all_valid_indices), num_hold_target));
+                    fprintf('HOLD-AutoGen: Verwende %d zufaellige Positionen (inkl. Extrema-Naehe)\n', num_hold_target);
+                end
+
+                % Generiere HOLD-Samples an den ausgewaehlten Positionen
+                for i = 1:length(selected_indices)
+                    rand_idx = selected_indices(i);
+                    start_idx = rand_idx - lookback_size;
+                    end_idx = rand_idx + lookforward_size - 1;
+
+                    sequence = features(start_idx:end_idx, :);
+                    sequence_norm = normalizeSequence(sequence);
+
+                    X{end+1} = sequence_norm';
+                    Y{end+1} = categorical(0);
+                    num_hold = num_hold + 1;
+                end
+
+                fprintf('HOLD-AutoGen: %d HOLD-Samples generiert\n', num_hold);
+
+            else
+                % === MANUELLER MODUS (mit Distanz-Pruefung) ===
+                min_distance_original = round(sequence_length * params.min_distance_factor);
+                min_distance = min_distance_original;
+                max_attempts_per_round = num_hold_target * 50;
                 attempts = 0;
-                while num_hold < num_hold_target && attempts < max_attempts_per_round
-                    attempts = attempts + 1;
-                    total_attempts = total_attempts + 1;
-                    rand_idx = randi([lookback_size + 1, total_points - lookforward_size]);
+                total_attempts = 0;
 
-                    % Pruefe Abstand zum NAECHSTEN Extremum (nicht zu allen)
-                    if isempty(extrema_indices)
-                        is_far = true;
-                    else
-                        nearest_distance = min(abs(extrema_indices - rand_idx));
-                        is_far = nearest_distance > min_distance;
+                % Debug-Info
+                fprintf('HOLD-Manual: num_hold_target=%d, num_extrema=%d, min_distance=%d\n', ...
+                        num_hold_target, length(extrema_indices), min_distance);
+                fprintf('HOLD-Manual: total_points=%d, valid_range=[%d, %d]\n', ...
+                        total_points, lookback_size + 1, total_points - lookforward_size);
+
+                % Mehrere Versuche mit abnehmender Distanz
+                while num_hold < num_hold_target && min_distance >= 1
+                    attempts = 0;
+                    while num_hold < num_hold_target && attempts < max_attempts_per_round
+                        attempts = attempts + 1;
+                        total_attempts = total_attempts + 1;
+                        rand_idx = randi([lookback_size + 1, total_points - lookforward_size]);
+
+                        % Pruefe Abstand zum NAECHSTEN Extremum (nicht zu allen)
+                        if isempty(extrema_indices)
+                            is_far = true;
+                        else
+                            nearest_distance = min(abs(extrema_indices - rand_idx));
+                            is_far = nearest_distance > min_distance;
+                        end
+
+                        if is_far
+                            start_idx = rand_idx - lookback_size;
+                            end_idx = rand_idx + lookforward_size - 1;
+
+                            sequence = features(start_idx:end_idx, :);
+                            sequence_norm = normalizeSequence(sequence);
+
+                            X{end+1} = sequence_norm';
+                            Y{end+1} = categorical(0);
+                            num_hold = num_hold + 1;
+                        end
                     end
 
-                    if is_far
-                        start_idx = rand_idx - lookback_size;
-                        end_idx = rand_idx + lookforward_size - 1;
-
-                        sequence = features(start_idx:end_idx, :);
-                        sequence_norm = normalizeSequence(sequence);
-
-                        X{end+1} = sequence_norm';
-                        Y{end+1} = categorical(0);
-                        num_hold = num_hold + 1;
+                    % Falls nicht genug gefunden, reduziere min_distance
+                    if num_hold < num_hold_target
+                        min_distance = round(min_distance * 0.5);
+                        fprintf('HOLD-Manual: Reduziere min_distance auf %d (num_hold=%d)\n', min_distance, num_hold);
                     end
                 end
 
-                % Falls nicht genug gefunden, reduziere min_distance
-                if num_hold < num_hold_target
-                    min_distance = round(min_distance * 0.5);
-                    fprintf('HOLD-Debug: Reduziere min_distance auf %d (num_hold=%d)\n', min_distance, num_hold);
-                end
+                % Debug: Anzahl gefundene HOLD samples
+                fprintf('HOLD-Manual: total_attempts=%d, num_hold=%d, final_min_distance=%d\n', ...
+                        total_attempts, num_hold, min_distance);
             end
 
-            % Debug: Anzahl gefundene HOLD samples
-            fprintf('HOLD-Debug: total_attempts=%d, num_hold=%d, final_min_distance=%d\n', ...
-                    total_attempts, num_hold, min_distance);
             toc_log(t_hold, 'HOLD-Sample generation');
         end
 
