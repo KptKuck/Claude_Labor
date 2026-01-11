@@ -25,8 +25,12 @@ btc_analyzer_matlab/Results/
 # Daten und Logs (Python)
 btcusd_analyzer_python/data/
 btcusd_analyzer_python/results/
+btcusd_analyzer_python/log/
 btcusd_analyzer_python/logs/
 btcusd_analyzer_python/models/
+
+# Log-Verzeichnisse (Root)
+log/
 
 # Systemdateien
 .DS_Store
