@@ -1,8 +1,0 @@
-[2026-01-08 05:42:15] [info] BTCUSD Analyzer gestartet
-[2026-01-08 05:42:15] [info] Log-Datei: C:\Work\MatLab\Cloude_labor\log\btc_analyzer_2026-01-08_05-42-15.txt
-[2026-01-08 05:42:19] [info] Öffne Dateiauswahl-Dialog...
-[2026-01-08 05:42:21] [info] Lade Datei: BTCUSD_2024-12-01_2026-01-08.csv
-[2026-01-08 05:42:21] [success] Daten geladen: 9673 Datensätze
-[2026-01-08 05:42:21] [info] Analyse-Buttons aktiviert
-[2026-01-08 05:42:25] [info] Öffne Trainingsdaten-Vorbereitungs-GUI...
-[2026-01-08 05:42:28] [info] GUI geöffnet. Nach Abschluss werden Daten übernommen.

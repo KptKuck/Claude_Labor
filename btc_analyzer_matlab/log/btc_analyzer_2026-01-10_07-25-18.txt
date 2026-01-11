@@ -1,4 +1,0 @@
-[2026-01-10 07:25:18] [info] BTCUSD Analyzer gestartet
-[2026-01-10 07:25:18] [info] Log-Datei: C:\Work\MatLab\Cloude_labor\log\btc_analyzer_2026-01-10_07-25-18.txt
-[2026-01-10 07:25:18] [info] Results-Ordner: C:\Work\MatLab\Cloude_labor\Results\2026-01-10_07-25-18
-[2026-01-10 07:25:19] [success] Parameter-Datei erstellt: C:\Work\MatLab\Cloude_labor\Results\2026-01-10_07-25-18\parameters.txt

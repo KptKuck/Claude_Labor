@@ -1,5 +1,0 @@
-[2026-01-10 10:31:42] [info] BTCUSD Analyzer gestartet
-[2026-01-10 10:31:42] [info] Log-Datei: C:\Work\MatLab\Claude_Labor\log\btc_analyzer_2026-01-10_10-31-42.txt
-[2026-01-10 10:31:42] [info] Results-Ordner: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_10-31-42
-[2026-01-10 10:31:42] [success] Parameter-Datei erstellt: C:\Work\MatLab\Claude_Labor\Results\2026-01-10_10-31-42\parameters.txt
-[2026-01-10 10:31:42] [warning] Letzte CSV-Datei nicht mehr vorhanden
