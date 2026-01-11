@@ -17,11 +17,16 @@ __pycache__/
 *$py.class
 *.so
 
-# Daten und Logs
-Daten_csv/*.csv
-log/*.txt
-Network/*.mat
-Results/
+# Daten und Logs (MATLAB)
+btc_analyzer_matlab/Daten_csv/*.csv
+btc_analyzer_matlab/Network/*.mat
+btc_analyzer_matlab/Results/
+
+# Daten und Logs (Python)
+btcusd_analyzer_python/data/
+btcusd_analyzer_python/results/
+btcusd_analyzer_python/logs/
+btcusd_analyzer_python/models/
 
 # Systemdateien
 .DS_Store
